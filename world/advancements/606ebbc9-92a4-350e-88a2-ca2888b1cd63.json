@@ -41,6 +41,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/magenta_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/misc/light_blue_dye_from_blue_orchid": {
     "criteria": {
       "has_red_flower": "2020-04-05 00:14:13 +0300"
@@ -77,6 +83,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/lime_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/chiseled_stone_bricks": {
     "criteria": {
       "has_stone_bricks": "2020-04-04 16:50:01 +0300"
@@ -86,6 +98,12 @@
   "minecraft:recipes/building_blocks/gray_stained_glass": {
     "criteria": {
       "has_glass": "2020-01-02 00:58:55 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/yellow_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
     },
     "done": true
   },
@@ -152,6 +170,12 @@
   "minecraft:end/elytra": {
     "criteria": {
       "elytra": "2020-01-04 20:22:46 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/brown_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
     },
     "done": true
   },
@@ -329,6 +353,18 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/light_gray_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/light_blue_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/decorations/magenta_carpet": {
     "criteria": {
       "has_magenta_wool": "2020-01-04 17:18:35 +0300"
@@ -359,6 +395,18 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/glass": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/pink_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/redstone/tnt": {
     "criteria": {
       "has_gunpowder": "2020-02-18 17:16:19 +0300"
@@ -380,6 +428,12 @@
   "minecraft:recipes/building_blocks/yellow_stained_glass": {
     "criteria": {
       "has_glass": "2020-01-02 00:58:55 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/purple_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
     },
     "done": true
   },
@@ -440,6 +494,12 @@
   "minecraft:recipes/misc/charcoal": {
     "criteria": {
       "has_log": "2020-03-30 01:54:57 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/sandstone": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
     },
     "done": true
   },
@@ -509,6 +569,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/green_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/misc/light_gray_dye_from_ink_bonemeal": {
     "criteria": {
       "has_bonemeal": "2020-01-04 20:22:46 +0300"
@@ -530,6 +596,12 @@
   "minecraft:adventure/root": {
     "criteria": {
       "killed_something": "2020-01-04 19:40:27 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/white_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
     },
     "done": true
   },
@@ -665,9 +737,21 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/orange_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/oak_slab": {
     "criteria": {
       "has_planks": "2020-04-05 01:59:52 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/cyan_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
     },
     "done": true
   },
@@ -821,6 +905,18 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/blue_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/gray_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/misc/conduit": {
     "criteria": {
       "has_nautilus_core": "2020-01-02 00:15:39 +0300"
@@ -881,6 +977,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/black_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/black_terracotta": {
     "criteria": {
       "has_terracotta": "2020-04-05 17:37:22 +0300"
@@ -920,6 +1022,12 @@
   "minecraft:story/form_obsidian": {
     "criteria": {
       "obsidian": "2020-04-08 15:43:57 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/red_concrete_powder": {
+    "criteria": {
+      "has_sand": "2020-04-11 19:02:50 +0300"
     },
     "done": true
   },
@@ -999,6 +1107,7 @@
     "criteria": {
       "minecraft:snowy_tundra": "2020-04-09 13:02:23 +0300",
       "minecraft:desert": "2020-01-04 19:21:55 +0300",
+      "minecraft:wooded_hills": "2020-04-11 17:29:04 +0300",
       "minecraft:savanna": "2020-01-04 19:21:51 +0300",
       "minecraft:plains": "2019-12-15 17:36:25 +0300"
     },

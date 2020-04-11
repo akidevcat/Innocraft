@@ -1,7 +1,20 @@
 {
+  "minecraft:recipes/misc/charcoal": {
+    "criteria": {
+      "has_log": "2020-04-11 16:55:12 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/jungle_planks": {
+    "criteria": {
+      "has_log": "2020-04-11 16:55:12 +0300"
+    },
+    "done": true
+  },
   "minecraft:adventure/adventuring_time": {
     "criteria": {
       "minecraft:snowy_tundra": "2020-04-09 13:30:41 +0300",
+      "minecraft:wooded_hills": "2020-04-11 17:29:03 +0300",
       "minecraft:plains": "2020-04-09 13:29:50 +0300"
     },
     "done": false
