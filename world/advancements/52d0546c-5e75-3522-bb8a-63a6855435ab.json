@@ -1,0 +1,9 @@
+{
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:wooded_hills": "2020-04-13 13:04:19 +0300",
+      "minecraft:plains": "2020-04-13 13:02:59 +0300"
+    },
+    "done": false
+  }
+}
