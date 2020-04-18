@@ -383,13 +383,13 @@
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/light_gray_concrete_powder": {
+  "minecraft:recipes/building_blocks/light_blue_concrete_powder": {
     "criteria": {
       "has_sand": "2020-04-11 19:02:50 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/light_blue_concrete_powder": {
+  "minecraft:recipes/building_blocks/light_gray_concrete_powder": {
     "criteria": {
       "has_sand": "2020-04-11 19:02:50 +0300"
     },
@@ -1019,6 +1019,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/sea_lantern": {
+    "criteria": {
+      "has_prismarine_crystals": "2020-04-16 22:13:59 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/decorations/red_banner": {
     "criteria": {
       "has_red_wool": "2020-01-04 17:13:49 +0300"
@@ -1073,6 +1079,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/misc/slime_ball": {
+    "criteria": {
+      "has_slime": "2020-04-17 22:44:22 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/redstone/dropper": {
     "criteria": {
       "has_redstone": "2019-12-15 21:58:36 +0300"
@@ -1118,6 +1130,12 @@
   "minecraft:recipes/combat/leather_chestplate": {
     "criteria": {
       "has_leather": "2020-01-04 19:40:33 +0300"
+    },
+    "done": true
+  },
+  "minecraft:end/enter_end_gateway": {
+    "criteria": {
+      "entered_end_gateway": "2020-04-18 23:19:21 +0300"
     },
     "done": true
   },
@@ -1269,6 +1287,12 @@
   "minecraft:recipes/combat/leather_boots": {
     "criteria": {
       "has_leather": "2020-01-04 19:40:33 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/purple_dye": {
+    "criteria": {
+      "has_red_dye": "2020-04-18 23:35:06 +0300"
     },
     "done": true
   },

@@ -5,15 +5,21 @@
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/purple_wool": {
+  "minecraft:recipes/building_blocks/jungle_slab": {
     "criteria": {
-      "has_white_wool": "2020-04-11 23:39:19 +0300"
+      "has_planks": "2020-04-17 15:59:03 +0300"
     },
     "done": true
   },
   "minecraft:recipes/redstone/oak_fence_gate": {
     "criteria": {
       "has_planks": "2020-04-11 21:29:45 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/purple_wool": {
+    "criteria": {
+      "has_white_wool": "2020-04-11 23:39:19 +0300"
     },
     "done": true
   },
@@ -29,6 +35,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/decorations/cyan_glazed_terracotta": {
+    "criteria": {
+      "has_cyan_terracotta": "2020-04-17 15:29:49 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/blue_terracotta": {
     "criteria": {
       "has_terracotta": "2020-04-11 21:29:20 +0300"
@@ -38,6 +50,18 @@
   "minecraft:recipes/redstone/oak_button": {
     "criteria": {
       "has_planks": "2020-04-11 21:29:45 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/redstone/jungle_pressure_plate": {
+    "criteria": {
+      "has_planks": "2020-04-17 15:59:03 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/lime_carpet": {
+    "criteria": {
+      "has_lime_wool": "2020-04-17 16:34:51 +0300"
     },
     "done": true
   },
@@ -53,15 +77,21 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/green_wool": {
+    "criteria": {
+      "has_white_wool": "2020-04-11 23:39:19 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/decorations/white_bed": {
     "criteria": {
       "has_white_wool": "2020-04-11 23:39:19 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/green_wool": {
+  "minecraft:recipes/decorations/lime_banner": {
     "criteria": {
-      "has_white_wool": "2020-04-11 23:39:19 +0300"
+      "has_lime_wool": "2020-04-17 16:34:51 +0300"
     },
     "done": true
   },
@@ -96,12 +126,6 @@
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/magenta_wool": {
-    "criteria": {
-      "has_white_wool": "2020-04-11 23:39:19 +0300"
-    },
-    "done": true
-  },
   "minecraft:recipes/decorations/crafting_table": {
     "criteria": {
       "has_planks": "2020-04-11 21:29:45 +0300"
@@ -114,6 +138,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/magenta_wool": {
+    "criteria": {
+      "has_white_wool": "2020-04-11 23:39:19 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/spruce_planks": {
     "criteria": {
       "has_log": "2020-04-11 23:18:05 +0300"
@@ -123,6 +153,12 @@
   "minecraft:recipes/building_blocks/orange_wool": {
     "criteria": {
       "has_white_wool": "2020-04-11 23:39:19 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/chest": {
+    "criteria": {
+      "has_lots_of_items": "2020-04-17 15:52:12 +0300"
     },
     "done": true
   },
@@ -174,6 +210,24 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/jungle_stairs": {
+    "criteria": {
+      "has_planks": "2020-04-17 15:59:03 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/jungle_fence": {
+    "criteria": {
+      "has_planks": "2020-04-17 15:59:03 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/gray_banner": {
+    "criteria": {
+      "has_gray_wool": "2020-04-17 16:34:51 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/oak_planks": {
     "criteria": {
       "has_log": "2020-04-11 21:30:30 +0300"
@@ -198,6 +252,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/redstone/jungle_door": {
+    "criteria": {
+      "has_planks": "2020-04-17 15:59:03 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/dark_oak_planks": {
     "criteria": {
       "has_logs": "2020-04-11 21:30:46 +0300"
@@ -207,6 +267,12 @@
   "minecraft:recipes/building_blocks/gray_wool": {
     "criteria": {
       "has_white_wool": "2020-04-11 23:39:19 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/redstone/jungle_fence_gate": {
+    "criteria": {
+      "has_planks": "2020-04-17 15:59:03 +0300"
     },
     "done": true
   },
@@ -228,6 +294,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/redstone/jungle_trapdoor": {
+    "criteria": {
+      "has_planks": "2020-04-17 15:59:03 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/jungle_planks": {
     "criteria": {
       "has_log": "2020-04-11 21:30:58 +0300"
@@ -240,9 +312,27 @@
     },
     "done": true
   },
+  "minecraft:recipes/decorations/gray_carpet": {
+    "criteria": {
+      "has_gray_wool": "2020-04-17 16:34:51 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/redstone/oak_pressure_plate": {
     "criteria": {
       "has_planks": "2020-04-11 21:29:45 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/redstone/jungle_button": {
+    "criteria": {
+      "has_planks": "2020-04-17 15:59:03 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/gray_bed": {
+    "criteria": {
+      "has_gray_wool": "2020-04-17 16:34:51 +0300"
     },
     "done": true
   },
@@ -282,13 +372,13 @@
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/red_wool": {
+  "minecraft:recipes/decorations/white_banner": {
     "criteria": {
       "has_white_wool": "2020-04-11 23:39:19 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/decorations/white_banner": {
+  "minecraft:recipes/building_blocks/red_wool": {
     "criteria": {
       "has_white_wool": "2020-04-11 23:39:19 +0300"
     },
@@ -318,15 +408,21 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/orange_terracotta": {
+    "criteria": {
+      "has_terracotta": "2020-04-11 21:29:20 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/oak_slab": {
     "criteria": {
       "has_planks": "2020-04-11 21:29:45 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/orange_terracotta": {
+  "minecraft:recipes/decorations/lime_bed": {
     "criteria": {
-      "has_terracotta": "2020-04-11 21:29:20 +0300"
+      "has_lime_wool": "2020-04-17 16:34:51 +0300"
     },
     "done": true
   }

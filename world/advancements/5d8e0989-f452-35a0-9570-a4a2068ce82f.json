@@ -1,4 +1,28 @@
 {
+  "minecraft:recipes/misc/book": {
+    "criteria": {
+      "has_paper": "2020-04-17 12:49:29 +0300"
+    },
+    "done": true
+  },
+  "minecraft:story/shiny_gear": {
+    "criteria": {
+      "diamond_leggings": "2020-04-17 12:42:57 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/chest": {
+    "criteria": {
+      "has_lots_of_items": "2020-04-17 12:43:02 +0300"
+    },
+    "done": true
+  },
+  "minecraft:end/elytra": {
+    "criteria": {
+      "elytra": "2020-04-17 12:42:40 +0300"
+    },
+    "done": true
+  },
   "minecraft:adventure/adventuring_time": {
     "criteria": {
       "minecraft:wooded_hills": "2020-04-16 19:59:52 +0300",
