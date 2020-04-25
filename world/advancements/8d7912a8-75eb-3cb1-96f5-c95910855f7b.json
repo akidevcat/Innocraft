@@ -1,4 +1,10 @@
 {
+  "minecraft:recipes/brewing/cauldron": {
+    "criteria": {
+      "has_water_bucket": "2020-04-20 20:53:14 +0300"
+    },
+    "done": true
+  },
   "minecraft:adventure/adventuring_time": {
     "criteria": {
       "minecraft:wooded_hills": "2020-04-17 02:29:26 +0300",
