@@ -1,0 +1,3 @@
+name: SM-Bridge
+version: ${project.version}
+main: live.innocraft.smbridge.SMBridge
