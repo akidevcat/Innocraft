@@ -5,6 +5,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.*;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -28,6 +29,19 @@ public class SMBridge extends Plugin implements Listener {
     private String cfg_message_session_resumed;
     private Long cfg_session_active_period;
 
+    public void reloadConfigs() {
+        mainConfig = new ConfigFile(this, "config.yml");
+        sessionConfig = new ConfigFile(this, "session.yml");
+
+        if (!mainConfig.GetLoadedState() || !sessionConfig.GetLoadedState()) {
+            getLogger().log(Level.SEVERE, "Couldn't load config file, Disabling...");
+            onDisable();
+            return;
+        }
+
+        loadConfigs();
+    }
+
     public void loadConfigs() {
         Configuration sessionCfg = sessionConfig.GetConfiguration();
         Configuration mainCfg = mainConfig.GetConfiguration();
@@ -36,6 +50,8 @@ public class SMBridge extends Plugin implements Listener {
             sessions = PlayerSession.List2Sessions(sessionCfg.getStringList("Sessions"));
         else
             sessions = new HashMap<String, PlayerSession>();
+
+        //ToDo: remove entries with old date
 
         cfg_message_not_auth = mainCfg.getString("Messages.message-not-auth");
         cfg_message_session_resumed = mainCfg.getString("Messages.message-session-resumed");
@@ -50,7 +66,13 @@ public class SMBridge extends Plugin implements Listener {
         sessionConfig.Save();
     }
 
-    private void AuthtorizePlayer(ProxiedPlayer p) {
+    private void AuthtorizePlayer(ProxiedPlayer p, Server s) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("cmds");
+        out.writeUTF("session");
+        s.getInfo().sendData( "smbridge:main", out.toByteArray() );
+        p.sendMessage(new TextComponent(ChatColor.RED + cfg_message_session_resumed));
+        /*
         getProxy().getScheduler().schedule(this, new Runnable() {
             @Override
             public void run() {
@@ -61,20 +83,12 @@ public class SMBridge extends Plugin implements Listener {
                 p.sendMessage(new TextComponent(ChatColor.RED + cfg_message_session_resumed));
             }
         }, 1, TimeUnit.SECONDS);
+         */
     }
 
     @Override
     public void onEnable() {
-        mainConfig = new ConfigFile(this, "config.yml");
-        sessionConfig = new ConfigFile(this, "session.yml");
-
-        if (!mainConfig.GetLoadedState() || !sessionConfig.GetLoadedState()) {
-            getLogger().log(Level.SEVERE, "Couldn't load config file, Disabling...");
-            onDisable();
-            return;
-        }
-
-        loadConfigs();
+        reloadConfigs();
 
         authPlayers = new HashSet<ProxiedPlayer>();
 
@@ -137,8 +151,8 @@ public class SMBridge extends Plugin implements Listener {
     }
 
     @EventHandler
-    public void onConnect(PostLoginEvent event)   {
-        //A new player joined, add him/her to the list
+    public void onServerConnect(ServerConnectedEvent event) {
+        //A new player joined, add him/her to the list and check session
         ProxiedPlayer p = event.getPlayer();
         String name = p.getName().toLowerCase();
 
@@ -146,10 +160,9 @@ public class SMBridge extends Plugin implements Listener {
             PlayerSession key = sessions.get(name);
             if (key.ip.equals(p.getAddress().getAddress().getHostAddress()) &&
                     System.currentTimeMillis() - key.date < cfg_session_active_period * 1000) {
-                AuthtorizePlayer(p);
+                AuthtorizePlayer(p, event.getServer());
                 return;
             }
-
         }
 
         authPlayers.add(p);

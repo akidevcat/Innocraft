@@ -22,7 +22,7 @@ public class PluginCommands extends Command {
             commandSender.sendMessage(new TextComponent(ChatColor.BLUE + "/smbridge reload - Reloads config files"));
             return;
         }
-        main.loadConfigs();
+        main.reloadConfigs();
         commandSender.sendMessage(new TextComponent(ChatColor.GREEN + "SMBridge Config files were reloaded!"));
     }
 
