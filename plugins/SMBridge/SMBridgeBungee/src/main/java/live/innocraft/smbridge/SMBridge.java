@@ -1,22 +1,17 @@
 package live.innocraft.smbridge;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteStreams;
+import com.google.common.io.*;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.*;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
+import net.md_5.bungee.config.*;
 
-import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -26,61 +21,33 @@ public class SMBridge extends Plugin implements Listener {
     private HashSet<ProxiedPlayer> authPlayers;
 
     private Map<String, PlayerSession> sessions;
-    private Configuration config;
+    private ConfigFile sessionConfig;
+    private ConfigFile mainConfig;
 
-    private boolean loadConfig() {
-        if (!getDataFolder().exists()) {
-            getDataFolder().mkdir();
-        }
+    private String cfg_message_not_auth;
+    private String cfg_message_session_resumed;
+    private Long cfg_session_active_period;
 
-        File file = new File(getDataFolder(), "connections.yml");
+    public void loadConfigs() {
+        Configuration sessionCfg = sessionConfig.GetConfiguration();
+        Configuration mainCfg = mainConfig.GetConfiguration();
 
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        try {
-            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        //sessions = new HashMap<String, Pair<String, Long>>();
-
-        /*
-        Collection<String> keys = config.getKeys();
-
-        for (String k : keys) {
-            String ip = config.getString(k + ".ip");
-            Long date = config.getLong(k + ".date");
-            sessions.put(k, new Pair(ip, date));
-        }
-         */
-
-        //sessions = (HashMap<String, PlayerSession>)config.get("Sessions");
-        if (config.contains("Sessions"))
-            sessions = PlayerSession.List2Sessions(config.getStringList("Sessions"));
+        if (sessionCfg.contains("Sessions"))
+            sessions = PlayerSession.List2Sessions(sessionCfg.getStringList("Sessions"));
         else
             sessions = new HashMap<String, PlayerSession>();
 
-        return true;
+        cfg_message_not_auth = mainCfg.getString("Messages.message-not-auth");
+        cfg_message_session_resumed = mainCfg.getString("Messages.message-session-resumed");
+        cfg_session_active_period = mainCfg.getLong("Session.active-session-period");
     }
 
-    private void saveConfig() {
-        config.set("Sessions", PlayerSession.Sessions2List(sessions));
-        try {
-            ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, new File(getDataFolder(), "connections.yml"));
-        } catch (IOException e) {
-            getLogger().log(Level.SEVERE, "Couldn't save to config!");
-            e.printStackTrace();
-        }
+    private void saveSessionConfig() {
+        Configuration sessionCfg = sessionConfig.GetConfiguration();
 
+        sessionCfg.set("Sessions", PlayerSession.Sessions2List(sessions));
+
+        sessionConfig.Save();
     }
 
     private void AuthtorizePlayer(ProxiedPlayer p) {
@@ -91,18 +58,23 @@ public class SMBridge extends Plugin implements Listener {
                 out.writeUTF("cmds");
                 out.writeUTF("session");
                 p.getServer().getInfo().sendData( "smbridge:main", out.toByteArray() );
-                p.sendMessage(new TextComponent("Session check is successful."));
+                p.sendMessage(new TextComponent(ChatColor.RED + cfg_message_session_resumed));
             }
         }, 1, TimeUnit.SECONDS);
     }
 
     @Override
     public void onEnable() {
-        if (!loadConfig()) {
+        mainConfig = new ConfigFile(this, "config.yml");
+        sessionConfig = new ConfigFile(this, "session.yml");
+
+        if (!mainConfig.GetLoadedState() || !sessionConfig.GetLoadedState()) {
             getLogger().log(Level.SEVERE, "Couldn't load config file, Disabling...");
             onDisable();
             return;
         }
+
+        loadConfigs();
 
         authPlayers = new HashSet<ProxiedPlayer>();
 
@@ -112,11 +84,12 @@ public class SMBridge extends Plugin implements Listener {
         getLogger().info( "SM Bridge Enabled!" );
 
         getProxy().getPluginManager().registerListener(this, this);
+        getProxy().getPluginManager().registerCommand(this, new PluginCommands(this));
     }
 
     @Override
     public void onDisable() {
-        saveConfig();
+        saveSessionConfig();
         getLogger().info( "SM Bridge Disabled!" );
     }
 
@@ -129,12 +102,9 @@ public class SMBridge extends Plugin implements Listener {
         String subChannel = in.readUTF();
         if ( subChannel.equalsIgnoreCase( "cmds" ) )
         {
-            getLogger().log(Level.WARNING, "SM - RECEIVED some PLUGIN MESSAGE");
-
             // the receiver is a ProxiedPlayer when a server talks to the proxy
             if ( event.getReceiver() instanceof ProxiedPlayer)
             {
-                getLogger().log(Level.WARNING, "SM - RECEIVED PLUGIN MESSAGE");
                 ProxiedPlayer receiver = (ProxiedPlayer) event.getReceiver();
                 String cmd = in.readUTF();
 
@@ -144,17 +114,9 @@ public class SMBridge extends Plugin implements Listener {
 
                     PlayerSession psession = new PlayerSession(receiver.getAddress().getAddress().getHostAddress());
                     sessions.put(receiver.getName().toLowerCase(), psession);
-                    saveConfig();
+                    saveSessionConfig();
                 }
             }
-            // the receiver is a server when the proxy talks to a server
-            /*
-            if ( event.getReceiver() instanceof Server)
-            {
-                Server receiver = (Server) event.getReceiver();
-                // do things
-            }
-             */
         }
     }
 
@@ -170,7 +132,7 @@ public class SMBridge extends Plugin implements Listener {
 
         if (e.isCommand()) {
             e.setCancelled(true);
-            player.sendMessage(new TextComponent("You're not authorized!"));
+            player.sendMessage(new TextComponent(ChatColor.RED + cfg_message_not_auth));
         }
     }
 
@@ -181,14 +143,9 @@ public class SMBridge extends Plugin implements Listener {
         String name = p.getName().toLowerCase();
 
         if (sessions.containsKey(name)) {
-            getLogger().log(Level.WARNING, "Found name!");
             PlayerSession key = sessions.get(name);
-            if (key.ip.equals(p.getAddress().toString()))
-                getLogger().log(Level.WARNING, "Found IP!");
-            if (System.currentTimeMillis() - key.date < 10000)
-                getLogger().log(Level.WARNING, "Found Date!");
             if (key.ip.equals(p.getAddress().getAddress().getHostAddress()) &&
-                    System.currentTimeMillis() - key.date < 10000) {
+                    System.currentTimeMillis() - key.date < cfg_session_active_period * 1000) {
                 AuthtorizePlayer(p);
                 return;
             }

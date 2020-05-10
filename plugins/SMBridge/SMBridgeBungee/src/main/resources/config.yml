@@ -1,0 +1,13 @@
+#
+# SecurityMaster-Bridge Configuration (BungeeCord side)
+#
+
+Session:
+  # How long should the plugin remember player's session? (In seconds)
+  active-session-period: 86400
+
+Messages:
+  # A message player receives trying to execute commands
+  message-not-auth: "You're not authorized!"
+  # A message player receives if the session is resumed
+  message-session-resumed: "Your session was resumed. No login required."
