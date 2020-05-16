@@ -1,0 +1,14 @@
+name: InnocraftEssentials
+version: 1.0-SNAPSHOT
+main: live.innocraft.essentials.Essentials
+api-version: 1.13
+commands:
+  redeem:
+    description: ToDo
+    usage: /redeem
+  innocraft:
+    description: ToDo
+    usage: /innocraft
+  innocraft-authkey:
+    description: ToDo
+    usage: /innocraft-authkey

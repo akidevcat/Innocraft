@@ -1,0 +1,56 @@
+# Innocraft Essentials Configuration File
+
+mysql:
+  Host: localhost
+  Port: 3306
+  Database: innocraft
+  Username: innocraft
+  Password: innocraft
+
+# Auth keys allows to create something similar to product keys. They can be used only once.
+# After redeeming a key, a set of commands is executed.
+
+auth-keys:
+  # Delay between redeeming codes in seconds
+  cooldown: 3
+  # These are the key groups
+  groups:
+    participant:
+      # These commands are executed right after the player redeems his auth-key
+      # {player} will be changed to player's name
+      commands:
+        - "lp user {player} group set participant"
+        - "ij get join_ticket {player}"
+    student:
+      commands:
+        - "lp user {player} group set student"
+        - "ij get join_ticket {player}"
+    staff:
+      commands:
+        - "lp user {player} group set staff"
+        - "ij get join_ticket {player}"
+
+# This section is intended for IU events configuration.
+
+iu-events:
+  current-event: "Configuration"
+  current-event-date-begin: "May 10"
+  current-event-date-end: "May 29"
+
+# Universal Study Configuration
+
+ustudy: todo
+
+# Timetable Configuration
+
+timetable: todo
+
+messages:
+  plugin-reload: "&a&oPlugin configuration was reloaded!"
+  wrong-command-format: "&c&oWrong command format! &7&oTry typing &9&o/innocraft&7&o..."
+  permission-error: "&c&oYou don't have permission to do that."
+  auth-key-redeemed: "&a&oA key was successfully redeemed!"
+  auth-key-wrong: "&c&oThis auth key doesn't exist."
+  auth-key-wrong-group: "&c&oThe auth key is valid, but this key is blank. If you think this is an error, please contact staff."
+  auth-key-added: "&a&oAuth key was successfully added!"
+  auth-key-reloaded: "&a&oAuth keys reload was successful!"
