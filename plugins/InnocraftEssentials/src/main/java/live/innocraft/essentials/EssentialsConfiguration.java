@@ -19,6 +19,8 @@ public class EssentialsConfiguration {
 
     private FileConfiguration cfgCommon;
     private FileConfiguration cfgAuthKeys;
+    private FileConfiguration cfgClassrooms;
+    private FileConfiguration cfgTimetable;
 
     public EssentialsConfiguration(Plugin plugin) {
         this.plugin = plugin;
@@ -29,6 +31,8 @@ public class EssentialsConfiguration {
     public void ReloadAll() {
         cfgCommon = LoadConfigFile("config.yml");
         cfgAuthKeys = LoadConfigFile("authkeys.yml");
+        cfgClassrooms = LoadConfigFile("classrooms.yml");
+        cfgTimetable = LoadConfigFile("timetable.yml");
     }
 
     public void ReloadAuthKeys() {
@@ -54,6 +58,14 @@ public class EssentialsConfiguration {
 
     public FileConfiguration GetCfgAuthKeys() {
         return cfgAuthKeys;
+    }
+
+    public FileConfiguration GetCfgClassrooms() {
+        return cfgClassrooms;
+    }
+
+    public FileConfiguration GetCfgTimetable() {
+        return cfgTimetable;
     }
 
     // Loads a configuration file. In case it doesn't exist, uses a default template.

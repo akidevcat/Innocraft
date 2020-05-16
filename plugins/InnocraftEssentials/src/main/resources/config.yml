@@ -43,7 +43,12 @@ ustudy: todo
 
 # Timetable Configuration
 
-timetable: todo
+timetable:
+
+# Classrooms Configuration
+
+classrooms:
+
 
 messages:
   plugin-reload: "&a&oPlugin configuration was reloaded!"
