@@ -12,3 +12,12 @@ commands:
   innocraft-authkey:
     description: ToDo
     usage: /innocraft-authkey
+  classrooms:
+    description: ToDo
+    usage: /classrooms
+  classes:
+    description: ToDo
+    usage: /classes
+  rooms:
+    description: ToDo
+    usage: /rooms

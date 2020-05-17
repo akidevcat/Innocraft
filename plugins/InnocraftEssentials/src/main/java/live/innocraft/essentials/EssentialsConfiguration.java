@@ -47,6 +47,22 @@ public class EssentialsConfiguration {
         }
     }
 
+    public void SaveClassrooms() {
+        try {
+            cfgAuthKeys.save(new File(plugin.getDataFolder(), "classrooms.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void SaveTimetable() {
+        try {
+            cfgAuthKeys.save(new File(plugin.getDataFolder(), "timetable.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Sends a command to the specified player with color codes basing on the config.yml
     public void SendMessage(String msg, CommandSender s) {
         s.sendMessage(ChatColor.translateAlternateColorCodes('&', cfgCommon.getString("messages." + msg)));

@@ -43,19 +43,30 @@ ustudy: todo
 
 # Timetable Configuration
 
-timetable:
+timetable: todo
 
 # Classrooms Configuration
 
-classrooms:
+classrooms: todo
 
 
 messages:
   plugin-reload: "&a&oPlugin configuration was reloaded!"
   wrong-command-format: "&c&oWrong command format! &7&oTry typing &9&o/innocraft&7&o..."
+  wrong-command-sender: "&c&oThis command can be executed by player only."
   permission-error: "&c&oYou don't have permission to do that."
   auth-key-redeemed: "&a&oA key was successfully redeemed!"
   auth-key-wrong: "&c&oThis auth key doesn't exist."
   auth-key-wrong-group: "&c&oThe auth key is valid, but this key is blank. If you think this is an error, please contact staff."
   auth-key-added: "&a&oAuth key was successfully added!"
   auth-key-reloaded: "&a&oAuth keys reload was successful!"
+  classroom-creation-exists: "&c&oA classroom with this name already exists."
+  classroom-creation-success: "&a&oThe classroom was created successfully. Now you can edit it."
+  classroom-missing: "&c&oThe classroom you've specified doesn't exists."
+  classroom-deletion-success: "&a&oThe classroom was successfully deleted."
+  classroom-setname-success: "&a&oThe classroom name was changed successfully."
+  classroom-setregion-success: "&a&oThe classroom region was changed successfully."
+  classroom-setregion-missing: "&c&oYou're not inside a region. Please create one or change your location."
+  classroom-setposition-success: "&a&oThe classroom position was changed successfully."
+  classroom-setlink-success: "&a&oThe classroom link was changed successfully."
+  classroom-setregion-conflict: "&c&oThere're several regions you're standing in. Please provide the name of the region."

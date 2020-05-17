@@ -1,5 +1,5 @@
 106:
-  name: "Lecture Hall 106"
-  description: "Lecture Hall for classes"
-  region: ""
-  position: ""
+  displayed-name: "Lecture Hall 106"
+  #region: ""
+  #position: ""
+  #link: ""
