@@ -4,12 +4,14 @@
       <w>authkey</w>
       <w>authkeys</w>
       <w>bukkit</w>
+      <w>cmds</w>
       <w>displayedname</w>
       <w>innocraft</w>
       <w>setlink</w>
       <w>setname</w>
       <w>setposition</w>
       <w>setregion</w>
+      <w>tellraw</w>
     </words>
   </dictionary>
 </component>

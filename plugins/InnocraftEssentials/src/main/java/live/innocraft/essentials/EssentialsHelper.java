@@ -36,20 +36,20 @@ public class EssentialsHelper {
 
     public static String[] GetRegionsNames(org.bukkit.entity.Player bukkitPlayer) {
         if (bukkitPlayer == null)
-            return new String[]{};
+            return new String[0];
         Player player = WorldGuardPlugin.inst().wrapPlayer(bukkitPlayer);
         Location loc = player.getLocation();
         BlockVector3 pos = BlockVector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionManager regions = container.get(player.getWorld());
         if (regions == null)
-            return new String[]{};
+            return new String[0];
         ApplicableRegionSet set = regions.getApplicableRegions(pos);
         ArrayList<String> result = new ArrayList<String>();
         for (ProtectedRegion region : set)
             result.add(region.getId());
 
-        return (String[])result.toArray();
+        return result.toArray(new String[0]);
     }
 
     public static ProtectedRegion[] GetRegions(org.bukkit.entity.Player bukkitPlayer) {
@@ -66,6 +66,6 @@ public class EssentialsHelper {
         ArrayList<ProtectedRegion> result = new ArrayList<ProtectedRegion>();
         for (ProtectedRegion region : set)
             result.add(region);
-        return (ProtectedRegion[])result.toArray();
+        return result.toArray(new ProtectedRegion[0]);
     }
 }

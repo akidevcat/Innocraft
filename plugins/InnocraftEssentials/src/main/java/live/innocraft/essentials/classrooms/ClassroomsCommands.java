@@ -2,6 +2,9 @@ package live.innocraft.essentials.classrooms;
 
 import live.innocraft.essentials.Essentials;
 import live.innocraft.essentials.EssentialsHelper;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,8 +12,8 @@ import org.bukkit.entity.Player;
 
 public class ClassroomsCommands implements CommandExecutor {
 
-    private Essentials plugin;
-    private Classrooms classrooms;
+    private final Essentials plugin;
+    private final Classrooms classrooms;
 
     public ClassroomsCommands(Essentials plugin, Classrooms classrooms) {
         this.plugin = plugin;
@@ -175,6 +178,31 @@ public class ClassroomsCommands implements CommandExecutor {
                     return true;
                 }
                 plugin.GetConfiguration().SendMessage("classroom-setlink-success", sender);
+                return true;
+            case "get-link":
+            case "link":
+                if (!(sender instanceof Player)) {
+                    plugin.GetConfiguration().SendMessage("wrong-command-sender", sender);
+                    return true;
+                }
+                if (args.length != 1) {
+                    plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+                    return true;
+                }
+                String auditorium = classrooms.GetClassroomByPlayer((Player)sender);
+                if (auditorium.equals("")) {
+                    plugin.GetConfiguration().SendMessage("classroom-region-missing", sender);
+                    return true;
+                }
+                String link = classrooms.GetClassroomLink(auditorium);
+                if (link.equals("")) {
+                    plugin.GetConfiguration().SendMessage("classroom-link-missing", sender);
+                    return true;
+                }
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() +
+                        " {\"text\":\"" + plugin.GetConfiguration().GetMessage("classroom-link-format") +
+                        "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + link +"\"}}");
+                return true;
         }
 
         return true;

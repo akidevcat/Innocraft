@@ -39,15 +39,18 @@ iu-events:
 
 # Universal Study Configuration
 
-ustudy: todo
+ustudy:
+  enabled: true
 
 # Timetable Configuration
 
-timetable: todo
+timetable:
+  enabled: true
 
 # Classrooms Configuration
 
-classrooms: todo
+classrooms:
+  enabled: true
 
 
 messages:
@@ -70,3 +73,6 @@ messages:
   classroom-setposition-success: "&a&oThe classroom position was changed successfully."
   classroom-setlink-success: "&a&oThe classroom link was changed successfully."
   classroom-setregion-conflict: "&c&oThere're several regions you're standing in. Please provide the name of the region."
+  classroom-link-format: "&b&l--> PRESS HERE TO OPEN YOUR BROWSER <--"
+  classroom-region-missing: "&c&oYou're outside a classroom."
+  classroom-link-missing: "&c&oThis classroom doesn't contain a link."

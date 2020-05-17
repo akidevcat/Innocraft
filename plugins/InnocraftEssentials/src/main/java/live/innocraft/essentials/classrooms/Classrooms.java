@@ -11,8 +11,8 @@ import java.util.Set;
 
 public class Classrooms {
 
-    private Essentials plugin;
-    private HashMap<String, String> regionsClassrooms;
+    private final Essentials plugin;
+    private final HashMap<String, String> regionsClassrooms;
 
     public Classrooms(Essentials plugin) {
         this.plugin = plugin;
@@ -25,7 +25,7 @@ public class Classrooms {
 
     public boolean CreateClassroom(String name) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains("name"))
+        if (cfg.contains(name))
             return false;
 
         cfg.set(name + ".displayed-name", name);
@@ -37,7 +37,7 @@ public class Classrooms {
 
     public boolean DeleteClassroom(String name) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains("name"))
+        if (cfg.contains(name))
             return false;
 
         cfg.set(name, null);
@@ -49,7 +49,7 @@ public class Classrooms {
 
     public boolean SetClassroomDisplayedName(String name, String displayedName) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains("name"))
+        if (cfg.contains(name))
             return false;
         if (displayedName.equals(""))
             return false;
@@ -63,7 +63,7 @@ public class Classrooms {
 
     public boolean SetClassroomRegion(String name, String region) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains("name"))
+        if (cfg.contains(name))
             return false;
 
         if (region.equals(""))
@@ -78,7 +78,7 @@ public class Classrooms {
 
     public boolean SetClassroomPosition(String name, Location pos) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains("name"))
+        if (cfg.contains(name))
             return false;
 
         cfg.set(name + ".position", pos);
@@ -90,7 +90,7 @@ public class Classrooms {
 
     public boolean SetClassroomLink(String name, String link) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains("name"))
+        if (cfg.contains(name))
             return false;
 
         if (link.equals(""))
@@ -101,6 +101,14 @@ public class Classrooms {
         Save();
 
         return true;
+    }
+
+    public String GetClassroomLink(String name) {
+        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        if (!cfg.contains(name) || !cfg.contains(name + ".link"))
+            return "";
+
+        return cfg.getString(name + ".link");
     }
 
     public String GetClassroomByPlayer(Player player) {
