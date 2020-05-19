@@ -68,4 +68,17 @@ public class EssentialsHelper {
             result.add(region);
         return result.toArray(new ProtectedRegion[0]);
     }
+
+    public static String ConvertMinutesToTimeString(int minutes) {
+        int h = minutes / 60;
+        int m = minutes % 60;
+        String result = "";
+        if (h < 10)
+            result += "0";
+        result += String.valueOf(h) + ":";
+        if (m < 10)
+            result += "0";
+        result += String.valueOf(m);
+        return result;
+    }
 }

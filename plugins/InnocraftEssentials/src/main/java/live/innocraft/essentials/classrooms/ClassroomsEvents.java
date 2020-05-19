@@ -10,6 +10,8 @@ public class ClassroomsEvents {
     public ClassroomsEvents(Essentials plugin, Classrooms classrooms) {
         this.plugin = plugin;
         this.classrooms = classrooms;
+
+
     }
 
 }

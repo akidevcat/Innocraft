@@ -41,11 +41,23 @@ iu-events:
 
 ustudy:
   enabled: true
+  lesson-blocked-cmds:
+    - "instance"
 
 # Timetable Configuration
 
 timetable:
   enabled: true
+  gui-title: "&b&lTimetable"
+  # Description placeholders:
+  # %start% %end% %classroom% %compulsory% %group%
+  # Also %skip% is used to skip the line
+  gui-lesson-description-format:
+    - "&a&oВремя: %start%-%end%"
+    - "&a&oАудитория: %classroom%"
+    - "&a&oГруппа: %group%"
+    - "%compulsory%&c&lОбязательный"
+
 
 # Classrooms Configuration
 
@@ -73,3 +85,6 @@ messages:
   classroom-setposition-success: "&a&oThe classroom position was changed successfully."
   classroom-setlink-success: "&a&oThe classroom link was changed successfully."
   classroom-setregion-conflict: "&c&oThere're several regions you're standing in. Please provide the name of the region."
+  classroom-link-format: "&b&l--> PRESS HERE TO OPEN YOUR BROWSER <--"
+  classroom-region-missing: "&c&oYou're outside a classroom."
+  classroom-link-missing: "&c&oThis classroom doesn't contain a link."

@@ -24,3 +24,9 @@ commands:
   rooms:
     description: ToDo
     usage: /rooms
+  innocraft-timetable:
+    description: ToDo
+    usage: /innocraft-timetable
+  timetable:
+    description: ToDo
+    usage: /timetable

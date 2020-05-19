@@ -5,6 +5,7 @@ import live.innocraft.essentials.classrooms.Classrooms;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class TimetableCommands implements CommandExecutor {
 
@@ -38,7 +39,11 @@ public class TimetableCommands implements CommandExecutor {
 
         switch (args[0]) {
             case "menu":
-
+                if (!(sender instanceof Player)) {
+                    plugin.GetConfiguration().SendMessage("wrong-command-sender", sender);
+                    return true;
+                }
+                timetable.OpenGUI((Player)sender);
                 return true;
         }
 

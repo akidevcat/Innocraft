@@ -33,7 +33,7 @@ public class EssentialsCommands implements CommandExecutor {
                     plugin.GetConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
-                plugin.GetConfiguration().ReloadAll();
+                plugin.ReloadAll();
                 plugin.GetConfiguration().SendMessage("plugin-reload", sender);
                 return true;
         }

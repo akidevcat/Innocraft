@@ -37,7 +37,7 @@ public class Classrooms {
 
     public boolean DeleteClassroom(String name) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains(name))
+        if (!cfg.contains(name))
             return false;
 
         cfg.set(name, null);
@@ -49,7 +49,7 @@ public class Classrooms {
 
     public boolean SetClassroomDisplayedName(String name, String displayedName) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains(name))
+        if (!cfg.contains(name))
             return false;
         if (displayedName.equals(""))
             return false;
@@ -63,7 +63,7 @@ public class Classrooms {
 
     public boolean SetClassroomRegion(String name, String region) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains(name))
+        if (!cfg.contains(name))
             return false;
 
         if (region.equals(""))
@@ -78,7 +78,7 @@ public class Classrooms {
 
     public boolean SetClassroomPosition(String name, Location pos) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains(name))
+        if (!cfg.contains(name))
             return false;
 
         cfg.set(name + ".position", pos);
@@ -90,7 +90,7 @@ public class Classrooms {
 
     public boolean SetClassroomLink(String name, String link) {
         Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
-        if (cfg.contains(name))
+        if (!cfg.contains(name))
             return false;
 
         if (link.equals(""))
@@ -111,6 +111,14 @@ public class Classrooms {
         return cfg.getString(name + ".link");
     }
 
+    public String GetClassroomDisplayedName(String name) {
+        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        if (!cfg.contains(name) || !cfg.contains(name + ".displayed-name"))
+            return "";
+
+        return cfg.getString(name + ".displayed-name");
+    }
+
     public String GetClassroomByPlayer(Player player) {
         String[] regions = EssentialsHelper.GetRegionsNames(player);
         if (regions.length == 0)
@@ -125,6 +133,10 @@ public class Classrooms {
     public void Save() {
         plugin.GetConfiguration().SaveClassrooms();
         UpdateRegions();
+    }
+
+    public void Reload() {
+        //ToDo
     }
 
     public void UpdateRegions() {

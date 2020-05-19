@@ -41,11 +41,23 @@ iu-events:
 
 ustudy:
   enabled: true
+  lesson-blocked-cmds:
+    - "instance"
 
 # Timetable Configuration
 
 timetable:
   enabled: true
+  gui-title: "&b&lTimetable"
+  # Description placeholders:
+  # %start% %end% %classroom% %compulsory% %group%
+  # Also %skip% is used to skip the line
+  gui-lesson-description-format:
+    - "&a&oВремя: %start%-%end%"
+    - "&a&oАудитория: %classroom%"
+    - "&a&oГруппа: %group%"
+    - "%compulsory%&c&lОбязательный"
+
 
 # Classrooms Configuration
 
