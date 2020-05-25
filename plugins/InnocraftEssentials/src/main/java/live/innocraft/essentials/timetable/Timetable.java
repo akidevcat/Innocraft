@@ -28,7 +28,6 @@ public class Timetable extends EssentialsModule {
 
         Reload();
 
-
         new TimetableCommands(plugin, this);
     }
 
