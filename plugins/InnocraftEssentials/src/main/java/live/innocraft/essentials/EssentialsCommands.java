@@ -4,14 +4,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class EssentialsCommands implements CommandExecutor {
-
-    private Essentials plugin;
+public class EssentialsCommands extends EssentialsModule implements CommandExecutor {
 
     public EssentialsCommands (Essentials plugin) {
-        this.plugin = plugin;
+        super(plugin);
 
         plugin.getCommand("innocraft").setExecutor(this);
+    }
+
+    @Override
+    public void Reload() {
+
     }
 
     @Override
@@ -23,18 +26,18 @@ public class EssentialsCommands implements CommandExecutor {
             return false;
 
         if (args.length == 0) {
-            plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+            getPlugin().GetConfiguration().SendMessage("wrong-command-format", sender);
             return true;
         }
 
         switch (args[0]) {
             case "reload":
                 if (!sender.hasPermission("innocraft.staff")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    getPlugin().GetConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
-                plugin.ReloadAll();
-                plugin.GetConfiguration().SendMessage("plugin-reload", sender);
+                getPlugin().ReloadAll();
+                getPlugin().GetConfiguration().SendMessage("plugin-reload", sender);
                 return true;
         }
 

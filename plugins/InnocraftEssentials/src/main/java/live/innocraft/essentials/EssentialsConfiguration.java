@@ -105,11 +105,11 @@ public class EssentialsConfiguration {
     public FileConfiguration GetAuthKeysLogs() { return logsAuthKeys; }
 
     public void LogAuthKeys(String subcategory, String data) {
-        logsAuthKeys.set(EssentialsHelper.GetTimeStamp() + "." + subcategory, data);
+        logsAuthKeys.set(EssentialsHelper.GetTimeStamp() + "-" + data.hashCode() + "." + subcategory, data);
     }
 
     public void LogAuthKeys(String subcategory, String data, boolean save) {
-        logsAuthKeys.set(EssentialsHelper.GetTimeStamp() + "." + subcategory, data);
+        logsAuthKeys.set(EssentialsHelper.GetTimeStamp() + "-" + data.hashCode() + "." + subcategory, data);
         if (save)
             SaveAuthkeysLogs();
     }

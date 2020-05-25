@@ -2,6 +2,7 @@ package live.innocraft.essentials.classrooms;
 
 import live.innocraft.essentials.Essentials;
 import live.innocraft.essentials.EssentialsHelper;
+import live.innocraft.essentials.EssentialsModule;
 import org.bukkit.Location;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
@@ -9,13 +10,12 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Classrooms {
+public class Classrooms extends EssentialsModule {
 
-    private final Essentials plugin;
     private final HashMap<String, String> regionsClassrooms;
 
     public Classrooms(Essentials plugin) {
-        this.plugin = plugin;
+        super(plugin);
 
         regionsClassrooms = new HashMap<String, String>();
 
@@ -24,7 +24,7 @@ public class Classrooms {
     }
 
     public boolean CreateClassroom(String name) {
-        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
         if (cfg.contains(name))
             return false;
 
@@ -36,7 +36,7 @@ public class Classrooms {
     }
 
     public boolean DeleteClassroom(String name) {
-        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
 
@@ -48,7 +48,7 @@ public class Classrooms {
     }
 
     public boolean SetClassroomDisplayedName(String name, String displayedName) {
-        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
         if (displayedName.equals(""))
@@ -62,7 +62,7 @@ public class Classrooms {
     }
 
     public boolean SetClassroomRegion(String name, String region) {
-        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
 
@@ -77,7 +77,7 @@ public class Classrooms {
     }
 
     public boolean SetClassroomPosition(String name, Location pos) {
-        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
 
@@ -89,7 +89,7 @@ public class Classrooms {
     }
 
     public boolean SetClassroomLink(String name, String link) {
-        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
 
@@ -104,7 +104,7 @@ public class Classrooms {
     }
 
     public String GetClassroomLink(String name) {
-        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name) || !cfg.contains(name + ".link"))
             return "";
 
@@ -112,7 +112,7 @@ public class Classrooms {
     }
 
     public String GetClassroomDisplayedName(String name) {
-        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name) || !cfg.contains(name + ".displayed-name"))
             return "";
 
@@ -131,10 +131,11 @@ public class Classrooms {
     }
 
     public void Save() {
-        plugin.GetConfiguration().SaveClassrooms();
+        getPlugin().GetConfiguration().SaveClassrooms();
         UpdateRegions();
     }
 
+    @Override
     public void Reload() {
         //ToDo
     }
@@ -142,7 +143,7 @@ public class Classrooms {
     public void UpdateRegions() {
         regionsClassrooms.clear();
 
-        Configuration cfg = plugin.GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
         Set<String> keys = cfg.getKeys(false);
 
         for (String key : keys) {

@@ -12,6 +12,7 @@ live\innocraft\essentials\timetable\TimetableLesson.class
 live\innocraft\essentials\classrooms\Classrooms.class
 live\innocraft\essentials\ustudy\UStudyEvents.class
 live\innocraft\essentials\timetable\TimetableCommands.class
+live\innocraft\essentials\EssentialsModule.class
 live\innocraft\essentials\classrooms\ClassroomsCommands.class
 live\innocraft\essentials\slides\SlidesCommands.class
 live\innocraft\essentials\classrooms\ClassroomGUI.class

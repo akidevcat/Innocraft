@@ -2,6 +2,7 @@ package live.innocraft.essentials.timetable;
 
 import live.innocraft.essentials.Essentials;
 import live.innocraft.essentials.EssentialsHelper;
+import live.innocraft.essentials.EssentialsModule;
 import live.innocraft.essentials.classrooms.Classrooms;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,27 +13,29 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Timetable {
+public class Timetable extends EssentialsModule {
 
-    private final Essentials plugin;
+    //private final Essentials plugin;
     private final Classrooms classrooms;
     private final Set<TimetableLesson> lessons;
     private final TimetableGUI gui;
 
     public Timetable(Essentials plugin) {
-        this.plugin = plugin;
+        super(plugin);
         this.lessons = new HashSet<TimetableLesson>();
         this.gui = new TimetableGUI(plugin, this);
-        this.classrooms = plugin.GetClassrooms();
+        this.classrooms = plugin.getModule(Classrooms.class);
 
         Reload();
+
 
         new TimetableCommands(plugin, this);
     }
 
+    @Override
     public void Reload() {
-        plugin.GetConfiguration().ReloadTimetable();
-        Configuration cfg = plugin.GetConfiguration().GetCfgTimetable();
+        getPlugin().GetConfiguration().ReloadTimetable();
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgTimetable();
 
         lessons.clear();
 
@@ -66,11 +69,11 @@ public class Timetable {
     }
 
     public String GetGUIName() {
-        return plugin.GetConfiguration().GetCfgCommon().getString("timetable.gui-title");
+        return getPlugin().GetConfiguration().GetCfgCommon().getString("timetable.gui-title");
     }
 
     public List<String> GetGUILoreFormat() {
-        return plugin.GetConfiguration().GetCfgCommon().getStringList("timetable.gui-lesson-description-format");
+        return getPlugin().GetConfiguration().GetCfgCommon().getStringList("timetable.gui-lesson-description-format");
     }
 
     public String ApplyPlaceholders(String s, TimetableLesson l) {

@@ -86,6 +86,6 @@ public class EssentialsHelper {
 
     public static String GetTimeStamp() {
         return LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss-SSS"));
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
     }
 }
