@@ -6,24 +6,35 @@ import com.google.common.io.ByteStreams;
 import me.stefan911.securitymaster.lite.api.SecurityMasterAPI;
 import me.stefan911.securitymaster.lite.api.events.player.PlayerLoginEvent;
 import me.stefan911.securitymaster.lite.api.events.player.PlayerRegisterEvent;
-import org.bukkit.Bukkit;
+import me.stefan911.securitymaster.lite.api.events.player.PlayerUnregisterEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
-import java.util.logging.Level;
-
 public class SMBridge extends JavaPlugin implements Listener, PluginMessageListener {
 
-    private SecurityMasterAPI smapi;
+    private SecurityMasterAPI smapi = null;
 
     private void AuthtorizePlayer(Player p) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("cmds");
         out.writeUTF("login");
+        p.sendPluginMessage(this, "smbridge:main", out.toByteArray());
+    }
+
+    private void AuthtorizePlayerNoSession(Player p) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("cmds");
+        out.writeUTF("login-no-session");
+        p.sendPluginMessage(this, "smbridge:main", out.toByteArray());
+    }
+
+    private void DeleteSession(Player p) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("cmds");
+        out.writeUTF("desession");
         p.sendPluginMessage(this, "smbridge:main", out.toByteArray());
     }
 
@@ -38,12 +49,6 @@ public class SMBridge extends JavaPlugin implements Listener, PluginMessageListe
     }
 
     @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
-
-
-    @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         if (!channel.equals("smbridge:main"))
             return;
@@ -52,7 +57,10 @@ public class SMBridge extends JavaPlugin implements Listener, PluginMessageListe
         String subchannel = in.readUTF();
         if (subchannel.equals("cmds")) {
             if (in.readUTF().equals("session")) {
-                smapi.login(player);
+                if (smapi.isRegistered(player)) {
+                    smapi.login(player);
+                    AuthtorizePlayerNoSession(player);
+                }
             }
         }
     }

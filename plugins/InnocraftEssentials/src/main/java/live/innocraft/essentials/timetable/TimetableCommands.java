@@ -43,6 +43,10 @@ public class TimetableCommands implements CommandExecutor {
                     plugin.GetConfiguration().SendMessage("wrong-command-sender", sender);
                     return true;
                 }
+                if (!sender.hasPermission("innocraft.participant")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
                 timetable.OpenGUI((Player)sender);
                 return true;
         }

@@ -2,6 +2,16 @@
 # SecurityMaster-Bridge Configuration (BungeeCord side)
 #
 
+Bungee:
+  # This is the authentication server.
+  # In case you have a dedicated authentication server and SecurityMaster is installed only there,
+  # you can specify this server and it will disable all authentication checks on other servers.
+  # Keep in mind, that these 'other' servers should be inaccessible without joining the auth server.
+  # If you don't have an authentication server, you can comment this line.
+  auth-server: auth
+  allowed-cmds:
+    - "login"
+
 Session:
   # How long should the plugin remember player's session? (In seconds)
   active-session-period: 86400

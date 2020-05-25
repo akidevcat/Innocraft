@@ -28,6 +28,8 @@ public class SMBridge extends Plugin implements Listener {
     private String cfg_message_not_auth;
     private String cfg_message_session_resumed;
     private Long cfg_session_active_period;
+    private String cfg_auth_server;
+    private List<String> cfg_allowed_cmds;
 
     public void reloadConfigs() {
         mainConfig = new ConfigFile(this, "config.yml");
@@ -56,6 +58,8 @@ public class SMBridge extends Plugin implements Listener {
         cfg_message_not_auth = mainCfg.getString("Messages.message-not-auth");
         cfg_message_session_resumed = mainCfg.getString("Messages.message-session-resumed");
         cfg_session_active_period = mainCfg.getLong("Session.active-session-period");
+        cfg_auth_server = mainCfg.contains("Bungee.auth-server") ? mainCfg.getString("Bungee.auth-server") : "";
+        cfg_allowed_cmds = mainCfg.contains("Bungee.allowed-cmds") ? mainCfg.getStringList("Bungee.allowed-cmds") : null;
     }
 
     private void saveSessionConfig() {
@@ -72,18 +76,6 @@ public class SMBridge extends Plugin implements Listener {
         out.writeUTF("session");
         s.getInfo().sendData( "smbridge:main", out.toByteArray() );
         p.sendMessage(new TextComponent(ChatColor.RED + cfg_message_session_resumed));
-        /*
-        getProxy().getScheduler().schedule(this, new Runnable() {
-            @Override
-            public void run() {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("cmds");
-                out.writeUTF("session");
-                p.getServer().getInfo().sendData( "smbridge:main", out.toByteArray() );
-                p.sendMessage(new TextComponent(ChatColor.RED + cfg_message_session_resumed));
-            }
-        }, 1, TimeUnit.SECONDS);
-         */
     }
 
     @Override
@@ -129,6 +121,11 @@ public class SMBridge extends Plugin implements Listener {
                     PlayerSession psession = new PlayerSession(receiver.getAddress().getAddress().getHostAddress());
                     sessions.put(receiver.getName().toLowerCase(), psession);
                     saveSessionConfig();
+                    return;
+                }
+                if (cmd.equalsIgnoreCase("login-no-session")) {
+                    authPlayers.remove(receiver);
+                    return;
                 }
             }
         }
@@ -145,6 +142,8 @@ public class SMBridge extends Plugin implements Listener {
             return;
 
         if (e.isCommand()) {
+            if (cfg_allowed_cmds != null && cfg_allowed_cmds.contains(e.getMessage().toLowerCase().split(" ")[0]))
+                return;
             e.setCancelled(true);
             player.sendMessage(new TextComponent(ChatColor.RED + cfg_message_not_auth));
         }
@@ -152,9 +151,14 @@ public class SMBridge extends Plugin implements Listener {
 
     @EventHandler
     public void onServerConnect(ServerConnectedEvent event) {
+        if (cfg_auth_server.equals("") || !event.getServer().getInfo().getName().equalsIgnoreCase(cfg_auth_server))
+            return; // This is not the auth server - skip
+
         //A new player joined, add him/her to the list and check session
         ProxiedPlayer p = event.getPlayer();
         String name = p.getName().toLowerCase();
+
+        authPlayers.add(p);
 
         if (sessions.containsKey(name)) {
             PlayerSession key = sessions.get(name);
@@ -164,8 +168,6 @@ public class SMBridge extends Plugin implements Listener {
                 return;
             }
         }
-
-        authPlayers.add(p);
     }
 
     @EventHandler

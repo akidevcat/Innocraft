@@ -14,6 +14,8 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import static com.sk89q.jnbt.NBTUtils.toVector;
@@ -80,5 +82,10 @@ public class EssentialsHelper {
             result += "0";
         result += String.valueOf(m);
         return result;
+    }
+
+    public static String GetTimeStamp() {
+        return LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss-SSS"));
     }
 }

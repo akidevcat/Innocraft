@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
@@ -86,6 +87,12 @@ public class AuthKeysCommands implements CommandExecutor {
                 return true;
             }
             RedeemKey(player, args[0]);
+
+            // Log this action
+            plugin.GetConfiguration().LogAuthKeys("info", "An auth key was redeemed");
+            plugin.GetConfiguration().LogAuthKeys("who", sender.getName());
+            plugin.GetConfiguration().LogAuthKeys("key-hash", EssentialsHelper.HashSHA256(args[0]));
+
             return true;
         }
 
@@ -105,8 +112,19 @@ public class AuthKeysCommands implements CommandExecutor {
                     return true;
                 }
 
+                if (!sender.hasPermission("innocraft.organizer")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
+
                 AddKey(args[1], args[2]);
                 plugin.GetConfiguration().SendMessage("auth-key-added", sender);
+
+                // Log this action
+                plugin.GetConfiguration().LogAuthKeys("info", "An auth key was created");
+                plugin.GetConfiguration().LogAuthKeys("who", sender.getName());
+                plugin.GetConfiguration().LogAuthKeys("key-hash", EssentialsHelper.HashSHA256(args[1]));
+                plugin.GetConfiguration().LogAuthKeys("group", args[2], true);
 
                 return true;
             case "reload":

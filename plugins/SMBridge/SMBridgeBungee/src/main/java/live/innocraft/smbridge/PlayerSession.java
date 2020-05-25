@@ -19,6 +19,21 @@ public class PlayerSession {
         this.date = date;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof PlayerSession))
+            return false;
+        if (obj == this)
+            return true;
+        return this.ip.equals(((PlayerSession) obj).ip);
+    }
+
+    @Override
+    public int hashCode() {
+        return ip.hashCode();
+    }
+
     public static List<String> Sessions2List(Map<String, PlayerSession> sessions) {
         List<String> result = new ArrayList<String>();
 

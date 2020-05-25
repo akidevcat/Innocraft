@@ -51,6 +51,10 @@ public class ClassroomsCommands implements CommandExecutor {
                 break;
             case "create":
             case "new":
+                if (!sender.hasPermission("innocraft.organizer")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
                 if (args.length != 1 + 1) {
                     plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
@@ -63,6 +67,10 @@ public class ClassroomsCommands implements CommandExecutor {
                 return true;
             case "delete":
             case "remove":
+                if (!sender.hasPermission("innocraft.organizer")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
                 if (args.length != 1 + 1) {
                     plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
@@ -75,6 +83,10 @@ public class ClassroomsCommands implements CommandExecutor {
                 return true;
             case "set-name":
             case "set-displayedname":
+                if (!sender.hasPermission("innocraft.organizer")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
                 if (args.length != 1 + 2) {
                     plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
@@ -87,6 +99,10 @@ public class ClassroomsCommands implements CommandExecutor {
                 return true;
             case "set-region":
             case "set-rg":
+                if (!sender.hasPermission("innocraft.organizer")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
                 if (!(sender instanceof Player)) {
                     plugin.GetConfiguration().SendMessage("wrong-command-sender", sender);
                     return true;
@@ -127,6 +143,10 @@ public class ClassroomsCommands implements CommandExecutor {
             case "delete-region":
             case "rm-rg":
             case "dl-rg":
+                if (!sender.hasPermission("innocraft.organizer")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
                 if (args.length != 1 + 1) {
                     plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
@@ -140,6 +160,10 @@ public class ClassroomsCommands implements CommandExecutor {
             case "set-position":
             case "set-location":
             case "set-pos":
+                if (!sender.hasPermission("innocraft.organizer")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
                 if (!(sender instanceof Player)) {
                     plugin.GetConfiguration().SendMessage("wrong-command-sender", sender);
                     return true;
@@ -155,6 +179,10 @@ public class ClassroomsCommands implements CommandExecutor {
                 plugin.GetConfiguration().SendMessage("classroom-setposition-success", sender);
                 return true;
             case "set-link":
+                if (!sender.hasPermission("innocraft.organizer")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
                 if (args.length != 1 + 2) {
                     plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
@@ -169,6 +197,10 @@ public class ClassroomsCommands implements CommandExecutor {
             case "dl-link":
             case "remove-link":
             case "delete-link":
+                if (!sender.hasPermission("innocraft.organizer")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
                 if (args.length != 1 + 1) {
                     plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
@@ -181,6 +213,10 @@ public class ClassroomsCommands implements CommandExecutor {
                 return true;
             case "get-link":
             case "link":
+                if (!sender.hasPermission("innocraft.participant")) {
+                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
                 if (!(sender instanceof Player)) {
                     plugin.GetConfiguration().SendMessage("wrong-command-sender", sender);
                     return true;

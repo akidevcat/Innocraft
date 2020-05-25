@@ -2,3 +2,4 @@ name: SM-Bridge
 version: ${project.version}
 main: live.innocraft.smbridge.SMBridge
 api-version: 1.13
+soft-depend: [SecurityMaster]

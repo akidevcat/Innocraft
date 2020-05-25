@@ -21,6 +21,7 @@ public class EssentialsConfiguration {
     private FileConfiguration cfgAuthKeys;
     private FileConfiguration cfgClassrooms;
     private FileConfiguration cfgTimetable;
+    private FileConfiguration logsAuthKeys;
 
     public EssentialsConfiguration(Plugin plugin) {
         this.plugin = plugin;
@@ -33,6 +34,7 @@ public class EssentialsConfiguration {
         cfgAuthKeys = LoadConfigFile("authkeys.yml");
         cfgClassrooms = LoadConfigFile("classrooms.yml");
         cfgTimetable = LoadConfigFile("timetable.yml");
+        logsAuthKeys = LoadConfigFile("authkeys-logs.yml");
     }
 
     public void ReloadAuthKeys() {
@@ -67,6 +69,14 @@ public class EssentialsConfiguration {
         }
     }
 
+    public void SaveAuthkeysLogs() {
+        try {
+            logsAuthKeys.save(new File(plugin.getDataFolder(), "authkeys-logs.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Sends a command to the specified player with color codes basing on the config.yml
     public void SendMessage(String msg, CommandSender s) {
         s.sendMessage(ChatColor.translateAlternateColorCodes('&', cfgCommon.getString("messages." + msg)));
@@ -90,6 +100,18 @@ public class EssentialsConfiguration {
 
     public FileConfiguration GetCfgTimetable() {
         return cfgTimetable;
+    }
+
+    public FileConfiguration GetAuthKeysLogs() { return logsAuthKeys; }
+
+    public void LogAuthKeys(String subcategory, String data) {
+        logsAuthKeys.set(EssentialsHelper.GetTimeStamp() + "." + subcategory, data);
+    }
+
+    public void LogAuthKeys(String subcategory, String data, boolean save) {
+        logsAuthKeys.set(EssentialsHelper.GetTimeStamp() + "." + subcategory, data);
+        if (save)
+            SaveAuthkeysLogs();
     }
 
     // Loads a configuration file. In case it doesn't exist, uses a default template.
