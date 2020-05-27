@@ -28,6 +28,8 @@ public final class Essentials extends JavaPlugin {
     }
 
     public <T extends EssentialsModule> T getModule(Class<T> moduleType) {
+        if (!modules.containsKey(moduleType))
+            CriticalError("Module wasn't found: " + moduleType.toString());
         return moduleType.cast(modules.get(moduleType));
     }
 
@@ -86,9 +88,11 @@ public final class Essentials extends JavaPlugin {
                         "This can be caused by incorrect EssentialsModule constructors.");
             }
         }
+        for (EssentialsModule m : modules.values())
+            m.LateInitialization();
     }
 
-    protected void CriticalError(String errorText) {
+    public void CriticalError(String errorText) {
         getLogger().log(Level.SEVERE, "A critical error was encountered... Stopping the plugin");
         getLogger().log(Level.SEVERE, errorText);
         Bukkit.getPluginManager().disablePlugin(this);

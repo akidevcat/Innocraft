@@ -5,10 +5,11 @@ D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\ess
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\EssentialsConfiguration.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\EssentialsCommands.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\timetable\TimetableGUI.java
+D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\EssentialsEvents.java
+D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\discord\Discord.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\ustudy\UStudyGUI.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\timetable\TimetableCommands.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\Essentials.java
-D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\EssentialsHelper.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\EssentialsPlaceholderExpansion.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\EssentialsModule.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\ustudy\UStudy.java
@@ -18,4 +19,5 @@ D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\ess
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\classrooms\Classrooms.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\slides\SlidesCommands.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\slides\Slides.java
+D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\helper\EssentialsHelper.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\timetable\Timetable.java

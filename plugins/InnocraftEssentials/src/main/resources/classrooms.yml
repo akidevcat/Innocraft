@@ -1,5 +1,12 @@
+105:
+  displayed-name: "Lecture Hall 105"
+  region: "105"
 106:
   displayed-name: "Lecture Hall 106"
-  #region: ""
-  #position: ""
-  #link: ""
+  region: "106"
+107:
+  displayed-name: "Lecture Hall 107"
+  region: "107"
+108:
+  displayed-name: "Lecture Hall 108"
+  region: "108"

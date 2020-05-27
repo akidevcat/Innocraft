@@ -37,13 +37,11 @@ public class TimetableGUI implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public void Update(Set<TimetableLesson> lessons) {
+    public void Update(TreeSet<TimetableLesson> lessons) {
         inventory = Bukkit.createInventory(null, 9 * 3, ChatColor.translateAlternateColorCodes('&', timetable.GetGUIName()));
 
-        TreeSet<TimetableLesson> lessonsSorted = new TreeSet<TimetableLesson>(lessons);
-
         int i = 1;
-        for (TimetableLesson lesson : lessonsSorted) {
+        for (TimetableLesson lesson : lessons) {
             final ItemStack item = new ItemStack(lesson.Icon, Math.max(1, lesson.TimeStart / 60));
             final ItemMeta meta = item.getItemMeta();
             List<String> loreFormat = timetable.GetGUILoreFormat();

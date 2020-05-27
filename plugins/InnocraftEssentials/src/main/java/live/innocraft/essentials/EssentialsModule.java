@@ -9,6 +9,8 @@ public abstract class EssentialsModule {
     }
 
     public abstract void Reload();
+    public abstract void LateInitialization();
+    public void OnDisable() {}
 
     public Essentials getPlugin() {
         return plugin;

@@ -1,34 +1,38 @@
 package live.innocraft.essentials.timetable;
 
 import live.innocraft.essentials.Essentials;
-import live.innocraft.essentials.EssentialsHelper;
+import live.innocraft.essentials.helper.EssentialsHelper;
 import live.innocraft.essentials.EssentialsModule;
 import live.innocraft.essentials.classrooms.Classrooms;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 
-import java.util.HashSet;
+import javax.annotation.Nullable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Timetable extends EssentialsModule {
 
-    //private final Essentials plugin;
     private final Classrooms classrooms;
-    private final Set<TimetableLesson> lessons;
+    private final TreeSet<TimetableLesson> lessons;
     private final TimetableGUI gui;
 
     public Timetable(Essentials plugin) {
         super(plugin);
-        this.lessons = new HashSet<TimetableLesson>();
+        this.lessons = new TreeSet<TimetableLesson>();
         this.gui = new TimetableGUI(plugin, this);
         this.classrooms = plugin.getModule(Classrooms.class);
+    }
 
+    @Override
+    public void LateInitialization() {
         Reload();
-
-        new TimetableCommands(plugin, this);
+        new TimetableCommands(getPlugin(), this);
     }
 
     @Override
@@ -61,6 +65,40 @@ public class Timetable extends EssentialsModule {
         }
 
         gui.Update(lessons);
+    }
+
+    public @Nullable TimetableLesson getCurrentLesson() {
+        LocalDateTime date = LocalDateTime.now();
+        int minutes = date.toLocalTime().toSecondOfDay() / 60;
+        for (TimetableLesson lesson : lessons) {
+            if (minutes >= lesson.TimeStart && minutes <= lesson.TimeEnd)
+                return lesson;
+        }
+        return null;
+    }
+
+    public ArrayList<TimetableLesson> getCurrentLessons() {
+        ArrayList<TimetableLesson> result = new ArrayList<>();
+        LocalDateTime date = LocalDateTime.now();
+        int minutes = date.toLocalTime().toSecondOfDay() / 60;
+        for (TimetableLesson lesson : lessons) {
+            if (minutes >= lesson.TimeStart && minutes <= lesson.TimeEnd)
+                result.add(lesson);
+        }
+        return result;
+    }
+
+    public @Nullable TimetableLesson getCurrentLesson(Player player) {
+        LocalDateTime date = LocalDateTime.now();
+        int minutes = date.toLocalTime().toSecondOfDay() / 60;
+        for (TimetableLesson lesson : lessons) {
+            if (minutes >= lesson.TimeStart && minutes <= lesson.TimeEnd) {
+                if (!lesson.Group.equals("") && !player.hasPermission("innocraft.group." + lesson.Group))
+                    continue;
+                return lesson;
+            }
+        }
+        return null;
     }
 
     public void OpenGUI(final HumanEntity ent) {

@@ -1,5 +1,27 @@
 # Innocraft Essentials Configuration File
 
+# Server-related settings
+server:
+  # auth camp other
+  type: auth
+
+  auth:
+    # This is the server the player will be connected after authentication
+    default-join-server: camp
+  camp:
+
+  other:
+
+discord:
+  token: "NzE1MTA5ODE2MDgyNjI4NjI5.Xs4czQ.Y3DCk-sT2wk7yZifTYJ0jBjNIts"
+  webhooks:
+    classes:
+      url: "https://discordapp.com/api/webhooks/714879525305188362/bQkA8TwZ5agsryk9-sJJ1xvwQ4iH0qYxNB358mHs8QHFT5J3bT-noEjyl_A1KbA_X2Ub"
+      avatar: "https://i.imgur.com/DGjWWv0.png"
+      username: "Classes"
+  roles:
+    participant: "705449535324946502"
+
 mysql:
   Host: localhost
   Port: 3306

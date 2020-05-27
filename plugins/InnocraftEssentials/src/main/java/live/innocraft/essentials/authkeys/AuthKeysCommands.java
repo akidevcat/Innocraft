@@ -1,30 +1,27 @@
 package live.innocraft.essentials.authkeys;
 
 import live.innocraft.essentials.Essentials;
-import live.innocraft.essentials.EssentialsHelper;
+import live.innocraft.essentials.helper.EssentialsHelper;
 import live.innocraft.essentials.EssentialsModule;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nullable;
-import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
 
 public class AuthKeysCommands extends EssentialsModule implements CommandExecutor {
 
     public AuthKeysCommands (Essentials plugin) {
         super(plugin);
-        //this.playerCooldowns = new HashMap<UUID, Long>();
-
         plugin.getCommand("redeem").setExecutor(this);
         plugin.getCommand("innocraft-authkey").setExecutor(this);
+    }
+
+    @Override
+    public void LateInitialization() {
+
     }
 
     @Override

@@ -1,17 +1,15 @@
 package live.innocraft.essentials;
 
+import live.innocraft.essentials.helper.EssentialsHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import java.util.logging.Level;
 
 public class EssentialsConfiguration {
 

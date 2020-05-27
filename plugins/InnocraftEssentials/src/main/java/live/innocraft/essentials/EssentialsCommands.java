@@ -8,8 +8,12 @@ public class EssentialsCommands extends EssentialsModule implements CommandExecu
 
     public EssentialsCommands (Essentials plugin) {
         super(plugin);
-
         plugin.getCommand("innocraft").setExecutor(this);
+    }
+
+    @Override
+    public void LateInitialization() {
+
     }
 
     @Override

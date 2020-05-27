@@ -15,6 +15,11 @@ public class EssentialsEvents extends EssentialsModule implements Listener {
     }
 
     @Override
+    public void LateInitialization() {
+
+    }
+
+    @Override
     public void Reload() {
 
     }

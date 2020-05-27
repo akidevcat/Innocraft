@@ -1,10 +1,8 @@
 package live.innocraft.essentials.classrooms;
 
 import live.innocraft.essentials.Essentials;
-import live.innocraft.essentials.EssentialsHelper;
-import net.md_5.bungee.api.chat.TextComponent;
+import live.innocraft.essentials.helper.EssentialsHelper;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -1,7 +1,7 @@
 package live.innocraft.essentials.classrooms;
 
 import live.innocraft.essentials.Essentials;
-import live.innocraft.essentials.EssentialsHelper;
+import live.innocraft.essentials.helper.EssentialsHelper;
 import live.innocraft.essentials.EssentialsModule;
 import org.bukkit.Location;
 import org.bukkit.configuration.Configuration;
@@ -18,9 +18,12 @@ public class Classrooms extends EssentialsModule {
         super(plugin);
 
         regionsClassrooms = new HashMap<String, String>();
+    }
 
-        new ClassroomsCommands(plugin, this);
-        new ClassroomsEvents(plugin, this);
+    @Override
+    public void LateInitialization() {
+        new ClassroomsCommands(getPlugin(), this);
+        new ClassroomsEvents(getPlugin(), this);
     }
 
     public boolean CreateClassroom(String name) {
