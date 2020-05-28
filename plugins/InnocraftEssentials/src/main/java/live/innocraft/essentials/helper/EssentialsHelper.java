@@ -11,12 +11,18 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Scanner;
 
 import static com.sk89q.jnbt.NBTUtils.toVector;
 
@@ -87,5 +93,16 @@ public class EssentialsHelper {
     public static String GetTimeStamp() {
         return LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
+    }
+
+    public static String GetDate() {
+        return new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+    }
+
+    public static String ReadURLContent (String url) throws IOException {
+        Scanner scanner = new Scanner(new URL(url).openStream(), "UTF-8").useDelimiter("\\A");
+        String result = scanner.next();
+        scanner.close();
+        return result;
     }
 }

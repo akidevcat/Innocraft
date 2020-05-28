@@ -4,6 +4,8 @@ live\innocraft\essentials\EssentialsConfiguration.class
 live\innocraft\essentials\EssentialsPlaceholderExpansion.class
 live\innocraft\essentials\ustudy\UStudy.class
 live\innocraft\essentials\timetable\TimetableGUI.class
+live\innocraft\essentials\discord\DiscordMessage.class
+live\innocraft\essentials\helper\EssentialsGithub.class
 live\innocraft\essentials\timetable\Timetable.class
 live\innocraft\essentials\discord\Discord.class
 live\innocraft\essentials\Essentials.class

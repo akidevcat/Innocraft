@@ -3,6 +3,7 @@ package live.innocraft.essentials;
 import live.innocraft.essentials.helper.EssentialsHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -10,6 +11,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.logging.Level;
 
 public class EssentialsConfiguration {
 
@@ -33,6 +35,19 @@ public class EssentialsConfiguration {
         cfgClassrooms = LoadConfigFile("classrooms.yml");
         cfgTimetable = LoadConfigFile("timetable.yml");
         logsAuthKeys = LoadConfigFile("authkeys-logs.yml");
+    }
+
+    public void SyncTimetableCfg() {
+        String url = cfgCommon.getString("github.urls.timetable");
+        try {
+            String content = EssentialsHelper.ReadURLContent(url);
+            for (String key : cfgTimetable.getKeys(false))
+                cfgTimetable.set(key, null);
+            cfgTimetable.loadFromString(content);
+            SaveTimetable();
+        } catch (InvalidConfigurationException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void ReloadAuthKeys() {

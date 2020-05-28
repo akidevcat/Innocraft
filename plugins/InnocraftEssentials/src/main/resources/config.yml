@@ -2,25 +2,37 @@
 
 # Server-related settings
 server:
-  # auth camp other
-  type: auth
+  # auth general other
+  type: general
 
   auth:
     # This is the server the player will be connected after authentication
-    default-join-server: camp
+    default-join-server: general
   camp:
 
   other:
 
 discord:
   token: "NzE1MTA5ODE2MDgyNjI4NjI5.Xs4czQ.Y3DCk-sT2wk7yZifTYJ0jBjNIts"
+  messages:
+    classes:
+      author: "Расписание"
+      icon: "https://raw.githubusercontent.com/wolfniey/innocraft-admin/master/Icons/Discord/icons8-dictionary-64.png"
+      color: "0x4433DD"
   webhooks:
     classes:
       url: "https://discordapp.com/api/webhooks/714879525305188362/bQkA8TwZ5agsryk9-sJJ1xvwQ4iH0qYxNB358mHs8QHFT5J3bT-noEjyl_A1KbA_X2Ub"
-      avatar: "https://i.imgur.com/DGjWWv0.png"
+      avatar: "https://raw.githubusercontent.com/wolfniey/innocraft-admin/master/Icons/Discord/icons8-dictionary-64.png"
       username: "Classes"
   roles:
     participant: "705449535324946502"
+  channels:
+    core: "711592378460536852"
+    classes: "712240209080614914"
+
+github:
+  urls:
+    timetable: "https://raw.githubusercontent.com/wolfniey/innocraft-admin/master/Timetable/timetable.yml"
 
 mysql:
   Host: localhost

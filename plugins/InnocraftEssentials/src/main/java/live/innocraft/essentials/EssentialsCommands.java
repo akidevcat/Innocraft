@@ -25,7 +25,6 @@ public class EssentialsCommands extends EssentialsModule implements CommandExecu
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         // Alias check
-
         if (!label.equalsIgnoreCase("innocraft"))
             return false;
 
@@ -42,6 +41,13 @@ public class EssentialsCommands extends EssentialsModule implements CommandExecu
                 }
                 getPlugin().ReloadAll();
                 getPlugin().GetConfiguration().SendMessage("plugin-reload", sender);
+                return true;
+            case "sync":
+                if (!sender.hasPermission("innocraft.organizer")) {
+                    getPlugin().GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
+                getPlugin().SyncAll();
                 return true;
         }
 

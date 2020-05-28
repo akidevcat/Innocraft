@@ -14,6 +14,8 @@ import java.util.logging.Level;
 
 public final class Essentials extends JavaPlugin {
 
+    private String serverType = "other";
+
     private HashMap<Class<?>, EssentialsModule> modules;
 
     private EssentialsConfiguration essentialsCfg;
@@ -46,11 +48,14 @@ public final class Essentials extends JavaPlugin {
         new EssentialsPlaceholderExpansion(this);
 
         LoadInternalModules();
+
+        serverType = essentialsCfg.GetCfgCommon().getString("server.type");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        for (EssentialsModule module : modules.values())
+            module.OnDisable();
     }
 
     public void ReloadAll() {
@@ -88,6 +93,8 @@ public final class Essentials extends JavaPlugin {
                         "This can be caused by incorrect EssentialsModule constructors.");
             }
         }
+
+        // Call Late Initialization
         for (EssentialsModule m : modules.values())
             m.LateInitialization();
     }
@@ -96,5 +103,14 @@ public final class Essentials extends JavaPlugin {
         getLogger().log(Level.SEVERE, "A critical error was encountered... Stopping the plugin");
         getLogger().log(Level.SEVERE, errorText);
         Bukkit.getPluginManager().disablePlugin(this);
+    }
+
+    public void SyncAll() {
+        for (EssentialsModule m : modules.values())
+            m.Sync();
+    }
+
+    public String getServerType() {
+        return serverType;
     }
 }

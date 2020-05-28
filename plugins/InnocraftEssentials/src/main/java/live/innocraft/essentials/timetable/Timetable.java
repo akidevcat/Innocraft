@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
 
 public class Timetable extends EssentialsModule {
 
@@ -27,11 +28,12 @@ public class Timetable extends EssentialsModule {
         this.lessons = new TreeSet<TimetableLesson>();
         this.gui = new TimetableGUI(plugin, this);
         this.classrooms = plugin.getModule(Classrooms.class);
+
+        Reload();
     }
 
     @Override
     public void LateInitialization() {
-        Reload();
         new TimetableCommands(getPlugin(), this);
     }
 
@@ -67,10 +69,18 @@ public class Timetable extends EssentialsModule {
         gui.Update(lessons);
     }
 
+    @Override
+    public void Sync() {
+        getPlugin().GetConfiguration().SyncTimetableCfg();
+        Reload();
+    }
+
     public @Nullable TimetableLesson getCurrentLesson() {
         LocalDateTime date = LocalDateTime.now();
         int minutes = date.toLocalTime().toSecondOfDay() / 60;
+        getPlugin().getLogger().log(Level.SEVERE, "MINUTES: " + minutes);
         for (TimetableLesson lesson : lessons) {
+            getPlugin().getLogger().log(Level.SEVERE, "START: " + lesson.TimeStart + " END: " + lesson.TimeEnd);
             if (minutes >= lesson.TimeStart && minutes <= lesson.TimeEnd)
                 return lesson;
         }
@@ -99,6 +109,10 @@ public class Timetable extends EssentialsModule {
             }
         }
         return null;
+    }
+
+    public TreeSet<TimetableLesson> getLessons() {
+        return lessons;
     }
 
     public void OpenGUI(final HumanEntity ent) {

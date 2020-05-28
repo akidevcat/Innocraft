@@ -9,6 +9,7 @@ public abstract class EssentialsModule {
     }
 
     public abstract void Reload();
+    public void Sync() {}
     public abstract void LateInitialization();
     public void OnDisable() {}
 

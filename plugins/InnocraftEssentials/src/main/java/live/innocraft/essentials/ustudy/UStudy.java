@@ -21,7 +21,9 @@ public class UStudy extends EssentialsModule {
     @Override
     public void LateInitialization() {
         timetable = getPlugin().getModule(Timetable.class);
-        getPlugin().getModule(Discord.class).SendClassesWebhook(getPlugin().getModule(Timetable.class).getCurrentLesson());
+
+        //getPlugin().getModule(Discord.class).SendTimetable(getPlugin().getModule(Timetable.class).getLessons());
+        //getPlugin().getModule(Discord.class).SendClassesWebhook(getPlugin().getModule(Timetable.class).getCurrentLesson());
     }
 
     @Override
