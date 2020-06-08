@@ -1,0 +1,21 @@
+{
+  "minecraft:recipes/misc/map": {
+    "criteria": {
+      "has_compass": "2020-06-04 18:27:47 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/conduit": {
+    "criteria": {
+      "has_nautilus_core": "2020-06-04 18:27:47 +0300"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:wooded_hills": "2020-06-04 18:27:47 +0300",
+      "minecraft:plains": "2020-06-04 18:28:39 +0300"
+    },
+    "done": false
+  }
+}

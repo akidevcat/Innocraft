@@ -2,8 +2,6 @@ package live.innocraft.essentials.ustudy;
 
 import live.innocraft.essentials.Essentials;
 import live.innocraft.essentials.EssentialsModule;
-import live.innocraft.essentials.classrooms.Classrooms;
-import live.innocraft.essentials.discord.Discord;
 import live.innocraft.essentials.timetable.Timetable;
 
 import java.util.HashSet;
@@ -22,6 +20,7 @@ public class UStudy extends EssentialsModule {
     public void LateInitialization() {
         timetable = getPlugin().getModule(Timetable.class);
 
+        new UStudyUpdater(this);
         //getPlugin().getModule(Discord.class).SendTimetable(getPlugin().getModule(Timetable.class).getLessons());
         //getPlugin().getModule(Discord.class).SendClassesWebhook(getPlugin().getModule(Timetable.class).getCurrentLesson());
     }

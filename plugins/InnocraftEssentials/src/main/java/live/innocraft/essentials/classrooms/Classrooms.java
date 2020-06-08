@@ -106,12 +106,35 @@ public class Classrooms extends EssentialsModule {
         return true;
     }
 
+    public boolean SetClassroomCode(String name, String code) {
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        if (!cfg.contains(name))
+            return false;
+
+        if (code.equals(""))
+            cfg.set(name + ".code", null);
+        else
+            cfg.set(name + ".code", code);
+
+        Save();
+
+        return true;
+    }
+
     public String GetClassroomLink(String name) {
         Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name) || !cfg.contains(name + ".link"))
             return "";
 
         return cfg.getString(name + ".link");
+    }
+
+    public String GetClassroomCode(String name) {
+        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        if (!cfg.contains(name) || !cfg.contains(name + ".code"))
+            return "";
+
+        return cfg.getString(name + ".code");
     }
 
     public String GetClassroomDisplayedName(String name) {

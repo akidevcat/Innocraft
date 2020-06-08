@@ -5,6 +5,8 @@ D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\ess
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\EssentialsEvents.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\discord\Discord.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\ustudy\UStudyGUI.java
+D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\auth\Auth.java
+D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\bridge\Bridge.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\EssentialsModule.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\ustudy\UStudy.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\timetable\TimetableLesson.java
@@ -12,10 +14,12 @@ D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\ess
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\classrooms\ClassroomGUI.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\timetable\Timetable.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\discord\DiscordMessage.java
+D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\ustudy\UStudyUpdater.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\classrooms\ClassroomsEvents.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\EssentialsCommands.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\helper\EssentialsGithub.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\timetable\TimetableGUI.java
+D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\auth\AuthEvents.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\timetable\TimetableCommands.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\Essentials.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\EssentialsPlaceholderExpansion.java

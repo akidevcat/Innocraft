@@ -111,6 +111,16 @@ public class Timetable extends EssentialsModule {
         return null;
     }
 
+    public boolean isRestrictedModeEnabled() {
+        LocalDateTime date = LocalDateTime.now();
+        int minutes = date.toLocalTime().toSecondOfDay() / 60;
+        for (TimetableLesson lesson : lessons) {
+            if (minutes >= lesson.TimeStart && minutes <= lesson.TimeEnd && lesson.Compulsory)
+                return true;
+        }
+        return false;
+    }
+
     public TreeSet<TimetableLesson> getLessons() {
         return lessons;
     }

@@ -19,6 +19,15 @@ discord:
       author: "Расписание"
       icon: "https://raw.githubusercontent.com/wolfniey/innocraft-admin/master/Icons/Discord/icons8-dictionary-64.png"
       color: "0x4433DD"
+    link-update:
+      author: "Обновление Ссылки"
+      icon: "https://raw.githubusercontent.com/wolfniey/innocraft-admin/master/Icons/Discord/icons8-link-64.png"
+      color: "0xFF337A"
+      description: "**Произошло изменение ссылки.**\nКод аудитории:\n"
+    notification:
+      author: "Мероприятие"
+      icon: ""
+      color: "0x4433DD"
   webhooks:
     classes:
       url: "https://discordapp.com/api/webhooks/714879525305188362/bQkA8TwZ5agsryk9-sJJ1xvwQ4iH0qYxNB358mHs8QHFT5J3bT-noEjyl_A1KbA_X2Ub"
@@ -50,19 +59,22 @@ auth-keys:
   # These are the key groups
   groups:
     participant:
+      # This discord role will be given
+      role: "705449535324946502"
       # These commands are executed right after the player redeems his auth-key
       # {player} will be changed to player's name
       commands:
         - "lp user {player} group set participant"
-        - "ij get join_ticket {player}"
     student:
       commands:
         - "lp user {player} group set student"
-        - "ij get join_ticket {player}"
     staff:
       commands:
         - "lp user {player} group set staff"
-        - "ij get join_ticket {player}"
+    organizer:
+      role: "701434529683996742"
+      commands:
+        - "lp user {player} group set organizer"
 
 # This section is intended for IU events configuration.
 
@@ -109,6 +121,7 @@ messages:
   auth-key-wrong-group: "&c&oThe auth key is valid, but this key is blank. If you think this is an error, please contact staff."
   auth-key-added: "&a&oAuth key was successfully added!"
   auth-key-reloaded: "&a&oAuth keys reload was successful!"
+  auth-key-discord-problem: "&c&oВаш аккаунт не привязан к аккаунту Discord. Роль не была присвоена."
   classroom-creation-exists: "&c&oA classroom with this name already exists."
   classroom-creation-success: "&a&oThe classroom was created successfully. Now you can edit it."
   classroom-missing: "&c&oThe classroom you've specified doesn't exists."
@@ -119,6 +132,7 @@ messages:
   classroom-setposition-success: "&a&oThe classroom position was changed successfully."
   classroom-setlink-success: "&a&oThe classroom link was changed successfully."
   classroom-setregion-conflict: "&c&oThere're several regions you're standing in. Please provide the name of the region."
-  classroom-link-format: "&b&l--> PRESS HERE TO OPEN YOUR BROWSER <--"
+  classroom-link-format: "&b&l--> Открыть ссылку в браузере <--"
+  classroom-code-format: "&b&l--> Код: [{0}] <--"
   classroom-region-missing: "&c&oYou're outside a classroom."
   classroom-link-missing: "&c&oThis classroom doesn't contain a link."

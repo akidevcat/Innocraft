@@ -2,8 +2,10 @@ live\innocraft\essentials\EssentialsEvents.class
 live\innocraft\essentials\ustudy\UStudyCommands.class
 live\innocraft\essentials\EssentialsConfiguration.class
 live\innocraft\essentials\EssentialsPlaceholderExpansion.class
+live\innocraft\essentials\bridge\Bridge.class
 live\innocraft\essentials\ustudy\UStudy.class
 live\innocraft\essentials\timetable\TimetableGUI.class
+live\innocraft\essentials\auth\Auth.class
 live\innocraft\essentials\discord\DiscordMessage.class
 live\innocraft\essentials\helper\EssentialsGithub.class
 live\innocraft\essentials\timetable\Timetable.class
@@ -19,6 +21,8 @@ live\innocraft\essentials\EssentialsModule.class
 live\innocraft\essentials\classrooms\ClassroomsCommands.class
 live\innocraft\essentials\slides\SlidesCommands.class
 live\innocraft\essentials\helper\EssentialsHelper.class
+live\innocraft\essentials\auth\AuthEvents.class
+live\innocraft\essentials\ustudy\UStudyUpdater.class
 live\innocraft\essentials\classrooms\ClassroomGUI.class
 live\innocraft\essentials\slides\Slides.class
 live\innocraft\essentials\ustudy\UStudyGUI.class

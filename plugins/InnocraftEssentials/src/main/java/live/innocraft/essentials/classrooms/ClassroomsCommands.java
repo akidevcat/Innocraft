@@ -181,13 +181,18 @@ public class ClassroomsCommands implements CommandExecutor {
                     plugin.GetConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
-                if (args.length != 1 + 2) {
+                if (args.length != 1 + 2 && args.length != 1 + 3) {
                     plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
                 if (!classrooms.SetClassroomLink(args[1], args[2])) {
                     plugin.GetConfiguration().SendMessage("classroom-missing", sender);
                     return true;
+                }
+                if (args.length == 1 + 3) {
+                    classrooms.SetClassroomCode(args[1], args[3]);
+                } else {
+                    classrooms.SetClassroomCode(args[1], "");
                 }
                 plugin.GetConfiguration().SendMessage("classroom-setlink-success", sender);
                 return true;
@@ -236,6 +241,10 @@ public class ClassroomsCommands implements CommandExecutor {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() +
                         " {\"text\":\"" + plugin.GetConfiguration().GetMessage("classroom-link-format") +
                         "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + link +"\"}}");
+                String code = classrooms.GetClassroomCode(auditorium);
+                if (!code.equals("")) {
+                    plugin.GetConfiguration().SendMessageFormat("classroom-code-format", sender, code);
+                }
                 return true;
         }
 

@@ -37,7 +37,10 @@ public class Discord extends EssentialsModule {
     protected String messagesClassesAuthor = "";
     protected String messagesClassesIconURL = "";
     protected int messagesClassesColor = 16777216;
-
+    protected String messagesLinkDescription = "";
+    protected String messagesLinkIconURL = "";
+    protected int messagesLinkColor = 16777216;
+    protected Guild guild = null;
 
     public Discord(Essentials plugin) {
         super(plugin);
@@ -84,6 +87,10 @@ public class Discord extends EssentialsModule {
         messagesClassesAuthor = cfg.getString("discord.messages.classes.author");
         messagesClassesIconURL = cfg.getString("discord.messages.classes.icon");
         messagesClassesColor = Integer.parseInt(Objects.requireNonNull(cfg.getString("discord.messages.classes.color", "0xFFFFFF").replace("0x", "")), 16);
+        messagesLinkDescription = cfg.getString("discord.messages.link-update.description");
+        messagesLinkIconURL = cfg.getString("discord.messages.link-update.icon");
+        messagesLinkColor = Integer.parseInt(Objects.requireNonNull(cfg.getString("discord.messages.link-update.color", "0xFFFFFF").replace("0x", "")), 16);
+        guild = roleParticipant.getGuild();
     }
 
     @Override
@@ -121,6 +128,12 @@ public class Discord extends EssentialsModule {
                 channel.deleteMessages(messages).complete();
             }
         }).start();
+    }
+
+    public void AddUserRole(String discordID, String roleID) {
+        Role role = jda.getRoleById(roleID);
+        assert role != null;
+        role.getGuild().addRoleToMember(discordID, role).queue();
     }
 
     public void SendTimetable(Iterable<TimetableLesson> lessons) {
@@ -187,5 +200,49 @@ public class Discord extends EssentialsModule {
         eb.setDescription(roleParticipant.getAsMention());
 
         return eb.build();
+    }
+
+    public void SendLinkChanged(String auditorium) {
+        jda.getTextChannelById(channelClassesID).sendMessage(GetLinkChangedEmbed(auditorium)).queue();
+    }
+
+    private MessageEmbed GetLinkChangedEmbed(String auditorium) {
+        Classrooms classrooms = getPlugin().getModule(Classrooms.class);
+
+        String code = classrooms.GetClassroomCode(auditorium);
+        String cname = classrooms.GetClassroomDisplayedName(auditorium);
+        String clink = classrooms.GetClassroomLink(auditorium);
+
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setAuthor(EssentialsHelper.GetDate());
+        eb.setTitle(cname, clink);
+        eb.setColor(messagesLinkColor);
+        eb.setDescription(roleParticipant.getAsMention() + "\n" + messagesLinkDescription + "\n" + (cname.equals("") ? "" : code));
+        eb.setThumbnail(messagesLinkIconURL);
+
+        return eb.build();
+    }
+
+    public void SendHelp() {
+        jda.getTextChannelById(channelCoreCommandsID).sendMessage(GetHelpEmbed()).queue();
+    }
+
+    private MessageEmbed GetHelpEmbed() {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setAuthor(EssentialsHelper.GetDate());
+        eb.setTitle("Команды");
+        eb.setColor(messagesLinkColor);
+        eb.setDescription("/ic sync - Применяет изменения на сервер (для расписания)\n" +
+                "/ic timetable - Выводит текущее расписание в #classes\n" +
+                "/ic clear-classes - Очищает #classes\n" +
+                "/ic set-link <аудитория> <ссылка> [код] - Устанавливает ссылку и код для аудитории\n" +
+                "/ic help - Показывает данное сообщение\n");
+        eb.setThumbnail(messagesLinkIconURL);
+
+        return eb.build();
+    }
+
+    public Member getMemberByID(String discordID) {
+        return guild.getMemberById(discordID);
     }
 }

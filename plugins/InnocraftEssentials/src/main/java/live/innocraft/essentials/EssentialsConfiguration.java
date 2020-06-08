@@ -10,6 +10,8 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Level;
 
@@ -22,7 +24,6 @@ public class EssentialsConfiguration {
     private FileConfiguration cfgClassrooms;
     private FileConfiguration cfgTimetable;
     private FileConfiguration logsAuthKeys;
-
     public EssentialsConfiguration(Plugin plugin) {
         this.plugin = plugin;
 
@@ -95,6 +96,11 @@ public class EssentialsConfiguration {
         s.sendMessage(ChatColor.translateAlternateColorCodes('&', cfgCommon.getString("messages." + msg)));
     }
 
+    public void SendMessageFormat(String msg, CommandSender s, String... args) {
+        MessageFormat format = new MessageFormat(cfgCommon.getString("messages." + msg));
+        s.sendMessage(ChatColor.translateAlternateColorCodes('&', format.format(args)));
+    }
+
     public String GetMessage(String msg) {
         return ChatColor.translateAlternateColorCodes('&', cfgCommon.getString("messages." + msg));
     }
@@ -117,12 +123,12 @@ public class EssentialsConfiguration {
 
     public FileConfiguration GetAuthKeysLogs() { return logsAuthKeys; }
 
-    public void LogAuthKeys(String subcategory, String data) {
-        logsAuthKeys.set(EssentialsHelper.GetTimeStamp() + "-" + data.hashCode() + "." + subcategory, data);
+    public void LogAuthKeys(String subcategory, String data, String time) {
+        logsAuthKeys.set(time + "." + subcategory, data);
     }
 
-    public void LogAuthKeys(String subcategory, String data, boolean save) {
-        logsAuthKeys.set(EssentialsHelper.GetTimeStamp() + "-" + data.hashCode() + "." + subcategory, data);
+    public void LogAuthKeys(String subcategory, String data, String time, boolean save) {
+        logsAuthKeys.set(time + "." + subcategory, data);
         if (save)
             SaveAuthkeysLogs();
     }

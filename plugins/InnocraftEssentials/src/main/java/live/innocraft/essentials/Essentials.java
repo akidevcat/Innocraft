@@ -2,6 +2,8 @@ package live.innocraft.essentials;
 
 import live.innocraft.essentials.classrooms.Classrooms;
 import live.innocraft.essentials.timetable.Timetable;
+import me.spomg.minecord.api.MAPI;
+import me.stefan911.securitymaster.lite.api.SecurityMasterAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
@@ -17,6 +19,7 @@ public final class Essentials extends JavaPlugin {
     private String serverType = "other";
 
     private HashMap<Class<?>, EssentialsModule> modules;
+    private HashMap<Class<?>, Object> dependencies;
 
     private EssentialsConfiguration essentialsCfg;
 
@@ -39,6 +42,12 @@ public final class Essentials extends JavaPlugin {
         modules.put(module.getClass(), module);
     }
 
+    public <T> T getDependency(Class<T> dependencyType) {
+        if (dependencies.containsKey(dependencyType))
+            return dependencyType.cast(dependencies.get(dependencyType));
+        return null;
+    }
+
     @Override
     public void onEnable() {
         //Load configuration files
@@ -48,6 +57,7 @@ public final class Essentials extends JavaPlugin {
         new EssentialsPlaceholderExpansion(this);
 
         LoadInternalModules();
+        LoadDependencies();
 
         serverType = essentialsCfg.GetCfgCommon().getString("server.type");
     }
@@ -97,6 +107,16 @@ public final class Essentials extends JavaPlugin {
         // Call Late Initialization
         for (EssentialsModule m : modules.values())
             m.LateInitialization();
+    }
+
+    private void LoadDependencies() {
+        dependencies = new HashMap<>();
+        if (Bukkit.getPluginManager().isPluginEnabled("SecurityMaster")) {
+            dependencies.put(SecurityMasterAPI.class, SecurityMasterAPI.getInstance(this));
+        }
+        if (Bukkit.getPluginManager().isPluginEnabled("Minecord")) {
+            dependencies.put(MAPI.class, getServer().getServicesManager().load(MAPI.class));
+        }
     }
 
     public void CriticalError(String errorText) {

@@ -6,6 +6,9 @@ commands:
   redeem:
     description: ToDo
     usage: /redeem
+  ic:
+    description: ToDo
+    usage: /ic
   innocraft:
     description: ToDo
     usage: /innocraft
@@ -30,3 +33,4 @@ commands:
   timetable:
     description: ToDo
     usage: /timetable
+softdepend: [SecurityMaster]

@@ -1,6 +1,7 @@
 package live.innocraft.essentials.discord;
 
 import live.innocraft.essentials.Essentials;
+import live.innocraft.essentials.classrooms.Classrooms;
 import live.innocraft.essentials.timetable.Timetable;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -47,6 +48,34 @@ public class DiscordMessage extends ListenerAdapter {
                     return;
                 discord.ClearTextChannel(discord.channelClassesID);
                 event.getChannel().sendMessage("Starting cleaning... [" + discord.getPlugin().getServer().getName() + "]").queue();
+                break;
+            case "set-link":
+                if (!event.getChannel().getId().equals(discord.channelCoreCommandsID))
+                    return;
+                if (!discord.getPlugin().getServerType().equals("general"))
+                    return;
+                if (msgArgs.length != 4 && msgArgs.length != 5)
+                    return;
+
+                Classrooms classrooms = discord.getPlugin().getModule(Classrooms.class);
+
+                if (!classrooms.SetClassroomLink(msgArgs[2], msgArgs[3])) {
+                    event.getChannel().sendMessage("This classroom doesn't exist [" + discord.getPlugin().getServer().getName() + "]").queue();
+                    return;
+                }
+                if (msgArgs.length == 5) {
+                    classrooms.SetClassroomCode(msgArgs[2], msgArgs[4]);
+                    event.getChannel().sendMessage("Code was changed successfully [" + discord.getPlugin().getServer().getName() + "]").queue();
+                } else {
+                    classrooms.SetClassroomCode(msgArgs[2], "");
+                }
+
+                discord.SendLinkChanged(msgArgs[2]);
+
+                event.getChannel().sendMessage("Link was changed successfully! [" + discord.getPlugin().getServer().getName() + "]").queue();
+                break;
+            case "help":
+                discord.SendHelp();
                 break;
         }
     }

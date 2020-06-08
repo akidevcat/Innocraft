@@ -8,9 +8,9 @@ public abstract class EssentialsModule {
         this.plugin = plugin;
     }
 
-    public abstract void Reload();
+    public void Reload() {}
     public void Sync() {}
-    public abstract void LateInitialization();
+    public void LateInitialization() {}
     public void OnDisable() {}
 
     public Essentials getPlugin() {

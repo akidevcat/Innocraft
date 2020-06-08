@@ -33,4 +33,6 @@ public class EssentialsEvents extends EssentialsModule implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         event.setQuitMessage("");
     }
+
+
 }

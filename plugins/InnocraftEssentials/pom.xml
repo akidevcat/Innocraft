@@ -87,6 +87,11 @@
             <id>bintray-jcenter</id>
             <url>https://jcenter.bintray.com</url>
         </repository>
+        <repository>
+            <id>in-project</id>
+            <name>In Project Repo</name>
+            <url>file://${project.basedir}/dependencies</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -131,6 +136,20 @@
             <artifactId>discord-webhooks</artifactId>
             <version>0.3.1</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.stefan911</groupId>
+            <artifactId>securitymaster</artifactId>
+            <version>0.3.3</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/dependencies/SecurityMaster-0.3.3.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>me.spomg</groupId>
+            <artifactId>minecord</artifactId>
+            <version>1.7.6</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/dependencies/Minecord-1.7.6.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

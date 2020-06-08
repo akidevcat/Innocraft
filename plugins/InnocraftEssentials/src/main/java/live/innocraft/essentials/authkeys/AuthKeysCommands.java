@@ -1,8 +1,12 @@
 package live.innocraft.essentials.authkeys;
 
 import live.innocraft.essentials.Essentials;
+import live.innocraft.essentials.auth.Auth;
+import live.innocraft.essentials.discord.Discord;
 import live.innocraft.essentials.helper.EssentialsHelper;
 import live.innocraft.essentials.EssentialsModule;
+import me.stefan911.securitymaster.lite.api.SecurityMasterAPI;
+import me.stefan911.securitymaster.lite.utils.account.AccountManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,6 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
+import java.util.logging.Level;
 
 public class AuthKeysCommands extends EssentialsModule implements CommandExecutor {
 
@@ -44,9 +49,10 @@ public class AuthKeysCommands extends EssentialsModule implements CommandExecuto
         String keyGroup = cfgAuthKeys.getString(keyHash);
 
         // Log this action
-        getPlugin().GetConfiguration().LogAuthKeys("info", "An auth key was redeemed");
-        getPlugin().GetConfiguration().LogAuthKeys("who", player.getName());
-        getPlugin().GetConfiguration().LogAuthKeys("key-hash", keyHash);
+        String logTime = EssentialsHelper.GetTimeStamp();
+        getPlugin().GetConfiguration().LogAuthKeys("info", "An auth key was redeemed", logTime);
+        getPlugin().GetConfiguration().LogAuthKeys("who", player.getName(), logTime);
+        getPlugin().GetConfiguration().LogAuthKeys("key-hash", keyHash, logTime, true);
 
         //Check if the config contains this group
         if (!groups.contains(keyGroup)) {
@@ -62,6 +68,20 @@ public class AuthKeysCommands extends EssentialsModule implements CommandExecuto
         for (String command : cfgCommon.getStringList("auth-keys.groups." + keyGroup + ".commands")) {
             String parsedCommand = command.replaceAll("\\{player\\}", player.getName());
             getPlugin().getServer().dispatchCommand(getPlugin().getServer().getConsoleSender(), parsedCommand);
+        }
+
+        if (cfgCommon.contains("auth-keys.groups." + keyGroup + ".role")) {
+            //SecurityMasterAPI smapi = getPlugin().getDependency(SecurityMasterAPI.class);
+            String discordID = (new AccountManager(player.getUniqueId())).getDiscordID();
+            //String discordID = getPlugin().getModule(Auth.class).getDiscordID(player);
+            String roleID = cfgCommon.getString("auth-keys.groups." + keyGroup + ".role");
+            if (discordID == null) {
+                getPlugin().GetConfiguration().SendMessage("auth-key-discord-problem", player);
+                getPlugin().GetConfiguration().LogAuthKeys("role", "Unable to set role - player is not registered", logTime, true);
+            }
+            else {
+                getPlugin().getModule(Discord.class).AddUserRole(discordID, roleID);
+            }
         }
 
         //Send a message to the player
@@ -81,10 +101,15 @@ public class AuthKeysCommands extends EssentialsModule implements CommandExecuto
         getPlugin().GetConfiguration().SaveAuthKeys();
 
         // Log this action
-        getPlugin().GetConfiguration().LogAuthKeys("info", "An auth key was created");
-        getPlugin().GetConfiguration().LogAuthKeys("who", logName);
-        getPlugin().GetConfiguration().LogAuthKeys("key-hash", keyHash);
-        getPlugin().GetConfiguration().LogAuthKeys("group", group, true);
+        String logTime = EssentialsHelper.GetTimeStamp();
+        getPlugin().GetConfiguration().LogAuthKeys("info", "An auth key was created", logTime);
+        getPlugin().GetConfiguration().LogAuthKeys("who", logName, logTime);
+        getPlugin().GetConfiguration().LogAuthKeys("key-hash", keyHash, logTime);
+        getPlugin().GetConfiguration().LogAuthKeys("group", group, logTime, true);
+    }
+
+    public void GenerateKey(String group, String logName) {
+
     }
 
     @Override

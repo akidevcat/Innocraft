@@ -105,4 +105,15 @@ public class EssentialsHelper {
         scanner.close();
         return result;
     }
+
+    public static boolean isLinkValid(String url)
+    {
+        try {
+            new URL(url).toURI();
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
 }

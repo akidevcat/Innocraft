@@ -8,10 +8,12 @@
       <w>displayedname</w>
       <w>haka</w>
       <w>innocraft</w>
+      <w>minecord</w>
       <w>setlink</w>
       <w>setname</w>
       <w>setposition</w>
       <w>setregion</w>
+      <w>smapi</w>
       <w>tellraw</w>
       <w>webhook</w>
       <w>webhooks</w>

@@ -1,8 +1,10 @@
 package live.innocraft.essentials;
 
+import live.innocraft.essentials.bridge.Bridge;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class EssentialsCommands extends EssentialsModule implements CommandExecutor {
 
@@ -25,7 +27,7 @@ public class EssentialsCommands extends EssentialsModule implements CommandExecu
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         // Alias check
-        if (!label.equalsIgnoreCase("innocraft"))
+        if (!label.equalsIgnoreCase("innocraft") && !label.equalsIgnoreCase("ic"))
             return false;
 
         if (args.length == 0) {
@@ -48,6 +50,21 @@ public class EssentialsCommands extends EssentialsModule implements CommandExecu
                     return true;
                 }
                 getPlugin().SyncAll();
+                return true;
+            case "join":
+                if (args.length != 2) {
+                    getPlugin().GetConfiguration().SendMessage("wrong-command-format", sender);
+                    return true;
+                }
+                if (!(sender instanceof Player)) {
+                    getPlugin().GetConfiguration().SendMessage("wrong-command-sender", sender);
+                    return true;
+                }
+                if (!sender.hasPermission("innocraft.server." + args[1])) {
+                    getPlugin().GetConfiguration().SendMessage("permission-error", sender);
+                    return true;
+                }
+                getPlugin().getModule(Bridge.class).ChangePlayerServer((Player)sender, args[1]);
                 return true;
         }
 
