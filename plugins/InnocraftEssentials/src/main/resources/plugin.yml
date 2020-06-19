@@ -1,6 +1,6 @@
 name: InnocraftEssentials
 version: ${project.version}
-main: live.innocraft.essentials.Essentials
+main: live.innocraft.essentials.common.Essentials
 api-version: 1.13
 commands:
   redeem:

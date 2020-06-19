@@ -1,8 +1,8 @@
 package live.innocraft.essentials.timetable;
 
-import live.innocraft.essentials.Essentials;
+import live.innocraft.essentials.common.Essentials;
 import live.innocraft.essentials.helper.EssentialsHelper;
-import live.innocraft.essentials.EssentialsModule;
+import live.innocraft.essentials.common.EssentialsModule;
 import live.innocraft.essentials.classrooms.Classrooms;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
@@ -29,18 +29,18 @@ public class Timetable extends EssentialsModule {
         this.gui = new TimetableGUI(plugin, this);
         this.classrooms = plugin.getModule(Classrooms.class);
 
-        Reload();
+        onReload();
     }
 
     @Override
-    public void LateInitialization() {
+    public void onLateInitialization() {
         new TimetableCommands(getPlugin(), this);
     }
 
     @Override
-    public void Reload() {
-        getPlugin().GetConfiguration().ReloadTimetable();
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgTimetable();
+    public void onReload() {
+        getPlugin().getConfiguration().ReloadTimetable();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgTimetable();
 
         lessons.clear();
 
@@ -70,9 +70,9 @@ public class Timetable extends EssentialsModule {
     }
 
     @Override
-    public void Sync() {
-        getPlugin().GetConfiguration().SyncTimetableCfg();
-        Reload();
+    public void onSync() {
+        getPlugin().getConfiguration().SyncTimetableCfg();
+        onReload();
     }
 
     public @Nullable TimetableLesson getCurrentLesson() {
@@ -130,11 +130,11 @@ public class Timetable extends EssentialsModule {
     }
 
     public String GetGUIName() {
-        return getPlugin().GetConfiguration().GetCfgCommon().getString("timetable.gui-title");
+        return getPlugin().getConfiguration().GetCfgCommon().getString("timetable.gui-title");
     }
 
     public List<String> GetGUILoreFormat() {
-        return getPlugin().GetConfiguration().GetCfgCommon().getStringList("timetable.gui-lesson-description-format");
+        return getPlugin().getConfiguration().GetCfgCommon().getStringList("timetable.gui-lesson-description-format");
     }
 
     public String ApplyPlaceholders(String s, TimetableLesson l) {

@@ -1,10 +1,8 @@
 package live.innocraft.essentials.discord;
 
-import live.innocraft.essentials.Essentials;
 import live.innocraft.essentials.classrooms.Classrooms;
 import live.innocraft.essentials.timetable.Timetable;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -30,7 +28,7 @@ public class DiscordMessage extends ListenerAdapter {
             case "sync":
                 if (!event.getChannel().getId().equals(discord.channelCoreCommandsID))
                     return;
-                discord.getPlugin().SyncAll();
+                discord.getPlugin().syncAll();
                 event.getChannel().sendMessage("Successfully synced all modules [" + discord.getPlugin().getServer().getName() + "]").queue();
                 break;
             case "timetable":

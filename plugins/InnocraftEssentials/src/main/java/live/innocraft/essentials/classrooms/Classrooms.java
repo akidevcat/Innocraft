@@ -1,8 +1,8 @@
 package live.innocraft.essentials.classrooms;
 
-import live.innocraft.essentials.Essentials;
+import live.innocraft.essentials.common.Essentials;
 import live.innocraft.essentials.helper.EssentialsHelper;
-import live.innocraft.essentials.EssentialsModule;
+import live.innocraft.essentials.common.EssentialsModule;
 import org.bukkit.Location;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
@@ -21,13 +21,13 @@ public class Classrooms extends EssentialsModule {
     }
 
     @Override
-    public void LateInitialization() {
+    public void onLateInitialization() {
         new ClassroomsCommands(getPlugin(), this);
         new ClassroomsEvents(getPlugin(), this);
     }
 
     public boolean CreateClassroom(String name) {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         if (cfg.contains(name))
             return false;
 
@@ -39,7 +39,7 @@ public class Classrooms extends EssentialsModule {
     }
 
     public boolean DeleteClassroom(String name) {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
 
@@ -51,7 +51,7 @@ public class Classrooms extends EssentialsModule {
     }
 
     public boolean SetClassroomDisplayedName(String name, String displayedName) {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
         if (displayedName.equals(""))
@@ -65,7 +65,7 @@ public class Classrooms extends EssentialsModule {
     }
 
     public boolean SetClassroomRegion(String name, String region) {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
 
@@ -80,7 +80,7 @@ public class Classrooms extends EssentialsModule {
     }
 
     public boolean SetClassroomPosition(String name, Location pos) {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
 
@@ -92,7 +92,7 @@ public class Classrooms extends EssentialsModule {
     }
 
     public boolean SetClassroomLink(String name, String link) {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
 
@@ -107,7 +107,7 @@ public class Classrooms extends EssentialsModule {
     }
 
     public boolean SetClassroomCode(String name, String code) {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name))
             return false;
 
@@ -122,7 +122,7 @@ public class Classrooms extends EssentialsModule {
     }
 
     public String GetClassroomLink(String name) {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name) || !cfg.contains(name + ".link"))
             return "";
 
@@ -130,7 +130,7 @@ public class Classrooms extends EssentialsModule {
     }
 
     public String GetClassroomCode(String name) {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name) || !cfg.contains(name + ".code"))
             return "";
 
@@ -138,7 +138,7 @@ public class Classrooms extends EssentialsModule {
     }
 
     public String GetClassroomDisplayedName(String name) {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         if (!cfg.contains(name) || !cfg.contains(name + ".displayed-name"))
             return "";
 
@@ -157,19 +157,19 @@ public class Classrooms extends EssentialsModule {
     }
 
     public void Save() {
-        getPlugin().GetConfiguration().SaveClassrooms();
+        getPlugin().getConfiguration().SaveClassrooms();
         UpdateRegions();
     }
 
     @Override
-    public void Reload() {
+    public void onReload() {
         //ToDo
     }
 
     public void UpdateRegions() {
         regionsClassrooms.clear();
 
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgClassrooms();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgClassrooms();
         Set<String> keys = cfg.getKeys(false);
 
         for (String key : keys) {

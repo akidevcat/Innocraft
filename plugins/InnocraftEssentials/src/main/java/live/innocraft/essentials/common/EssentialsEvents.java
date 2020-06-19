@@ -1,4 +1,4 @@
-package live.innocraft.essentials;
+package live.innocraft.essentials.common;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,12 +15,12 @@ public class EssentialsEvents extends EssentialsModule implements Listener {
     }
 
     @Override
-    public void LateInitialization() {
+    public void onLateInitialization() {
 
     }
 
     @Override
-    public void Reload() {
+    public void onReload() {
 
     }
 

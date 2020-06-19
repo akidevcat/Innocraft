@@ -1,6 +1,6 @@
 package live.innocraft.essentials.timetable;
 
-import live.innocraft.essentials.Essentials;
+import live.innocraft.essentials.common.Essentials;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,12 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Level;
-
-import static org.bukkit.Bukkit.getLogger;
-import static org.bukkit.Bukkit.getServer;
 
 public class TimetableGUI implements Listener {
 

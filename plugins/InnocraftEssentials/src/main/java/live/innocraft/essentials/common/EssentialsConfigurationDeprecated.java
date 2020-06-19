@@ -1,4 +1,4 @@
-package live.innocraft.essentials;
+package live.innocraft.essentials.common;
 
 import live.innocraft.essentials.helper.EssentialsHelper;
 import org.bukkit.ChatColor;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Level;
 
-public class EssentialsConfiguration {
+public class EssentialsConfigurationDeprecated {
 
     private final Plugin plugin;
 
@@ -24,7 +24,7 @@ public class EssentialsConfiguration {
     private FileConfiguration cfgClassrooms;
     private FileConfiguration cfgTimetable;
     private FileConfiguration logsAuthKeys;
-    public EssentialsConfiguration(Plugin plugin) {
+    public EssentialsConfigurationDeprecated(Plugin plugin) {
         this.plugin = plugin;
 
         ReloadAll();

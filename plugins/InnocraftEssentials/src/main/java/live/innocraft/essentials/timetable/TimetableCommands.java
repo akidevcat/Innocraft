@@ -1,7 +1,6 @@
 package live.innocraft.essentials.timetable;
 
-import live.innocraft.essentials.Essentials;
-import live.innocraft.essentials.classrooms.Classrooms;
+import live.innocraft.essentials.common.Essentials;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,18 +32,18 @@ public class TimetableCommands implements CommandExecutor {
 
         //innocraft-timetable command section
         if (args.length == 0) {
-            plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+            plugin.getConfiguration().SendMessage("wrong-command-format", sender);
             return true;
         }
 
         switch (args[0]) {
             case "menu":
                 if (!(sender instanceof Player)) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-sender", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-sender", sender);
                     return true;
                 }
                 if (!sender.hasPermission("innocraft.participant")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    plugin.getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
                 timetable.OpenGUI((Player)sender);

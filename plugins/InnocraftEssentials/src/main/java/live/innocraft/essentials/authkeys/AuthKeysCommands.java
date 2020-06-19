@@ -1,11 +1,9 @@
 package live.innocraft.essentials.authkeys;
 
-import live.innocraft.essentials.Essentials;
-import live.innocraft.essentials.auth.Auth;
+import live.innocraft.essentials.common.Essentials;
 import live.innocraft.essentials.discord.Discord;
 import live.innocraft.essentials.helper.EssentialsHelper;
-import live.innocraft.essentials.EssentialsModule;
-import me.stefan911.securitymaster.lite.api.SecurityMasterAPI;
+import live.innocraft.essentials.common.EssentialsModule;
 import me.stefan911.securitymaster.lite.utils.account.AccountManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,7 +12,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Set;
-import java.util.logging.Level;
 
 public class AuthKeysCommands extends EssentialsModule implements CommandExecutor {
 
@@ -25,24 +22,24 @@ public class AuthKeysCommands extends EssentialsModule implements CommandExecuto
     }
 
     @Override
-    public void LateInitialization() {
+    public void onLateInitialization() {
 
     }
 
     @Override
-    public void Reload() {
+    public void onReload() {
 
     }
 
     public boolean RedeemKey (Player player, String key) {
-        FileConfiguration cfgAuthKeys = getPlugin().GetConfiguration().GetCfgAuthKeys();
-        FileConfiguration cfgCommon = getPlugin().GetConfiguration().GetCfgCommon();
+        FileConfiguration cfgAuthKeys = getPlugin().getConfiguration().GetCfgAuthKeys();
+        FileConfiguration cfgCommon = getPlugin().getConfiguration().GetCfgCommon();
         String keyHash = EssentialsHelper.HashSHA256(key);
         Set<String> cfgKeys = cfgAuthKeys.getKeys(false);
         Set<String> groups = cfgCommon.getConfigurationSection("auth-keys.groups").getKeys(false);
 
         if (!cfgKeys.contains(keyHash)) {
-            getPlugin().GetConfiguration().SendMessage("auth-key-wrong", player);
+            getPlugin().getConfiguration().SendMessage("auth-key-wrong", player);
             return false;
         }
 
@@ -50,19 +47,19 @@ public class AuthKeysCommands extends EssentialsModule implements CommandExecuto
 
         // Log this action
         String logTime = EssentialsHelper.GetTimeStamp();
-        getPlugin().GetConfiguration().LogAuthKeys("info", "An auth key was redeemed", logTime);
-        getPlugin().GetConfiguration().LogAuthKeys("who", player.getName(), logTime);
-        getPlugin().GetConfiguration().LogAuthKeys("key-hash", keyHash, logTime, true);
+        getPlugin().getConfiguration().LogAuthKeys("info", "An auth key was redeemed", logTime);
+        getPlugin().getConfiguration().LogAuthKeys("who", player.getName(), logTime);
+        getPlugin().getConfiguration().LogAuthKeys("key-hash", keyHash, logTime, true);
 
         //Check if the config contains this group
         if (!groups.contains(keyGroup)) {
-            getPlugin().GetConfiguration().SendMessage("auth-key-wrong-group", player);
+            getPlugin().getConfiguration().SendMessage("auth-key-wrong-group", player);
             return false;
         }
 
         //Clear the key from the config file and save it
         cfgAuthKeys.set(keyHash, null);
-        getPlugin().GetConfiguration().SaveAuthKeys();
+        getPlugin().getConfiguration().SaveAuthKeys();
 
         //Execute all the group commands
         for (String command : cfgCommon.getStringList("auth-keys.groups." + keyGroup + ".commands")) {
@@ -76,8 +73,8 @@ public class AuthKeysCommands extends EssentialsModule implements CommandExecuto
             //String discordID = getPlugin().getModule(Auth.class).getDiscordID(player);
             String roleID = cfgCommon.getString("auth-keys.groups." + keyGroup + ".role");
             if (discordID == null) {
-                getPlugin().GetConfiguration().SendMessage("auth-key-discord-problem", player);
-                getPlugin().GetConfiguration().LogAuthKeys("role", "Unable to set role - player is not registered", logTime, true);
+                getPlugin().getConfiguration().SendMessage("auth-key-discord-problem", player);
+                getPlugin().getConfiguration().LogAuthKeys("role", "Unable to set role - player is not registered", logTime, true);
             }
             else {
                 getPlugin().getModule(Discord.class).AddUserRole(discordID, roleID);
@@ -85,7 +82,7 @@ public class AuthKeysCommands extends EssentialsModule implements CommandExecuto
         }
 
         //Send a message to the player
-        getPlugin().GetConfiguration().SendMessage("auth-key-redeemed", player);
+        getPlugin().getConfiguration().SendMessage("auth-key-redeemed", player);
 
         return true;
     }
@@ -95,17 +92,17 @@ public class AuthKeysCommands extends EssentialsModule implements CommandExecuto
             return;
 
         String keyHash = EssentialsHelper.HashSHA256(key);
-        FileConfiguration cfg = getPlugin().GetConfiguration().GetCfgAuthKeys();
+        FileConfiguration cfg = getPlugin().getConfiguration().GetCfgAuthKeys();
 
         cfg.set(keyHash, group);
-        getPlugin().GetConfiguration().SaveAuthKeys();
+        getPlugin().getConfiguration().SaveAuthKeys();
 
         // Log this action
         String logTime = EssentialsHelper.GetTimeStamp();
-        getPlugin().GetConfiguration().LogAuthKeys("info", "An auth key was created", logTime);
-        getPlugin().GetConfiguration().LogAuthKeys("who", logName, logTime);
-        getPlugin().GetConfiguration().LogAuthKeys("key-hash", keyHash, logTime);
-        getPlugin().GetConfiguration().LogAuthKeys("group", group, logTime, true);
+        getPlugin().getConfiguration().LogAuthKeys("info", "An auth key was created", logTime);
+        getPlugin().getConfiguration().LogAuthKeys("who", logName, logTime);
+        getPlugin().getConfiguration().LogAuthKeys("key-hash", keyHash, logTime);
+        getPlugin().getConfiguration().LogAuthKeys("group", group, logTime, true);
     }
 
     public void GenerateKey(String group, String logName) {
@@ -120,7 +117,7 @@ public class AuthKeysCommands extends EssentialsModule implements CommandExecuto
                 return false;
             Player player = (Player)sender;
             if (args.length != 1) {
-                getPlugin().GetConfiguration().SendMessage("wrong-command-format", player);
+                getPlugin().getConfiguration().SendMessage("wrong-command-format", player);
                 return true;
             }
             RedeemKey(player, args[0]);
@@ -133,35 +130,35 @@ public class AuthKeysCommands extends EssentialsModule implements CommandExecuto
 
         //innocraft-authkey command section
         if (args.length == 0) {
-            getPlugin().GetConfiguration().SendMessage("wrong-command-format", sender);
+            getPlugin().getConfiguration().SendMessage("wrong-command-format", sender);
             return true;
         }
 
         switch (args[0]) {
             case "add":
                 if (args.length != 1 + 2 || args[1].length() <= 3) { //Requires 2 args and key length should be at least 4 chars
-                    getPlugin().GetConfiguration().SendMessage("wrong-command-format", sender);
+                    getPlugin().getConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
 
                 if (!sender.hasPermission("innocraft.organizer")) {
-                    getPlugin().GetConfiguration().SendMessage("permission-error", sender);
+                    getPlugin().getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
 
                 AddKey(args[1], args[2], sender.getName());
-                getPlugin().GetConfiguration().SendMessage("auth-key-added", sender);
+                getPlugin().getConfiguration().SendMessage("auth-key-added", sender);
 
                 return true;
             case "reload":
 
                 if (!sender.hasPermission("innocraft.staff")) {
-                    getPlugin().GetConfiguration().SendMessage("permission-error", sender);
+                    getPlugin().getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
 
-                getPlugin().GetConfiguration().ReloadAuthKeys();
-                getPlugin().GetConfiguration().SendMessage("auth-key-reloaded", sender);
+                getPlugin().getConfiguration().ReloadAuthKeys();
+                getPlugin().getConfiguration().SendMessage("auth-key-reloaded", sender);
                 return true;
         }
 

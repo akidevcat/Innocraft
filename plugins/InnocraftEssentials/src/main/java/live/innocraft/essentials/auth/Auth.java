@@ -1,7 +1,7 @@
 package live.innocraft.essentials.auth;
 
-import live.innocraft.essentials.Essentials;
-import live.innocraft.essentials.EssentialsModule;
+import live.innocraft.essentials.common.Essentials;
+import live.innocraft.essentials.common.EssentialsModule;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -23,12 +23,12 @@ public class Auth extends EssentialsModule {
     }
 
     @Override
-    public void Reload() {
+    public void onReload() {
 
     }
 
     @Override
-    public void LateInitialization() {
+    public void onLateInitialization() {
 
     }
 

@@ -1,0 +1,8 @@
+name: DoorsOpenDay
+version: 1.0-SNAPSHOT
+main: live.innocraft.doorsopenday.DoorsOpenDay
+api-version: 1.13
+commands:
+  dod:
+    description: ToDo
+    usage: /<command> [join|tpcheck|tpvolunteer|buy]

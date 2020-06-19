@@ -1,7 +1,6 @@
-package live.innocraft.essentials;
+package live.innocraft.essentials.common;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
@@ -45,15 +44,15 @@ public class EssentialsPlaceholderExpansion extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player player, String identifier){
 
         if(identifier.equals("event")){
-            return plugin.GetConfiguration().GetCfgCommon().getString("iu-events.current-event", "");
+            return plugin.getConfiguration().GetCfgCommon().getString("iu-events.current-event", "");
         }
 
         if(identifier.equals("event_begin")){
-            return plugin.GetConfiguration().GetCfgCommon().getString("iu-events.current-event-date-begin", "");
+            return plugin.getConfiguration().GetCfgCommon().getString("iu-events.current-event-date-begin", "");
         }
 
         if(identifier.equals("event_end")){
-            return plugin.GetConfiguration().GetCfgCommon().getString("iu-events.current-event-date-end", "");
+            return plugin.getConfiguration().GetCfgCommon().getString("iu-events.current-event-date-end", "");
         }
 
         return null;

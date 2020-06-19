@@ -153,6 +153,8 @@ public class SMBridge extends Plugin implements Listener {
     public void onServerConnect(ServerConnectedEvent event) {
         if (cfg_auth_server.equals("") || !event.getServer().getInfo().getName().equalsIgnoreCase(cfg_auth_server))
             return; // This is not the auth server - skip
+        if (!event.getPlayer().hasPermission("securitymaster.use"))
+            return;
 
         //A new player joined, add him/her to the list and check session
         ProxiedPlayer p = event.getPlayer();

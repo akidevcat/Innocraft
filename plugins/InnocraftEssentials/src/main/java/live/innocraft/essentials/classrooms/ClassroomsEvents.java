@@ -1,6 +1,6 @@
 package live.innocraft.essentials.classrooms;
 
-import live.innocraft.essentials.Essentials;
+import live.innocraft.essentials.common.Essentials;
 
 public class ClassroomsEvents {
 

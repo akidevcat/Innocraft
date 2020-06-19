@@ -3,8 +3,8 @@ package live.innocraft.essentials.bridge;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import live.innocraft.essentials.Essentials;
-import live.innocraft.essentials.EssentialsModule;
+import live.innocraft.essentials.common.Essentials;
+import live.innocraft.essentials.common.EssentialsModule;
 import live.innocraft.essentials.discord.Discord;
 import me.spomg.minecord.api.MAPI;
 import me.stefan911.securitymaster.lite.utils.account.AccountManager;
@@ -12,8 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-
-import java.util.logging.Level;
 
 public class Bridge extends EssentialsModule implements Listener, PluginMessageListener {
 

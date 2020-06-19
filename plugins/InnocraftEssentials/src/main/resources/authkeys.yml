@@ -1,3 +1,17 @@
-# This file contains authentication keys.
-# Format:  Key's SHA256 hash: group
-# Example: ea5c69a477eb13dd90c1022ba46b93992514feed0592fd0e1af6f8e8891f534c: participant
+groups:
+  participant:
+    # This discord role will be given
+    roles: ["705449535324946502"]
+    groups: ["participant"]
+    # These commands are executed right after the player redeems his auth-key
+    # {player} will be changed to player's name
+  student:
+    commands:
+      - "lp user {player} group set student"
+  staff:
+    commands:
+      - "lp user {player} group set staff"
+  organizer:
+    role: "701434529683996742"
+    commands:
+      - "lp user {player} group set organizer"

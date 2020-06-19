@@ -1,11 +1,7 @@
 package live.innocraft.essentials.discord;
 
-import club.minnced.discord.webhook.WebhookClient;
-import club.minnced.discord.webhook.send.WebhookEmbed;
-import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
-import club.minnced.discord.webhook.send.WebhookMessageBuilder;
-import live.innocraft.essentials.Essentials;
-import live.innocraft.essentials.EssentialsModule;
+import live.innocraft.essentials.common.Essentials;
+import live.innocraft.essentials.common.EssentialsModule;
 import live.innocraft.essentials.classrooms.Classrooms;
 import live.innocraft.essentials.helper.EssentialsHelper;
 import live.innocraft.essentials.timetable.TimetableLesson;
@@ -18,9 +14,6 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.bukkit.configuration.Configuration;
 
 import javax.security.auth.login.LoginException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
@@ -45,7 +38,7 @@ public class Discord extends EssentialsModule {
     public Discord(Essentials plugin) {
         super(plugin);
 
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgCommon();
+        Configuration cfg = getPlugin().getConfiguration().GetCfgCommon();
         String token = cfg.getString("discord.token");
 
         JDABuilder builder = new JDABuilder(token);
@@ -61,23 +54,23 @@ public class Discord extends EssentialsModule {
             jda = builder.build();
             jda.awaitReady();
         } catch (LoginException | InterruptedException e) {
-            getPlugin().CriticalError("Unable to enable Discord bot, please check the token.");
+            getPlugin().criticalError("Unable to enable Discord bot, please check the token.");
             e.printStackTrace();
         }
 
         this.jda = jda; // Haka compiler
 
-        Reload();
+        onReload();
     }
 
     @Override
-    public void LateInitialization() {
+    public void onLateInitialization() {
 
     }
 
     @Override
-    public void Reload() {
-        Configuration cfg = getPlugin().GetConfiguration().GetCfgCommon();
+    public void onReload() {
+        Configuration cfg = getPlugin().getConfiguration().GetCfgCommon();
         roleParticipantID = cfg.getString("discord.roles.participant");
         roleParticipant = jda.getRoleById(roleParticipantID);
         channelCoreCommandsID = cfg.getString("discord.channels.core");
@@ -94,7 +87,7 @@ public class Discord extends EssentialsModule {
     }
 
     @Override
-    public void OnDisable() {
+    public void onDisable() {
         jda.shutdown();
     }
 

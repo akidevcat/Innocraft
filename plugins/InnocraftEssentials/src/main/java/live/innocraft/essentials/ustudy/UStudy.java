@@ -1,7 +1,7 @@
 package live.innocraft.essentials.ustudy;
 
-import live.innocraft.essentials.Essentials;
-import live.innocraft.essentials.EssentialsModule;
+import live.innocraft.essentials.common.Essentials;
+import live.innocraft.essentials.common.EssentialsModule;
 import live.innocraft.essentials.timetable.Timetable;
 
 import java.util.HashSet;
@@ -17,7 +17,7 @@ public class UStudy extends EssentialsModule {
     }
 
     @Override
-    public void LateInitialization() {
+    public void onLateInitialization() {
         timetable = getPlugin().getModule(Timetable.class);
 
         new UStudyUpdater(this);
@@ -26,7 +26,7 @@ public class UStudy extends EssentialsModule {
     }
 
     @Override
-    public void Reload() {
+    public void onReload() {
 
     }
 }

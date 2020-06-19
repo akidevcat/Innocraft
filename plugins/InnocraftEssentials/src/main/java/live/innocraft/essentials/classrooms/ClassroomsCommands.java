@@ -1,6 +1,6 @@
 package live.innocraft.essentials.classrooms;
 
-import live.innocraft.essentials.Essentials;
+import live.innocraft.essentials.common.Essentials;
 import live.innocraft.essentials.helper.EssentialsHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -39,7 +39,7 @@ public class ClassroomsCommands implements CommandExecutor {
 
         //innocraft-classrooms command section
         if (args.length == 0) {
-            plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+            plugin.getConfiguration().SendMessage("wrong-command-format", sender);
             return true;
         }
 
@@ -50,59 +50,59 @@ public class ClassroomsCommands implements CommandExecutor {
             case "create":
             case "new":
                 if (!sender.hasPermission("innocraft.organizer")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    plugin.getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
                 if (args.length != 1 + 1) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
                 if (!classrooms.CreateClassroom(args[1])) {
-                    plugin.GetConfiguration().SendMessage("classroom-creation-exists", sender);
+                    plugin.getConfiguration().SendMessage("classroom-creation-exists", sender);
                     return true;
                 }
-                plugin.GetConfiguration().SendMessage("classroom-creation-success", sender);
+                plugin.getConfiguration().SendMessage("classroom-creation-success", sender);
                 return true;
             case "delete":
             case "remove":
                 if (!sender.hasPermission("innocraft.organizer")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    plugin.getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
                 if (args.length != 1 + 1) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
                 if (!classrooms.DeleteClassroom(args[1])) {
-                    plugin.GetConfiguration().SendMessage("classroom-missing", sender);
+                    plugin.getConfiguration().SendMessage("classroom-missing", sender);
                     return true;
                 }
-                plugin.GetConfiguration().SendMessage("classroom-deletion-success", sender);
+                plugin.getConfiguration().SendMessage("classroom-deletion-success", sender);
                 return true;
             case "set-name":
             case "set-displayedname":
                 if (!sender.hasPermission("innocraft.organizer")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    plugin.getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
                 if (args.length != 1 + 2) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
                 if (!classrooms.SetClassroomDisplayedName(args[1], args[2])) {
-                    plugin.GetConfiguration().SendMessage("classroom-missing", sender);
+                    plugin.getConfiguration().SendMessage("classroom-missing", sender);
                     return true;
                 }
-                plugin.GetConfiguration().SendMessage("classroom-setname-success", sender);
+                plugin.getConfiguration().SendMessage("classroom-setname-success", sender);
                 return true;
             case "set-region":
             case "set-rg":
                 if (!sender.hasPermission("innocraft.organizer")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    plugin.getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
                 if (!(sender instanceof Player)) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-sender", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-sender", sender);
                     return true;
                 }
 
@@ -116,24 +116,24 @@ public class ClassroomsCommands implements CommandExecutor {
                     if (regions.length == 1) {
                         region = regions[0];
                     } else if (regions.length > 1) {
-                        plugin.GetConfiguration().SendMessage("classroom-setregion-conflict", sender);
+                        plugin.getConfiguration().SendMessage("classroom-setregion-conflict", sender);
                         return true;
                     }
                 } else {
-                    plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
 
                 // In case there's no region
                 if (region.equals("")) {
-                    plugin.GetConfiguration().SendMessage("classroom-setregion-missing", sender);
+                    plugin.getConfiguration().SendMessage("classroom-setregion-missing", sender);
                     return true;
                 }
                 if (!classrooms.SetClassroomRegion(args[1], region)) {
-                    plugin.GetConfiguration().SendMessage("classroom-missing", sender);
+                    plugin.getConfiguration().SendMessage("classroom-missing", sender);
                     return true;
                 }
-                plugin.GetConfiguration().SendMessage("classroom-setregion-success", sender);
+                plugin.getConfiguration().SendMessage("classroom-setregion-success", sender);
                 return true;
             case "rm-region":
             case "remove-region":
@@ -142,51 +142,51 @@ public class ClassroomsCommands implements CommandExecutor {
             case "rm-rg":
             case "dl-rg":
                 if (!sender.hasPermission("innocraft.organizer")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    plugin.getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
                 if (args.length != 1 + 1) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
                 if (!classrooms.SetClassroomRegion(args[1], "")) {
-                    plugin.GetConfiguration().SendMessage("classroom-missing", sender);
+                    plugin.getConfiguration().SendMessage("classroom-missing", sender);
                     return true;
                 }
-                plugin.GetConfiguration().SendMessage("classroom-setregion-success", sender);
+                plugin.getConfiguration().SendMessage("classroom-setregion-success", sender);
                 return true;
             case "set-position":
             case "set-location":
             case "set-pos":
                 if (!sender.hasPermission("innocraft.organizer")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    plugin.getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
                 if (!(sender instanceof Player)) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-sender", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-sender", sender);
                     return true;
                 }
                 if (args.length != 1 + 1) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
                 if (!classrooms.SetClassroomPosition(args[1], ((Player) sender).getLocation())) {
-                    plugin.GetConfiguration().SendMessage("classroom-missing", sender);
+                    plugin.getConfiguration().SendMessage("classroom-missing", sender);
                     return true;
                 }
-                plugin.GetConfiguration().SendMessage("classroom-setposition-success", sender);
+                plugin.getConfiguration().SendMessage("classroom-setposition-success", sender);
                 return true;
             case "set-link":
                 if (!sender.hasPermission("innocraft.organizer")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    plugin.getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
                 if (args.length != 1 + 2 && args.length != 1 + 3) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
                 if (!classrooms.SetClassroomLink(args[1], args[2])) {
-                    plugin.GetConfiguration().SendMessage("classroom-missing", sender);
+                    plugin.getConfiguration().SendMessage("classroom-missing", sender);
                     return true;
                 }
                 if (args.length == 1 + 3) {
@@ -194,56 +194,56 @@ public class ClassroomsCommands implements CommandExecutor {
                 } else {
                     classrooms.SetClassroomCode(args[1], "");
                 }
-                plugin.GetConfiguration().SendMessage("classroom-setlink-success", sender);
+                plugin.getConfiguration().SendMessage("classroom-setlink-success", sender);
                 return true;
             case "rm-link":
             case "dl-link":
             case "remove-link":
             case "delete-link":
                 if (!sender.hasPermission("innocraft.organizer")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    plugin.getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
                 if (args.length != 1 + 1) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
                 if (!classrooms.SetClassroomLink(args[1], "")) {
-                    plugin.GetConfiguration().SendMessage("classroom-missing", sender);
+                    plugin.getConfiguration().SendMessage("classroom-missing", sender);
                     return true;
                 }
-                plugin.GetConfiguration().SendMessage("classroom-setlink-success", sender);
+                plugin.getConfiguration().SendMessage("classroom-setlink-success", sender);
                 return true;
             case "get-link":
             case "link":
                 if (!sender.hasPermission("innocraft.participant")) {
-                    plugin.GetConfiguration().SendMessage("permission-error", sender);
+                    plugin.getConfiguration().SendMessage("permission-error", sender);
                     return true;
                 }
                 if (!(sender instanceof Player)) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-sender", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-sender", sender);
                     return true;
                 }
                 if (args.length != 1) {
-                    plugin.GetConfiguration().SendMessage("wrong-command-format", sender);
+                    plugin.getConfiguration().SendMessage("wrong-command-format", sender);
                     return true;
                 }
                 String auditorium = classrooms.GetClassroomByPlayer((Player)sender);
                 if (auditorium.equals("")) {
-                    plugin.GetConfiguration().SendMessage("classroom-region-missing", sender);
+                    plugin.getConfiguration().SendMessage("classroom-region-missing", sender);
                     return true;
                 }
                 String link = classrooms.GetClassroomLink(auditorium);
                 if (link.equals("")) {
-                    plugin.GetConfiguration().SendMessage("classroom-link-missing", sender);
+                    plugin.getConfiguration().SendMessage("classroom-link-missing", sender);
                     return true;
                 }
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() +
-                        " {\"text\":\"" + plugin.GetConfiguration().GetMessage("classroom-link-format") +
+                        " {\"text\":\"" + plugin.getConfiguration().GetMessage("classroom-link-format") +
                         "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + link +"\"}}");
                 String code = classrooms.GetClassroomCode(auditorium);
                 if (!code.equals("")) {
-                    plugin.GetConfiguration().SendMessageFormat("classroom-code-format", sender, code);
+                    plugin.getConfiguration().SendMessageFormat("classroom-code-format", sender, code);
                 }
                 return true;
         }
