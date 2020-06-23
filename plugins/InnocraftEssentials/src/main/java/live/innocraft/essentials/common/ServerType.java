@@ -5,5 +5,5 @@ public enum ServerType {
     general,
     excursion,
     travel,
-    build
+    other, build
 }

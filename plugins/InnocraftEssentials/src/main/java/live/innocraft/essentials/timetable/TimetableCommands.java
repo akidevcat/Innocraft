@@ -1,6 +1,6 @@
 package live.innocraft.essentials.timetable;
 
-import live.innocraft.essentials.common.Essentials;
+import live.innocraft.essentials.core.Essentials;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,34 +21,34 @@ public class TimetableCommands implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         // Alias section
-        switch (label) {
-            case "timetable":
-                label = "innocraft-timetable";
-                break;
-        }
-
-        if (!label.equalsIgnoreCase("innocraft-timetable"))
-            return false;
-
-        //innocraft-timetable command section
-        if (args.length == 0) {
-            plugin.getConfiguration().SendMessage("wrong-command-format", sender);
-            return true;
-        }
-
-        switch (args[0]) {
-            case "menu":
-                if (!(sender instanceof Player)) {
-                    plugin.getConfiguration().SendMessage("wrong-command-sender", sender);
-                    return true;
-                }
-                if (!sender.hasPermission("innocraft.participant")) {
-                    plugin.getConfiguration().SendMessage("permission-error", sender);
-                    return true;
-                }
-                timetable.OpenGUI((Player)sender);
-                return true;
-        }
+//        switch (label) {
+//            case "timetable":
+//                label = "innocraft-timetable";
+//                break;
+//        }
+//
+//        if (!label.equalsIgnoreCase("innocraft-timetable"))
+//            return false;
+//
+//        //innocraft-timetable command section
+//        if (args.length == 0) {
+//            plugin.getConfiguration().SendMessage("wrong-command-format", sender);
+//            return true;
+//        }
+//
+//        switch (args[0]) {
+//            case "menu":
+//                if (!(sender instanceof Player)) {
+//                    plugin.getConfiguration().SendMessage("wrong-command-sender", sender);
+//                    return true;
+//                }
+//                if (!sender.hasPermission("innocraft.participant")) {
+//                    plugin.getConfiguration().SendMessage("permission-error", sender);
+//                    return true;
+//                }
+//                timetable.OpenGUI((Player)sender);
+//                return true;
+//        }
 
         return true;
     }

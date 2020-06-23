@@ -1,6 +1,6 @@
 name: InnocraftEssentials
 version: 1.0-SNAPSHOT
-main: live.innocraft.essentials.Essentials
+main: live.innocraft.essentials.core.Essentials
 api-version: 1.13
 commands:
   redeem:

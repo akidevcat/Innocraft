@@ -1,4 +1,6 @@
-package live.innocraft.essentials.common;
+package live.innocraft.essentials.core;
+
+import live.innocraft.essentials.core.Essentials;
 
 public abstract class EssentialsModule {
 

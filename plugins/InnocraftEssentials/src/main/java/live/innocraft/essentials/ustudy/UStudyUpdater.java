@@ -22,14 +22,14 @@ public class UStudyUpdater implements Runnable {
 
     @Override
     public void run() {
-        if (!core.getPlugin().getServerType().equals("general"))
-            return;
-
-        List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
-        if (players.size() == 0)
-            return;
-        if (core.getPlugin().getModule(Timetable.class).isRestrictedModeEnabled())
-            core.getPlugin().getModule(Bridge.class).SendRestrictionInvalidationRequest(players.get(0));
+//        if (!core.getPlugin().getServerType().equals("general"))
+//            return;
+//
+//        List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+//        if (players.size() == 0)
+//            return;
+//        if (core.getPlugin().getModule(Timetable.class).isRestrictedModeEnabled())
+//            core.getPlugin().getModule(Bridge.class).SendRestrictionInvalidationRequest(players.get(0));
     }
 
 }

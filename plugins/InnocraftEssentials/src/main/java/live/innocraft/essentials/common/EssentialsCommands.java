@@ -1,6 +1,8 @@
 package live.innocraft.essentials.common;
 
 import live.innocraft.essentials.bridge.Bridge;
+import live.innocraft.essentials.core.Essentials;
+import live.innocraft.essentials.core.EssentialsModule;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,40 +33,40 @@ public class EssentialsCommands extends EssentialsModule implements CommandExecu
             return false;
 
         if (args.length == 0) {
-            getPlugin().getConfiguration().SendMessage("wrong-command-format", sender);
+            getPlugin().sendChatMessage("wrong-command-format", sender);
             return true;
         }
 
         switch (args[0]) {
             case "reload":
                 if (!sender.hasPermission("innocraft.staff")) {
-                    getPlugin().getConfiguration().SendMessage("permission-error", sender);
+                    getPlugin().sendChatMessage("permission-error", sender);
                     return true;
                 }
                 getPlugin().reloadAll();
-                getPlugin().getConfiguration().SendMessage("plugin-reload", sender);
+                getPlugin().sendChatMessage("plugin-reload", sender);
                 return true;
             case "sync":
                 if (!sender.hasPermission("innocraft.organizer")) {
-                    getPlugin().getConfiguration().SendMessage("permission-error", sender);
+                    getPlugin().sendChatMessage("permission-error", sender);
                     return true;
                 }
                 getPlugin().syncAll();
                 return true;
             case "join":
                 if (args.length != 2) {
-                    getPlugin().getConfiguration().SendMessage("wrong-command-format", sender);
+                    getPlugin().sendChatMessage("wrong-command-format", sender);
                     return true;
                 }
                 if (!(sender instanceof Player)) {
-                    getPlugin().getConfiguration().SendMessage("wrong-command-sender", sender);
+                    getPlugin().sendChatMessage("wrong-command-sender", sender);
                     return true;
                 }
                 if (!sender.hasPermission("innocraft.server." + args[1])) {
-                    getPlugin().getConfiguration().SendMessage("permission-error", sender);
+                    getPlugin().sendChatMessage("permission-error", sender);
                     return true;
                 }
-                getPlugin().getModule(Bridge.class).ChangePlayerServer((Player)sender, args[1]);
+                //getPlugin().getModule(Bridge.class).ChangePlayerServer((Player)sender, args[1]);
                 return true;
         }
 

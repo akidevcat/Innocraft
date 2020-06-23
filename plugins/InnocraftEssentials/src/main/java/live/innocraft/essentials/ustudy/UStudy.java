@@ -1,7 +1,7 @@
 package live.innocraft.essentials.ustudy;
 
-import live.innocraft.essentials.common.Essentials;
-import live.innocraft.essentials.common.EssentialsModule;
+import live.innocraft.essentials.core.Essentials;
+import live.innocraft.essentials.core.EssentialsModule;
 import live.innocraft.essentials.timetable.Timetable;
 
 import java.util.HashSet;

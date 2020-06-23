@@ -1,9 +1,11 @@
-package live.innocraft.essentials.common;
+package live.innocraft.essentials.core;
 
-import live.innocraft.essentials.configuration.EssentialsConfiguration;
+import live.innocraft.essentials.common.*;
 import me.spomg.minecord.api.MAPI;
 import me.stefan911.securitymaster.lite.api.SecurityMasterAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
@@ -14,21 +16,63 @@ import java.util.logging.Level;
 
 public final class Essentials extends JavaPlugin {
 
-    private String serverType = "other";
-
     private HashMap<Class<?>, EssentialsModule> modules;
     private HashMap<Class<?>, Object> dependencies;
     private HashMap<Class<?>, EssentialsConfiguration> configurations;
 
-    private EssentialsConfigurationDeprecated essentialsCfg;
+    public void setPlayerPermissionGroup(Player player, String group) {
+        if (!player.isOnline())
+            return;
+
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set " + group);
+    }
+
+    public ServerType getServerType() {
+        return getConfiguration(CommonConfiguration.class).getServerType();
+    }
+
+    public void sendChatMessage(String msgLabel, CommandSender s) {
+        if (s instanceof Player)
+            sendChatMessage(msgLabel, (Player)s, ((Player)s).getLocale());
+        else
+            sendChatMessage(msgLabel, s, "en-EN");
+    }
+
+    public void sendChatMessage(String msgLabel, CommandSender s, String lang) {
+        s.sendMessage(getChatMessageColor(msgLabel, lang));
+    }
+
+    public void sendChatMessageFormat(String msgLabel, CommandSender s, String... args) {
+        if (s instanceof Player)
+            sendChatMessageFormat(msgLabel, (Player)s, ((Player)s).getLocale(), args);
+        else
+            sendChatMessageFormat(msgLabel, s, "en-EN", args);
+    }
+
+    public void sendChatMessageFormat(String msgLabel, CommandSender s, String lang, String... args) {
+        s.sendMessage(getChatMessageFormatColor(msgLabel, lang, args));
+    }
+
+    public String getChatMessageColor(String msgLabel, String lang) {
+        return getConfiguration(MessagesConfiguration.class).getChatMessageColor(msgLabel, lang);
+    }
+
+    public String getChatMessageFormatColor(String msgLabel, String lang, String... args) {
+        return getConfiguration(MessagesConfiguration.class).getChatMessageFormatColor(msgLabel, lang, args);
+    }
+
+    public String getMessageColor(String msgLabel, String subcategory, String lang) {
+        return getConfiguration(MessagesConfiguration.class).getMessageColor(msgLabel, subcategory, lang);
+    }
+
+    public String getMessageColorFormat(String msgLabel, String subcategory, String lang, String... args) {
+        return getConfiguration(MessagesConfiguration.class).getMessageColorFormat(msgLabel, subcategory, lang, args);
+    }
 
     // Reloads configuration files
     public void reloadConfigurations() {
-        essentialsCfg.ReloadAll();
-    }
-
-    public EssentialsConfigurationDeprecated getConfiguration() {
-        return essentialsCfg;
+        for (EssentialsConfiguration cfg : configurations.values())
+            cfg.loadFile();
     }
 
     public <T extends EssentialsModule> T getModule(Class<T> moduleType) {
@@ -47,7 +91,7 @@ public final class Essentials extends JavaPlugin {
         return null;
     }
 
-    public <T extends EssentialsModule> T getConfiguration(Class<T> cfgType) {
+    public <T extends EssentialsConfiguration> T getConfiguration(Class<T> cfgType) {
         if (!configurations.containsKey(cfgType))
             criticalError("Configuration wasn't found: " + cfgType.toString());
         return cfgType.cast(configurations.get(cfgType));
@@ -57,17 +101,12 @@ public final class Essentials extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        //Load configuration files
-        essentialsCfg = new EssentialsConfigurationDeprecated(this);
-
         //Enable Core module
         new EssentialsPlaceholderExpansion(this);
 
+        loadConfigurations();
         loadInternalModules();
         loadDependencies();
-        loadConfigurations();
-
-        serverType = essentialsCfg.GetCfgCommon().getString("server.type");
     }
 
     @Override
@@ -87,12 +126,14 @@ public final class Essentials extends JavaPlugin {
      */
     private void loadInternalModules() {
         modules = new HashMap<>();
-        Reflections reflections = new Reflections("live.innocraft.essentials.common");
+        Reflections reflections = new Reflections("live.innocraft.essentials");
         Set<Class<? extends EssentialsModule>> classes = reflections.getSubTypesOf(EssentialsModule.class);
         for (Class<? extends EssentialsModule> aClass : classes) {
             try {
-                EssentialsModule module = aClass.getDeclaredConstructor(Essentials.class).newInstance(this);
-                addModule(module);
+                if (getConfiguration(CommonConfiguration.class).getModuleState(aClass.getName())) {
+                    EssentialsModule module = aClass.getDeclaredConstructor(Essentials.class).newInstance(this);
+                    addModule(module);
+                }
             } catch (InstantiationException e) {
                 e.printStackTrace();
                 criticalError("InstantiationException - A problem has occurred while loading internal modules. " +
@@ -129,7 +170,7 @@ public final class Essentials extends JavaPlugin {
 
     private void loadConfigurations() {
         configurations = new HashMap<>();
-        Reflections reflections = new Reflections("live.innocraft.essentials.configuration");
+        Reflections reflections = new Reflections("live.innocraft.essentials");
         Set<Class<? extends EssentialsConfiguration>> classes = reflections.getSubTypesOf(EssentialsConfiguration.class);
         for (Class<? extends EssentialsConfiguration> aClass : classes) {
             try {
@@ -169,9 +210,5 @@ public final class Essentials extends JavaPlugin {
     public void syncAll() {
         for (EssentialsModule m : modules.values())
             m.onSync();
-    }
-
-    public String getServerType() {
-        return serverType;
     }
 }

@@ -1,5 +1,7 @@
 package live.innocraft.essentials.common;
 
+import live.innocraft.essentials.core.Essentials;
+import live.innocraft.essentials.core.EssentialsModule;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

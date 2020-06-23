@@ -1,0 +1,3 @@
+
+# This option allows all players without keys to connect
+allow-guests: false

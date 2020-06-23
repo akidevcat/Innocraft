@@ -1,0 +1,1 @@
+HASH, nullable UUID, PERM_GROUP, nullable STUDY_GROUP, nullable PARTY_GROUP, nullable UNTIL, nullable META (email)

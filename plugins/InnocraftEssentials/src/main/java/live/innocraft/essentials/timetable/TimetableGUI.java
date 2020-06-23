@@ -1,6 +1,6 @@
 package live.innocraft.essentials.timetable;
 
-import live.innocraft.essentials.common.Essentials;
+import live.innocraft.essentials.core.Essentials;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -29,60 +29,60 @@ public class TimetableGUI implements Listener {
 
         inventory = Bukkit.createInventory(null, 9, "");
 
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        //plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public void Update(TreeSet<TimetableLesson> lessons) {
-        inventory = Bukkit.createInventory(null, 9 * 3, ChatColor.translateAlternateColorCodes('&', timetable.GetGUIName()));
-
-        int i = 1;
-        for (TimetableLesson lesson : lessons) {
-            final ItemStack item = new ItemStack(lesson.Icon, Math.max(1, lesson.TimeStart / 60));
-            final ItemMeta meta = item.getItemMeta();
-            List<String> loreFormat = timetable.GetGUILoreFormat();
-
-            for (int e = 0; e < loreFormat.size(); e++) {
-                String parsedLine = timetable.ApplyPlaceholders(loreFormat.get(e), lesson);
-                if (parsedLine.contains("%skip%")) {
-                    loreFormat.remove(e--);
-                    continue;
-                }
-                loreFormat.set(e, ChatColor.translateAlternateColorCodes('&', parsedLine));
-            }
-
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', lesson.Name));
-            meta.setLore(loreFormat);
-
-            item.setItemMeta(meta);
-
-            inventory.addItem(item);
-
-            i++;
-        }
-    }
-
-    public void Open(final HumanEntity ent) {
-        ent.openInventory(inventory);
-    }
-
-    @EventHandler
-    public void onInventoryClick(final InventoryClickEvent e) {
-        if (!e.getInventory().equals(inventory)) return;
-
-        e.setCancelled(true);
-
-        final ItemStack clickedItem = e.getCurrentItem();
-
-        // verify current item is not null
-        if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
-
-        final Player p = (Player) e.getWhoClicked();
-    }
-
-    @EventHandler
-    public void onInventoryDrag(final InventoryDragEvent e) {
-        if (e.getInventory().equals(inventory))
-            e.setCancelled(true);
-    }
+//    public void Update(TreeSet<TimetableLesson> lessons) {
+//        inventory = Bukkit.createInventory(null, 9 * 3, ChatColor.translateAlternateColorCodes('&', timetable.GetGUIName()));
+//
+//        int i = 1;
+//        for (TimetableLesson lesson : lessons) {
+//            final ItemStack item = new ItemStack(lesson.Icon, Math.max(1, lesson.TimeStart / 60));
+//            final ItemMeta meta = item.getItemMeta();
+//            List<String> loreFormat = timetable.GetGUILoreFormat();
+//
+//            for (int e = 0; e < loreFormat.size(); e++) {
+//                String parsedLine = timetable.ApplyPlaceholders(loreFormat.get(e), lesson);
+//                if (parsedLine.contains("%skip%")) {
+//                    loreFormat.remove(e--);
+//                    continue;
+//                }
+//                loreFormat.set(e, ChatColor.translateAlternateColorCodes('&', parsedLine));
+//            }
+//
+//            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', lesson.Name));
+//            meta.setLore(loreFormat);
+//
+//            item.setItemMeta(meta);
+//
+//            inventory.addItem(item);
+//
+//            i++;
+//        }
+//    }
+//
+//    public void Open(final HumanEntity ent) {
+//        ent.openInventory(inventory);
+//    }
+//
+//    @EventHandler
+//    public void onInventoryClick(final InventoryClickEvent e) {
+//        if (!e.getInventory().equals(inventory)) return;
+//
+//        e.setCancelled(true);
+//
+//        final ItemStack clickedItem = e.getCurrentItem();
+//
+//        // verify current item is not null
+//        if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
+//
+//        final Player p = (Player) e.getWhoClicked();
+//    }
+//
+//    @EventHandler
+//    public void onInventoryDrag(final InventoryDragEvent e) {
+//        if (e.getInventory().equals(inventory))
+//            e.setCancelled(true);
+//    }
 
 }

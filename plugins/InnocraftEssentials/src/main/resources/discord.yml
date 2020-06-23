@@ -1,0 +1,14 @@
+bot-token: "NzE1MTA5ODE2MDgyNjI4NjI5.Xs4czQ.Y3DCk-sT2wk7yZifTYJ0jBjNIts"
+main-guild: "696831601002283179"
+
+roles:
+  - "participant@705449535324946502"
+
+channels:
+  - "admin@711592378460536852"
+  - "classes@712240209080614914"
+  - "groups@717073829234737251"
+  - "register@700051051616665633"
+  - "requests@709021209727205416"
+  - "events@721388253118332939"
+  - "cmds@711220503259512924"

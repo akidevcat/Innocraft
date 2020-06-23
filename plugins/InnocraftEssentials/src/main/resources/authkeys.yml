@@ -5,13 +5,3 @@ groups:
     groups: ["participant"]
     # These commands are executed right after the player redeems his auth-key
     # {player} will be changed to player's name
-  student:
-    commands:
-      - "lp user {player} group set student"
-  staff:
-    commands:
-      - "lp user {player} group set staff"
-  organizer:
-    role: "701434529683996742"
-    commands:
-      - "lp user {player} group set organizer"

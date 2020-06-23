@@ -1,6 +1,6 @@
-package live.innocraft.essentials.configuration;
+package live.innocraft.essentials.core;
 
-import live.innocraft.essentials.common.Essentials;
+import live.innocraft.essentials.core.Essentials;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -41,6 +41,8 @@ public abstract class EssentialsConfiguration {
                 e.printStackTrace();
             }
         }
+
+        this.onReload();
     }
 
     public void saveFile() {
@@ -53,4 +55,5 @@ public abstract class EssentialsConfiguration {
 
     //Overridable Methods
     public void onLateInitialization() {}
+    public void onReload() {}
 }
