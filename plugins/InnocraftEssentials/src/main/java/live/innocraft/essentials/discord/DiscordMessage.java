@@ -23,6 +23,7 @@ public class DiscordMessage extends ListenerAdapter {
         Message msg = event.getMessage();
         String msgRaw = msg.getContentRaw();
         String[] msgArgs = msgRaw.split(" ");
+        byte responseCode = 0;
         switch (msgArgs[0]) {
             case "/redeem":
                 if (!event.isFromType(ChannelType.PRIVATE))
@@ -33,15 +34,31 @@ public class DiscordMessage extends ListenerAdapter {
                     return;
                 if (msgArgs.length != 2)
                     return;
-                if (msgArgs[1].length() != 4)
+                if (msgArgs[1].length() != 6)
                     return;
-                for (char c : msgArgs[1].toCharArray())
+                for (char c : msgArgs[1].toCharArray()) {
                     if (c < 65 || c > 90)
                         return;
-                discord.getPlugin().getModule(Auth.class).registerUser(event.getAuthor().getId(), msgArgs[1]);
-                event.getAuthor().openPrivateChannel().queue((channel) -> channel.sendMessage(
-                        discord.getPlugin().getMessageColor("discord-register-message", "auth", "en_EN")
-                ).queue());
+                }
+
+                event.getAuthor().openPrivateChannel().queue((channel) -> {
+                    switch (discord.getPlugin().getModule(Auth.class).registerUser(event.getAuthor().getId(), msgArgs[1])) {
+                        case 0:
+                            channel.sendMessage(discord.getPlugin().getMessageColor("discord-register-message", "auth", "en_EN")).queue();
+                            break;
+                        case 1:
+                            channel.sendMessage(discord.getPlugin().getMessageColor("discord-register-wrong-code-message", "auth", "en_EN")).queue();
+                            break;
+                        case 2:
+                            channel.sendMessage(discord.getPlugin().getMessageColor("discord-register-already-done-message", "auth", "en_EN")).queue();
+                            break;
+                    }
+                });
+//                        event.getAuthor().openPrivateChannel().queue((channel) -> channel.sendMessage(
+//                        discord.getPlugin().getMessageColor(
+//                                "discord-register-message"
+//                                , "auth", "en_EN")
+//                ).queue());
                 return;
             case "/unregister":
                 if (!event.isFromType(ChannelType.PRIVATE))

@@ -313,7 +313,7 @@ public class EssentialsSQL extends EssentialsModule {
 
             if (!connection.getMetaData().getTables(null, null, CONST_TABLE_NAME_REGCODES, null).next()) {
                 sqlStatement = "CREATE TABLE IF NOT EXISTS " + CONST_TABLE_NAME_REGCODES
-                        + "   (CODE          CHAR(4),"
+                        + "   (CODE          CHAR(6),"
                         + "   UUID            CHAR(36));";
                 statement.execute(sqlStatement);
 

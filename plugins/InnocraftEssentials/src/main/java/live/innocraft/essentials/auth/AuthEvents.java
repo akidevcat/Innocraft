@@ -28,8 +28,9 @@ public class AuthEvents implements Listener {
         AuthPlayer authPlayer = auth.addAuthPlayer(event.getPlayer().getUniqueId());
         if (!authPlayer.isRegistered()) {
             event.getPlayer().kickPlayer(auth.getPlugin().getMessageColorFormat("registration-kick", "auth", event.getPlayer().getLocale(), authPlayer.getRegistrationCode()));
+            return;
         }
-        auth.getPlugin().sendChatMessageFormatLang("login-request", event.getPlayer(), event.getPlayer().getDisplayName());
+        auth.getPlugin().sendChatMessageFormat("login-request", event.getPlayer(), event.getPlayer().getDisplayName());
     }
 
     @EventHandler(priority = EventPriority.LOW)

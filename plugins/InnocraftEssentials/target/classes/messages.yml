@@ -15,11 +15,13 @@ en_EN:
     logged-in: "{prefix}&a&oLogged in successfully!"
     login-request: "{prefix}&bHello, &a&o{0}&b! We need to make sure that you are you indeed. We've sent you a private message on &9&lDiscord&b, please press the &a&ogreen button&b!"
   auth:
-    registration-kick: "&f&oWelcome to &aInno&fcraft&f&o!\nMy system records suggest that you\nhaven't registered yet!\nYour code is: &9&l{0}\n&f&oFor more information go to\n&finfo.innocraft.live"
+    registration-kick: "&f&oWelcome to &aInno&fcraft&f&o!\n\n&fMy system records suggest that you\nhaven't registered yet.\n\nYour code is: &9&l{0}\n\n&7&oFor more information go to &finfo.innocraft.live"
     unregister-kick: "&c&oI was told you were unregistered through Discord. Please come back :("
     login-kick: "&c&oAuthentication time out!"
     discord-login-message: "You've joined the **Innocraft Minecraft server**. To continue please press the button below 👇"
     discord-register-message: "Cool, I've registered you successfully 🎉 \n**Now you can join the server!**"
+    discord-register-wrong-code-message: "Whoops, this code is incorrect. Can you try again, please?"
+    discord-register-already-done-message: "That doesn't work this way - you're already registered. Use /unregister first."
     discord-unregister-message: "I've erased you ~~from this world~~, e-e-eh, from the database, I mean."
     discord-proceed-emoji: "✅"
 ru_ru:

@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -18,7 +19,8 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Auth extends EssentialsModule {
 
-    private final Long CONST_VERIFICATION_TIMEOUT = 20L * 60L * 1L;
+    private final Long CONST_VERIFICATION_TIMEOUT = 20L * 60L * 3L;
+    private final Long CONST_REGISTRATION_TIMEOUT = 20L * 60L * 5L;
 
     private final HashMap<UUID, AuthPlayer> authPlayers;
     private final HashMap<String, UUID> registrationCodesCache;
@@ -72,7 +74,7 @@ public class Auth extends EssentialsModule {
         if (dbAuthPlayer == null) {
 
             // Registration Phase
-            authPlayer.setRegistrationCode(generateRegistrationCode(uuid));
+            authPlayer.setRegistrationCode(generateNewRegistrationCode(uuid));
 
 
         } else {
@@ -114,23 +116,33 @@ public class Auth extends EssentialsModule {
     public boolean unregisterUser(String discordID) {
         UUID uuid = getPlugin().getModule(EssentialsSQL.class).deleteUser(discordID);
         if (uuid != null) {
-            Bukkit.getPlayer(uuid).kickPlayer(getPlugin().getMessageColor("unregister-kick", "auth", "en_EN"));
+            Bukkit.getScheduler().runTask(getPlugin(), () -> { // Exit from async thread
+                Objects.requireNonNull(getPlayer(uuid)).kickPlayer(getPlugin().getMessageColor("unregister-kick", "auth", "en_EN"));
+            });
             return true;
         }
         return false;
     }
 
-    public String generateRegistrationCode(UUID uniqueID) {
+    public String generateNewRegistrationCode(UUID uniqueID) {
+        EssentialsSQL sql = getPlugin().getModule(EssentialsSQL.class);
         String code;
         do {
             code = random.ints(65, 90 + 1)
-                    .limit(4)
+                    .limit(6)
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString();
 
         } while (registrationCodesCache.containsKey(code));
-        getPlugin().getModule(EssentialsSQL.class).addRegCode(code, uniqueID);
+        sql.addRegCode(code, uniqueID);
         registrationCodesCache.put(code, uniqueID);
+
+        // Remove code after timeout
+        final String finalCode = code;
+        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
+            sql.deleteRegCode(finalCode);
+        }, CONST_REGISTRATION_TIMEOUT);
+
         return code;
     }
 
@@ -180,20 +192,18 @@ public class Auth extends EssentialsModule {
         sql.addAuthPlayer(uniqueID, discordID);
     }
 
-    public boolean registerUser(String discordID, String code) {
+    public byte registerUser(String discordID, String code) {
         EssentialsSQL sql = getPlugin().getModule(EssentialsSQL.class);
         UUID uuid = sql.getRegCodeUUID(code);
         if (uuid == null) { // Incorrect code
-
-            return false;
+            return 1;
         }
         if (sql.getAuthPlayerByDiscord(discordID) != null) { // Player is already registered
-
-            return false;
+            return 2;
         }
         sql.deleteRegCode(code);
         registerAuthPlayer(uuid, discordID);
-        return true; // Success
+        return 0; // Success
     }
 
 //    public void registerPlayer(UUID uniqueID, String discordID) {
