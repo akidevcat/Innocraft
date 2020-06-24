@@ -1,3 +1,4 @@
+D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\discord\DiscordChannelCleaner.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\ustudy\UStudyCommands.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\ustudy\UStudyEvents.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\auth\AuthPlayer.java
@@ -18,6 +19,7 @@ D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\ess
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\discord\DiscordEvents.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\core\EssentialsConfiguration.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\timetable\Timetable.java
+D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\auth\VerificationMessage.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\discord\DiscordMessage.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\common\CommonConfiguration.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\common\EssentialsPlaceholderExpansion.java
@@ -40,5 +42,4 @@ D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\ess
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\slides\SlidesCommands.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\slides\Slides.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\helper\EssentialsHelper.java
-D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\auth\AuthMessage.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\discord\DiscordConfiguration.java

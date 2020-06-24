@@ -10,7 +10,6 @@ live\innocraft\essentials\common\CommonConfiguration.class
 live\innocraft\essentials\sql\EssentialsSQLAsync.class
 live\innocraft\essentials\discord\Discord.class
 live\innocraft\essentials\authkeys\DBAuthKey.class
-live\innocraft\essentials\auth\AuthMessage.class
 live\innocraft\essentials\common\ServerType.class
 live\innocraft\essentials\common\EssentialsCommands.class
 live\innocraft\essentials\common\MessagesConfiguration.class
@@ -21,6 +20,7 @@ live\innocraft\essentials\auth\AuthPlayer.class
 live\innocraft\essentials\slides\SlidesCommands.class
 live\innocraft\essentials\helper\EssentialsHelper.class
 live\innocraft\essentials\classrooms\ClassroomGUI.class
+live\innocraft\essentials\auth\VerificationMessage.class
 live\innocraft\essentials\slides\Slides.class
 live\innocraft\essentials\ustudy\UStudyGUI.class
 live\innocraft\essentials\classrooms\ClassroomsEvents.class
@@ -43,3 +43,4 @@ live\innocraft\essentials\discord\DiscordEvents.class
 live\innocraft\essentials\auth\AuthEvents.class
 live\innocraft\essentials\ustudy\UStudyUpdater.class
 live\innocraft\essentials\auth\DBAuthPlayer.class
+live\innocraft\essentials\discord\DiscordChannelCleaner.class

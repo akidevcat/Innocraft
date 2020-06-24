@@ -5,6 +5,8 @@ import live.innocraft.essentials.core.Essentials;
 import live.innocraft.essentials.core.EssentialsModule;
 import live.innocraft.essentials.discord.Discord;
 import live.innocraft.essentials.sql.EssentialsSQL;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -16,9 +18,11 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Auth extends EssentialsModule {
 
+    private final Long CONST_VERIFICATION_TIMEOUT = 20L * 60L * 1L;
+
     private final HashMap<UUID, AuthPlayer> authPlayers;
     private final HashMap<String, UUID> registrationCodesCache;
-    private final HashMap<String, AuthMessage> verificationMessages;
+    private final HashMap<String, VerificationMessage> verificationMessages;
     private final Random random;
 
     public Auth(Essentials plugin) {
@@ -88,7 +92,7 @@ public class Auth extends EssentialsModule {
                 }
             }
 
-            generateAuthenticationMessage(authPlayer);
+            generateVerificationMessage(authPlayer);
 
         }
 
@@ -97,12 +101,23 @@ public class Auth extends EssentialsModule {
     }
 
     public void removeAuthPlayer(UUID uuid) {
-        if (authPlayers.containsKey(uuid)) {
-            String regCode = authPlayers.get(uuid).getRegistrationCode();
+        AuthPlayer authPlayer = authPlayers.get(uuid);
+        if (authPlayer != null) {
+            String regCode = authPlayer.getRegistrationCode();
             if (regCode != null)
                 registrationCodesCache.remove(regCode);
             authPlayers.remove(uuid);
+            verificationMessages.remove(authPlayer.getVerificationMessageID());
         }
+    }
+
+    public boolean unregisterUser(String discordID) {
+        UUID uuid = getPlugin().getModule(EssentialsSQL.class).deleteUser(discordID);
+        if (uuid != null) {
+            Bukkit.getPlayer(uuid).kickPlayer(getPlugin().getMessageColor("unregister-kick", "auth", "en_EN"));
+            return true;
+        }
+        return false;
     }
 
     public String generateRegistrationCode(UUID uniqueID) {
@@ -119,35 +134,66 @@ public class Auth extends EssentialsModule {
         return code;
     }
 
-    public AuthMessage generateAuthenticationMessage(AuthPlayer authPlayer) {
-        AuthMessage authMessage = new AuthMessage(authPlayer.getUniqueID(), authPlayer.getDiscordID());
-        getPlugin().getModule(Discord.class).sendAuthenticationMessage(authMessage);
-        return authMessage;
+    public VerificationMessage generateVerificationMessage(AuthPlayer authPlayer) {
+        VerificationMessage verificationMessage = new VerificationMessage(authPlayer.getUniqueID(), authPlayer.getDiscordID());
+        getPlugin().getModule(Discord.class).sendAuthenticationMessage(verificationMessage);
+        return verificationMessage;
     }
 
-    public void finalizeAuthenticationMessage(AuthMessage authMessage, String messageID) {
-        authMessage.setMessageID(messageID);
-        verificationMessages.put(messageID, authMessage);
+    public void finalizeAuthenticationMessage(VerificationMessage verificationMessage, String messageID) {
+        verificationMessage.setMessageID(messageID);
+        verificationMessages.put(messageID, verificationMessage);
+        authPlayers.get(verificationMessage.getUniqueID()).setVerificationMessageID(messageID);
+        // Remove message after verification timeout
+        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
+            VerificationMessage updatedVerificationMessage = verificationMessages.get(messageID);
+            if (updatedVerificationMessage != null && updatedVerificationMessage.getDate().equals(verificationMessage.getDate())) {
+                verificationMessages.remove(messageID);
+                Player p = getPlayer(verificationMessage.getUniqueID());
+                if (p != null && !authPlayers.get(verificationMessage.getUniqueID()).isLoggedIn())
+                    p.kickPlayer(getPlugin().getMessageColor("login-kick", "auth", p.getLocale()));
+            }
+        }, CONST_VERIFICATION_TIMEOUT);
     }
 
-    public void authorizeUser(String messageID) {
-        AuthMessage authMessage = verificationMessages.get(messageID);
+    public boolean authorizeUser(String messageID, String discordID) {
+        VerificationMessage verificationMessage = verificationMessages.get(messageID);
 
-        if (authMessage == null || authMessage.getMessageID() == null)
-            return;
+        if (verificationMessage == null || verificationMessage.getMessageID() == null)
+            return false;
 
-        AuthPlayer authPlayer = authPlayers.get(authMessage.getUniqueID());
+        if (!verificationMessage.getDiscordID().equals(discordID))
+            return false;
+
+        AuthPlayer authPlayer = authPlayers.get(verificationMessage.getUniqueID());
 
         if (authPlayer == null)
-            return;
+            return false;
 
         authPlayer.setLoggedIn(true);
         getPlugin().sendChatMessage("logged-in", getPlayer(authPlayer.getUniqueID()));
+        return true;
     }
 
     public void registerAuthPlayer(UUID uniqueID, String discordID) {
         EssentialsSQL sql = getPlugin().getModule(EssentialsSQL.class);
         sql.addAuthPlayer(uniqueID, discordID);
+    }
+
+    public boolean registerUser(String discordID, String code) {
+        EssentialsSQL sql = getPlugin().getModule(EssentialsSQL.class);
+        UUID uuid = sql.getRegCodeUUID(code);
+        if (uuid == null) { // Incorrect code
+
+            return false;
+        }
+        if (sql.getAuthPlayerByDiscord(discordID) != null) { // Player is already registered
+
+            return false;
+        }
+        sql.deleteRegCode(code);
+        registerAuthPlayer(uuid, discordID);
+        return true; // Success
     }
 
 //    public void registerPlayer(UUID uniqueID, String discordID) {

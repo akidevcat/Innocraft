@@ -29,6 +29,7 @@ public class AuthEvents implements Listener {
         if (!authPlayer.isRegistered()) {
             event.getPlayer().kickPlayer(auth.getPlugin().getMessageColorFormat("registration-kick", "auth", event.getPlayer().getLocale(), authPlayer.getRegistrationCode()));
         }
+        auth.getPlugin().sendChatMessageFormatLang("login-request", event.getPlayer(), event.getPlayer().getDisplayName());
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -38,6 +39,16 @@ public class AuthEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChat(AsyncPlayerChatEvent event)
+    {
+        AuthPlayer authPlayer = auth.getAuthPlayer(event.getPlayer().getUniqueId());
+        if (authPlayer != null && !authPlayer.isLoggedIn()) {
+            auth.getPlugin().sendChatMessage("auth-restricted-action", event.getPlayer());
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerCommand(PlayerCommandPreprocessEvent event)
     {
         AuthPlayer authPlayer = auth.getAuthPlayer(event.getPlayer().getUniqueId());
         if (authPlayer != null && !authPlayer.isLoggedIn()) {
@@ -114,6 +125,15 @@ public class AuthEvents implements Listener {
         AuthPlayer authPlayer = auth.getAuthPlayer(event.getWhoClicked().getUniqueId());
         if (authPlayer != null && !authPlayer.isLoggedIn()) {
             auth.getPlugin().sendChatMessage("auth-restricted-action", event.getWhoClicked());
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerDropItemEvent(PlayerDropItemEvent event) {
+        AuthPlayer authPlayer = auth.getAuthPlayer(event.getPlayer().getUniqueId());
+        if (authPlayer != null && !authPlayer.isLoggedIn()) {
+            auth.getPlugin().sendChatMessage("auth-restricted-action", event.getPlayer());
             event.setCancelled(true);
         }
     }

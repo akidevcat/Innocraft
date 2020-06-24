@@ -35,7 +35,7 @@ public final class Essentials extends JavaPlugin {
         if (s instanceof Player)
             sendChatMessage(msgLabel, (Player)s, ((Player)s).getLocale());
         else
-            sendChatMessage(msgLabel, s, "en-EN");
+            sendChatMessage(msgLabel, s, "en_EN");
     }
 
     public void sendChatMessage(String msgLabel, CommandSender s, String lang) {
@@ -44,12 +44,12 @@ public final class Essentials extends JavaPlugin {
 
     public void sendChatMessageFormat(String msgLabel, CommandSender s, String... args) {
         if (s instanceof Player)
-            sendChatMessageFormat(msgLabel, (Player)s, ((Player)s).getLocale(), args);
+            sendChatMessageFormatLang(msgLabel, (Player)s, ((Player)s).getLocale(), args);
         else
-            sendChatMessageFormat(msgLabel, s, "en-EN", args);
+            sendChatMessageFormatLang(msgLabel, s, "en_EN", args);
     }
 
-    public void sendChatMessageFormat(String msgLabel, CommandSender s, String lang, String... args) {
+    public void sendChatMessageFormatLang(String msgLabel, CommandSender s, String lang, String... args) {
         s.sendMessage(getChatMessageFormatColor(msgLabel, lang, args));
     }
 

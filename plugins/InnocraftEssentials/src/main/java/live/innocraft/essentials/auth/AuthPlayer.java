@@ -14,6 +14,7 @@ public class AuthPlayer {
     private boolean isRegistered;
     private boolean isLoggedIn;
     private String registrationCode;
+    private String verificationMessageID;
 
     public AuthPlayer(UUID uuid) {
         this.uniqueID = uuid;
@@ -23,6 +24,7 @@ public class AuthPlayer {
         this.studyGroup = null;
         this.partyGroup = null;
         this.meta = null;
+        this.verificationMessageID = null;
         isRegistered = false;
         isLoggedIn = false;
         registrationCode = null;
@@ -102,5 +104,13 @@ public class AuthPlayer {
 
     public void setRegistrationCode(String registrationCode) {
         this.registrationCode = registrationCode;
+    }
+
+    public String getVerificationMessageID() {
+        return verificationMessageID;
+    }
+
+    public void setVerificationMessageID(String verificationMessageID) {
+        this.verificationMessageID = verificationMessageID;
     }
 }

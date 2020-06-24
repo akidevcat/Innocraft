@@ -1,4 +1,28 @@
-en-EN:
+en_EN:
+  chat-messages:
+    prefix: "&8[&aS&fystem&8] &8-> "
+    wrong-command-format: "{prefix}&c&oWrong command format! &7&oTry typing &9&o/innocraft&7&o..."
+    permission-error: "{prefix}&e&oThis is a secret command! *Whoosh*"
+    auth-key-redeemed: "{prefix}&a&oA key was successfully redeemed!"
+    auth-key-wrong: "{prefix}&c&oThis auth key doesn't exist."
+    auth-key-wrong-group: "{prefix}&c&oThe auth key is valid, but this key is blank. If you think this is an error, please contact staff."
+    auth-key-discord-problem: "{prefix}&c&oВаш аккаунт не привязан к аккаунту Discord. Роль не была присвоена."
+    classroom-link-format: "&b&l--> Open link in browser <--"
+    classroom-code-format: "&b&l--> Code: [{0}] <--"
+    classroom-region-missing: "{prefix}&c&oYou're outside a classroom."
+    classroom-link-missing: "{prefix}&c&oThis classroom doesn't contain a link."
+    auth-restricted-action: "{prefix}&c&oPlease authorize with our Discord bot before doing that."
+    logged-in: "{prefix}&a&oLogged in successfully!"
+    login-request: "{prefix}&bHello, &a&o{0}&b! We need to make sure that you are you indeed. We've sent you a private message on &9&lDiscord&b, please press the &a&ogreen button&b!"
+  auth:
+    registration-kick: "&f&oWelcome to &aInno&fcraft&f&o!\nMy system records suggest that you\nhaven't registered yet!\nYour code is: &9&l{0}\n&f&oFor more information go to\n&finfo.innocraft.live"
+    unregister-kick: "&c&oI was told you were unregistered through Discord. Please come back :("
+    login-kick: "&c&oAuthentication time out!"
+    discord-login-message: "You've joined the **Innocraft Minecraft server**. To continue please press the button below 👇"
+    discord-register-message: "Cool, I've registered you successfully 🎉 \n**Now you can join the server!**"
+    discord-unregister-message: "I've erased you ~~from this world~~, e-e-eh, from the database, I mean."
+    discord-proceed-emoji: "✅"
+ru_ru:
   chat-messages:
     wrong-command-format: "&c&oWrong command format! &7&oTry typing &9&o/innocraft&7&o..."
     permission-error: "&e&oThis is a secret command! *Whoosh*"
@@ -11,6 +35,7 @@ en-EN:
     classroom-region-missing: "&c&oYou're outside a classroom."
     classroom-link-missing: "&c&oThis classroom doesn't contain a link."
     auth-restricted-action: "&c&oPlease authorize with our Discord bot before doing that."
-  auth:
-    registration-kick: "&a&oHello! 大丈夫です\nNow you should register using this code: &9&l{0}&a&o - send it to our Discord bot in &f&oprivate messages&a&o!"
-    discord-login-message: "You've joined the **Innocraft Minecraft server**, please press the button below this message to continue"
+    logged-in: "&a&oВы успешно авторизовались!"
+    auth:
+      registration-kick: "&a&oHello! 大丈夫です\nNow you should register using this code: &9&l{0}&a&o - send it to our Discord bot in &f&oprivate messages&a&o!"
+      discord-login-message: "You've joined the **Innocraft Minecraft server**, please press the button below this message to continue"

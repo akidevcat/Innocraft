@@ -1,24 +1,17 @@
 package live.innocraft.essentials.discord;
 
 import live.innocraft.essentials.auth.Auth;
-import live.innocraft.essentials.auth.AuthMessage;
+import live.innocraft.essentials.auth.VerificationMessage;
 import live.innocraft.essentials.core.Essentials;
 import live.innocraft.essentials.core.EssentialsModule;
-import live.innocraft.essentials.classrooms.Classrooms;
-import live.innocraft.essentials.helper.EssentialsHelper;
-import live.innocraft.essentials.timetable.TimetableLesson;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.bukkit.configuration.Configuration;
 
 import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
-import java.util.List;
-import java.util.Objects;
 
 public class Discord extends EssentialsModule {
 
@@ -104,39 +97,56 @@ public class Discord extends EssentialsModule {
 //        Objects.requireNonNull(jda.getTextChannelById(channelClassesID)).sendMessage(embed).queue();
 //    }
 
-    public void sendAuthenticationMessage(AuthMessage authMessage) {
-        jda.getUserById(authMessage.getDiscordID()).openPrivateChannel().queue((channel) ->
+    public void sendAuthenticationMessage(VerificationMessage verificationMessage) {
+        jda.getUserById(verificationMessage.getDiscordID()).openPrivateChannel().queue((channel) ->
         {
-            channel.sendMessage(getPlugin().getMessageColor("discord-login-message", "auth", "en-EN")).queue((msg) -> {
-                msg.addReaction("✔").queue();
-                getPlugin().getModule(Auth.class).finalizeAuthenticationMessage(authMessage, msg.getId());
+            String textMsg = getPlugin().getMessageColor("discord-login-message", "auth", "en_EN");
+
+            // Delete all previous messages
+            clearTextChannel(channel, textMsg);
+            // Send a new one
+            channel.sendMessage(textMsg).queue((msg) -> {
+                msg.addReaction(getPlugin().getMessageColor("discord-proceed-emoji", "auth", "en_EN")).queue();
+                getPlugin().getModule(Auth.class).finalizeAuthenticationMessage(verificationMessage, msg.getId());
             });
         });
     }
 
-    private static boolean ClearTextChannel_IsInProgress = false;
-    public void ClearTextChannel(String channelID) {
-        if (ClearTextChannel_IsInProgress)
-            return;
-
-        TextChannel channel = jda.getTextChannelById(channelID);
-
-        ClearTextChannel_IsInProgress = true;
-
-        new Thread(() ->
-        {
-            while (ClearTextChannel_IsInProgress) {
-                List<Message> messages = channel.getHistory().retrievePast(50).complete();
-
-                if (messages.isEmpty()) {
-                    ClearTextChannel_IsInProgress = false;
-                    return;
-                }
-
-                channel.deleteMessages(messages).complete();
-            }
-        }).start();
+    public void clearTextChannel(String channelID) {
+        new DiscordChannelCleaner(jda, channelID, null);
     }
+
+    public void clearTextChannel(String channelID, String containsText) {
+        new DiscordChannelCleaner(jda, channelID, containsText);
+    }
+
+    public void clearTextChannel(PrivateChannel channel, String containsText) {
+        new DiscordChannelCleaner(jda, channel, containsText);
+    }
+
+//    private static boolean ClearTextChannel_IsInProgress = false;
+//    public void ClearTextChannel(String channelID) {
+//        if (ClearTextChannel_IsInProgress)
+//            return;
+//
+//        TextChannel channel = jda.getTextChannelById(channelID);
+//
+//        ClearTextChannel_IsInProgress = true;
+//
+//        new Thread(() ->
+//        {
+//            while (ClearTextChannel_IsInProgress) {
+//                List<Message> messages = channel.getHistory().retrievePast(50).complete();
+//
+//                if (messages.isEmpty()) {
+//                    ClearTextChannel_IsInProgress = false;
+//                    return;
+//                }
+//
+//                channel.deleteMessages(messages).complete();
+//            }
+//        }).start();
+//    }
 
     public void AddUserRole(String discordID, String roleID) {
         Role role = jda.getRoleById(roleID);

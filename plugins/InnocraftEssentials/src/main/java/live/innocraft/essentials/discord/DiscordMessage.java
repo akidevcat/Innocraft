@@ -1,7 +1,10 @@
 package live.innocraft.essentials.discord;
 
+import live.innocraft.essentials.auth.Auth;
 import live.innocraft.essentials.classrooms.Classrooms;
+import live.innocraft.essentials.sql.EssentialsSQL;
 import live.innocraft.essentials.timetable.Timetable;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -17,14 +20,51 @@ public class DiscordMessage extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event)
     {
-//        Message msg = event.getMessage();
-//        String msgRaw = msg.getContentRaw();
-//        String[] msgArgs = msgRaw.split(" ");
-//        if (!msgArgs[0].equals("/ic"))
-//            return;
-//        if (msgArgs.length < 2)
-//            return;
-//        switch(msgArgs[1]) {
+        Message msg = event.getMessage();
+        String msgRaw = msg.getContentRaw();
+        String[] msgArgs = msgRaw.split(" ");
+        switch (msgArgs[0]) {
+            case "/redeem":
+                if (!event.isFromType(ChannelType.PRIVATE))
+                    return;
+                return;
+            case "/register":
+                if (!event.isFromType(ChannelType.PRIVATE))
+                    return;
+                if (msgArgs.length != 2)
+                    return;
+                if (msgArgs[1].length() != 4)
+                    return;
+                for (char c : msgArgs[1].toCharArray())
+                    if (c < 65 || c > 90)
+                        return;
+                discord.getPlugin().getModule(Auth.class).registerUser(event.getAuthor().getId(), msgArgs[1]);
+                event.getAuthor().openPrivateChannel().queue((channel) -> channel.sendMessage(
+                        discord.getPlugin().getMessageColor("discord-register-message", "auth", "en_EN")
+                ).queue());
+                return;
+            case "/unregister":
+                if (!event.isFromType(ChannelType.PRIVATE))
+                    return;
+                if (discord.getPlugin().getModule(Auth.class).unregisterUser(event.getAuthor().getId()))
+                    event.getAuthor().openPrivateChannel().queue((channel) -> channel.sendMessage(
+                            discord.getPlugin().getMessageColor("discord-unregister-message", "auth", "en_EN")
+                    ).queue());
+                break;
+            case "/ic":
+                break;
+            default:
+                return;
+        }
+
+        // /ic Command
+
+        if (msgArgs.length < 2)
+            return;
+
+        switch(msgArgs[1]) {
+
+        }
 //            case "sync":
 //                if (!event.getChannel().getId().equals(discord.channelCoreCommandsID))
 //                    return;

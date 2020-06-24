@@ -10,17 +10,25 @@ import java.util.Objects;
 
 public class MessagesConfiguration extends EssentialsConfiguration {
 
+    private String prefixMessage;
+
     public MessagesConfiguration(Essentials plugin) {
         super(plugin, "messages.yml", true);
+    }
+
+    @Override
+    public void onReload() {
+        if (getCfgFile().contains("en_EN.chat-messages.prefix"))
+            prefixMessage = getCfgFile().getString("en_EN.chat-messages.prefix");
     }
 
     public String getMessageColor(String msgLabel, String subcategory, String lang) {
         // Try loading lang
         if (getCfgFile().contains(lang + "." + subcategory + "." + msgLabel))
-            return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getCfgFile().getString(lang + "." + subcategory + "." + msgLabel)));
+            return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getCfgFile().getString(lang + "." + subcategory + "." + msgLabel).replace("{prefix}", prefixMessage)));
             // Try loading english lang
-        else if (getCfgFile().contains("en-EN" + "." + subcategory + "." + msgLabel))
-            return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getCfgFile().getString("en-EN" + "." + subcategory + "." + msgLabel)));
+        else if (getCfgFile().contains("en_EN" + "." + subcategory + "." + msgLabel))
+            return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getCfgFile().getString("en_EN" + "." + subcategory + "." + msgLabel).replace("{prefix}", prefixMessage)));
             // Send a null message
         else
             return ChatColor.translateAlternateColorCodes('&', "&cNull Message :( Please contact to the staff");
@@ -29,10 +37,10 @@ public class MessagesConfiguration extends EssentialsConfiguration {
     public String getMessageColorFormat(String msgLabel, String subcategory, String lang, String... args) {
         // Try loading lang
         if (getCfgFile().contains(lang + "." + subcategory + "." + msgLabel))
-            return ChatColor.translateAlternateColorCodes('&', new MessageFormat(Objects.requireNonNull(getCfgFile().getString(lang + "." + subcategory + "." + msgLabel))).format(args) );
+            return ChatColor.translateAlternateColorCodes('&', new MessageFormat(Objects.requireNonNull(getCfgFile().getString(lang + "." + subcategory + "." + msgLabel).replace("{prefix}", prefixMessage))).format(args) );
             // Try loading english lang
-        else if (getCfgFile().contains("en-EN" + "." + subcategory + "." + msgLabel))
-            return ChatColor.translateAlternateColorCodes('&', new MessageFormat(Objects.requireNonNull(getCfgFile().getString("en-EN" + "." + subcategory + "." + msgLabel))).format(args) );
+        else if (getCfgFile().contains("en_EN" + "." + subcategory + "." + msgLabel))
+            return ChatColor.translateAlternateColorCodes('&', new MessageFormat(Objects.requireNonNull(getCfgFile().getString("en_EN" + "." + subcategory + "." + msgLabel).replace("{prefix}", prefixMessage))).format(args) );
             // Send a null message
         else
             return ChatColor.translateAlternateColorCodes('&', "&cNull Message :( Please contact to the staff");
@@ -41,10 +49,10 @@ public class MessagesConfiguration extends EssentialsConfiguration {
     public String getChatMessageColor(String msgLabel, String lang) {
         // Try loading lang
         if (getCfgFile().contains(lang + ".chat-messages." + msgLabel))
-            return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getCfgFile().getString(lang + ".chat-messages." + msgLabel)));
+            return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getCfgFile().getString(lang + ".chat-messages." + msgLabel).replace("{prefix}", prefixMessage)));
             // Try loading english lang
-        else if (getCfgFile().contains("en-EN" + ".chat-messages." + msgLabel))
-            return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getCfgFile().getString("en-EN" + ".chat-messages." + msgLabel)));
+        else if (getCfgFile().contains("en_EN" + ".chat-messages." + msgLabel))
+            return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getCfgFile().getString("en_EN" + ".chat-messages." + msgLabel).replace("{prefix}", prefixMessage)));
             // Send a null message
         else
             return ChatColor.translateAlternateColorCodes('&', "&cNull Message :( Please contact to the staff");
@@ -53,10 +61,10 @@ public class MessagesConfiguration extends EssentialsConfiguration {
     public String getChatMessageFormatColor(String msgLabel, String lang, String... args) {
         // Try loading lang
         if (getCfgFile().contains(lang + ".chat-messages." + msgLabel))
-            return ChatColor.translateAlternateColorCodes('&', new MessageFormat(Objects.requireNonNull(getCfgFile().getString(lang + ".chat-messages." + msgLabel))).format(args) );
+            return ChatColor.translateAlternateColorCodes('&', new MessageFormat(Objects.requireNonNull(getCfgFile().getString(lang + ".chat-messages." + msgLabel).replace("{prefix}", prefixMessage))).format(args) );
             // Try loading english lang
-        else if (getCfgFile().contains("en-EN" + ".chat-messages." + msgLabel))
-            return ChatColor.translateAlternateColorCodes('&', new MessageFormat(Objects.requireNonNull(getCfgFile().getString("en-EN" + ".chat-messages." + msgLabel))).format(args) );
+        else if (getCfgFile().contains("en_EN" + ".chat-messages." + msgLabel))
+            return ChatColor.translateAlternateColorCodes('&', new MessageFormat(Objects.requireNonNull(getCfgFile().getString("en_EN" + ".chat-messages." + msgLabel).replace("{prefix}", prefixMessage))).format(args) );
             // Send a null message
         else
             return ChatColor.translateAlternateColorCodes('&', "&cNull Message :( Please contact to the staff");

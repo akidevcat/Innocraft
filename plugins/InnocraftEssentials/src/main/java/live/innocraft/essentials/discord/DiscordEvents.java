@@ -1,6 +1,7 @@
 package live.innocraft.essentials.discord;
 
 import live.innocraft.essentials.auth.Auth;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -18,7 +19,12 @@ public class DiscordEvents extends ListenerAdapter {
     @Override
     public void onMessageReactionAdd(MessageReactionAddEvent event)
     {
-        discord.getPlugin().getModule(Auth.class).authorizeUser(event.getMessageId());
+        boolean result = discord.getPlugin().getModule(Auth.class).authorizeUser(event.getMessageId(), event.getUserId());
+        if (result) {
+            event.getChannel().retrieveMessageById(event.getMessageId()).queue((message) -> {
+                message.delete().queue();
+            });
+        }
     }
 
 }
