@@ -16,6 +16,8 @@ en_EN:
     login-request: "{prefix}&bHello, &a&o{0}&b! We need to make sure that you are you indeed. We've sent you a private message on &9&lDiscord&b, please press the &a&ogreen button&b!"
     welcome: "{prefix}&fOur Time: &9&o{0}\n{prefix}&fRole: &9&o{1}"
     no-key-activated: "{prefix}&e&oYou have no AuthKey activated. Without the key you can't join server"
+    key-synced: "{prefix}&aSAuthKey synchronization is successful!"
+    key-synced-invalid: "{prefix}&cSAuthKey synchronization wasn't completed: AuthKey is missing!"
   auth:
     registration-kick: "&f&oWelcome to &aInno&fcraft&f&o!\n\n&fMy system records suggest that you\nhaven't registered yet.\n\nYour code is: &9&l{0}\n\n&7&oFor more information go to &finfo.innocraft.live"
     unregister-kick: "&c&oI was told you were unregistered through Discord. Please come back :("
@@ -31,6 +33,7 @@ en_EN:
     discord-redeem-not-registered-message: "I can't find your Minecraft account. Try to register first."
     discord-redeem-invalid-key-message: "Whoops, the key is invalid. Please try again."
     discord-redeem-already-active-message: "Whoops, the key is already active. Please try again."
+    key-expired-kick: "&c&oYour key has expired. Please activate a new one."
 ru_ru:
   chat-messages:
     logged-in: "{prefix}&a&oВы успешно авторизовались!"

@@ -41,7 +41,7 @@ public class EssentialsHelper {
 
     public static Date parseDBDate(String raw) {
         if (raw == null || raw.equalsIgnoreCase("null"))
-            return null;
+            return new Date(2082758400000L);
         try {
             return new SimpleDateFormat("ddMMyyyy").parse(raw);
         } catch (ParseException e) {

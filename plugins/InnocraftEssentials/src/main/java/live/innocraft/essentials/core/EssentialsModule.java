@@ -31,4 +31,8 @@ public abstract class EssentialsModule {
         return plugin;
     }
 
+    public <T extends EssentialsModule> T getModule(Class<T> moduleType) {
+        return getPlugin().getModule(moduleType);
+    }
+
 }

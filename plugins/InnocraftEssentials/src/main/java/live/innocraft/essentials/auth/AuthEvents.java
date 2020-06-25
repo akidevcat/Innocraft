@@ -1,5 +1,6 @@
 package live.innocraft.essentials.auth;
 
+import live.innocraft.essentials.authkeys.AuthKeys;
 import live.innocraft.essentials.sql.EssentialsSQL;
 import me.stefan911.securitymaster.lite.api.events.player.PlayerLoginEvent;
 import me.stefan911.securitymaster.lite.api.events.player.PlayerRegisterEvent;
@@ -40,9 +41,25 @@ public class AuthEvents implements Listener {
     protected void onLogin(AuthPlayer authPlayer) {
 
         Player player = Bukkit.getPlayer(authPlayer.getUniqueID());
+
+        // Sync player language
         authPlayer.setLanguage(player.getLocale());
         auth.getPlugin().getModule(EssentialsSQL.class).setAuthPlayerLang(authPlayer.getUniqueID(), player.getLocale());
 
+        // Sync auth key
+        switch (auth.getModule(AuthKeys.class).syncOnlinePlayerAuthKey(player, authPlayer.getKeyHash())) {
+            case 0:
+                auth.getPlugin().sendChatMessage("key-synced", player);
+                break;
+            case 1:
+                auth.getPlugin().sendChatMessage("key-synced-invalid", player);
+                break;
+            case 2:
+                player.kickPlayer(auth.getPlugin().getMessageColor("key-expired-kick", "auth", authPlayer.getLanguage()));
+                break;
+        }
+
+        // Send welcome message
         auth.getPlugin().sendChatMessageFormat("welcome", player,
                 ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME),
                 authPlayer.getPermGroup());

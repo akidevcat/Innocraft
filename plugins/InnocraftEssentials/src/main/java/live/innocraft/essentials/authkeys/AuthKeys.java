@@ -15,6 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Set;
@@ -70,28 +71,25 @@ public class AuthKeys extends EssentialsModule implements CommandExecutor {
 
     }
 
-    public void SyncOnlinePlayerAuthKey(Player player, String keyHash) {
+    public short syncOnlinePlayerAuthKey(Player player, String keyHash) {
         AuthKeysConfiguration cfg = getPlugin().getConfiguration(AuthKeysConfiguration.class);
         EssentialsSQL sql = getPlugin().getModule(EssentialsSQL.class);
 
         DBAuthKey aKey = sql.getAuthKey(keyHash);
         if (aKey == null)
-            return;
+            return 1; // Key is invalid
 
         if (aKey.getUntil().toInstant().isBefore(ZonedDateTime.now().toInstant())) {
             sql.deleteAuthKey(keyHash, player.getUniqueId());
-            return;
+            return 2; // Key expired
         }
 
         // Set Discord Roles
 
         // Set Permission Groups
+        getPlugin().setPlayerPermissionGroup(player, );
 
-        // Set Study Group
-
-        // Set Party Group
-
-        // Set Meta
+        return 0; // Success
     }
 
 //    public boolean RedeemKey (Player player, String key) {

@@ -18,12 +18,12 @@ public class DBAuthKey {
     private String meta;
 
     public DBAuthKey(String hash) {
-        this.hash = hash;
+        this.hash = EssentialsHelper.parseDBString(hash);
         this.uuid = null;
         this.perm_group = null;
         this.study_group = null;
         this.party_group = null;
-        this.until = new Date(0);
+        this.until = new Date(2082758400000L);
         this.meta = null;
     }
 
