@@ -1,6 +1,7 @@
 package live.innocraft.essentials.discord;
 
 import live.innocraft.essentials.auth.Auth;
+import live.innocraft.essentials.authkeys.AuthKeys;
 import live.innocraft.essentials.classrooms.Classrooms;
 import live.innocraft.essentials.sql.EssentialsSQL;
 import live.innocraft.essentials.timetable.Timetable;
@@ -28,6 +29,24 @@ public class DiscordMessage extends ListenerAdapter {
             case "/redeem":
                 if (!event.isFromType(ChannelType.PRIVATE))
                     return;
+                if (msgArgs.length != 2)
+                    return;
+                event.getAuthor().openPrivateChannel().queue((channel) -> {
+                    switch (discord.getPlugin().getModule(AuthKeys.class).redeemUserAuthKey(event.getAuthor().getId(), msgArgs[1])) {
+                        case 0:
+                            channel.sendMessage(discord.getPlugin().getMessageColor("discord-redeem-message", "auth", "en_EN")).queue();
+                            break;
+                        case 1:
+                            channel.sendMessage(discord.getPlugin().getMessageColor("discord-redeem-not-registered-message", "auth", "en_EN")).queue();
+                            break;
+                        case 2:
+                            channel.sendMessage(discord.getPlugin().getMessageColor("discord-redeem-invalid-key-message", "auth", "en_EN")).queue();
+                            break;
+                        case 3:
+                            channel.sendMessage(discord.getPlugin().getMessageColor("discord-redeem-already-active-message", "auth", "en_EN")).queue();
+                            break;
+                    }
+                });
                 return;
             case "/register":
                 if (!event.isFromType(ChannelType.PRIVATE))
@@ -40,7 +59,6 @@ public class DiscordMessage extends ListenerAdapter {
                     if (c < 65 || c > 90)
                         return;
                 }
-
                 event.getAuthor().openPrivateChannel().queue((channel) -> {
                     switch (discord.getPlugin().getModule(Auth.class).registerUser(event.getAuthor().getId(), msgArgs[1])) {
                         case 0:
@@ -54,11 +72,6 @@ public class DiscordMessage extends ListenerAdapter {
                             break;
                     }
                 });
-//                        event.getAuthor().openPrivateChannel().queue((channel) -> channel.sendMessage(
-//                        discord.getPlugin().getMessageColor(
-//                                "discord-register-message"
-//                                , "auth", "en_EN")
-//                ).queue());
                 return;
             case "/unregister":
                 if (!event.isFromType(ChannelType.PRIVATE))

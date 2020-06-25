@@ -1,7 +1,9 @@
 package live.innocraft.essentials.auth;
 
+import live.innocraft.essentials.sql.EssentialsSQL;
 import me.stefan911.securitymaster.lite.api.events.player.PlayerLoginEvent;
 import me.stefan911.securitymaster.lite.api.events.player.PlayerRegisterEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,6 +15,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 
 public class AuthEvents implements Listener {
@@ -27,10 +31,22 @@ public class AuthEvents implements Listener {
     public void onConnect(PlayerJoinEvent event) {
         AuthPlayer authPlayer = auth.addAuthPlayer(event.getPlayer().getUniqueId());
         if (!authPlayer.isRegistered()) {
-            event.getPlayer().kickPlayer(auth.getPlugin().getMessageColorFormat("registration-kick", "auth", event.getPlayer().getLocale(), authPlayer.getRegistrationCode()));
+            event.getPlayer().kickPlayer(auth.getPlugin().getMessageColorFormat("registration-kick", "auth", authPlayer.getLanguage(), authPlayer.getRegistrationCode()));
             return;
         }
-        auth.getPlugin().sendChatMessageFormat("login-request", event.getPlayer(), event.getPlayer().getDisplayName());
+        auth.getPlugin().sendChatMessageFormatLang("login-request", event.getPlayer(), authPlayer.getLanguage(), event.getPlayer().getDisplayName());
+    }
+
+    protected void onLogin(AuthPlayer authPlayer) {
+
+        Player player = Bukkit.getPlayer(authPlayer.getUniqueID());
+        authPlayer.setLanguage(player.getLocale());
+        auth.getPlugin().getModule(EssentialsSQL.class).setAuthPlayerLang(authPlayer.getUniqueID(), player.getLocale());
+
+        auth.getPlugin().sendChatMessageFormat("welcome", player,
+                ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME),
+                authPlayer.getPermGroup());
+
     }
 
     @EventHandler(priority = EventPriority.LOW)

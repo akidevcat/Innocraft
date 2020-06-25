@@ -17,16 +17,43 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Scanner;
+import java.util.*;
 
 import static com.sk89q.jnbt.NBTUtils.toVector;
 
 public class EssentialsHelper {
+
+    public static String parseDBString(String value) {
+        if (value == null || value.equalsIgnoreCase("null"))
+            return null;
+        return value;
+    }
+
+    public static UUID parseDBUniqueID(String raw) {
+        if (raw == null || raw.equalsIgnoreCase("null"))
+            return null;
+        return UUID.fromString(raw);
+    }
+
+    public static Date parseDBDate(String raw) {
+        if (raw == null || raw.equalsIgnoreCase("null"))
+            return null;
+        try {
+            return new SimpleDateFormat("ddMMyyyy").parse(raw);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    public static String parseDBLanguage(String raw) {
+        if (raw == null || raw.equalsIgnoreCase("null"))
+            return "en_EN";
+        return raw;
+    }
 
     public static String HashSHA256(String originalString) {
         try {

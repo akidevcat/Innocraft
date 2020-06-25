@@ -33,4 +33,4 @@ commands:
   timetable:
     description: ToDo
     usage: /timetable
-softdepend: [SecurityMaster]
+softdepend: [WorldGuard, Minecord]

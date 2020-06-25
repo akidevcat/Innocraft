@@ -27,6 +27,8 @@ public class Auth extends EssentialsModule {
     private final HashMap<String, VerificationMessage> verificationMessages;
     private final Random random;
 
+    private final AuthEvents authEvents;
+
     public Auth(Essentials plugin) {
         super(plugin);
 
@@ -35,7 +37,9 @@ public class Auth extends EssentialsModule {
         verificationMessages = new HashMap<>();
         random = new Random();
 
-        getServer().getPluginManager().registerEvents(new AuthEvents(this), plugin);
+        authEvents = new AuthEvents(this);
+
+        getServer().getPluginManager().registerEvents(authEvents, plugin);
     }
 
     @Override
@@ -82,6 +86,7 @@ public class Auth extends EssentialsModule {
             authPlayer.setRegistered(true);
             authPlayer.setDiscordID(dbAuthPlayer.getDiscordID());
             authPlayer.setKeyHash(dbAuthPlayer.getKeyHash());
+            authPlayer.setLanguage(dbAuthPlayer.getLang());
 
             // Fetch data
             if (dbAuthPlayer.getKeyHash() != null) {
@@ -183,7 +188,20 @@ public class Auth extends EssentialsModule {
             return false;
 
         authPlayer.setLoggedIn(true);
+        // Remove restricted player on Bungee side
+        getPlugin().invokeProxyMethod("Auth", "removeBlockedPlayerString", authPlayer.getUniqueID().toString());
+        // Move player to default server
         getPlugin().sendChatMessage("logged-in", getPlayer(authPlayer.getUniqueID()));
+
+        if (authPlayer.getPermGroup() != null)
+            getPlugin().invokeProxyMethod("EssentialsCommon", "bridgeChangePlayerServerForce",
+                    authPlayer.getUniqueID().toString(),
+                    getPlugin().getDefaultJoinServer());
+        else
+            getPlugin().sendChatMessage("no-key-activated", getPlayer(authPlayer.getUniqueID()));
+
+        authEvents.onLogin(authPlayer);
+
         return true;
     }
 
@@ -205,37 +223,4 @@ public class Auth extends EssentialsModule {
         registerAuthPlayer(uuid, discordID);
         return 0; // Success
     }
-
-//    public void registerPlayer(UUID uniqueID, String discordID) {
-//        getPlugin().getModule(EssentialsSQL.class).addAuthPlayer(uniqueID, discordID);
-//        cachePlayerDiscord(uniqueID, discordID);
-//    }
-//
-//    public void registerPlayer(Player player, String discordID) {
-//        registerPlayer(player.getUniqueId(), discordID);
-//    }
-//
-//    public void cachePlayerDiscord(Player player, String discordID) {
-//        cachePlayerDiscord(player.getUniqueId(), discordID);
-//    }
-//
-//    public void cachePlayerDiscord(UUID uniqueID, String discordID) {
-//        discordCache.put(uniqueID, discordID);
-//    }
-//
-//    public void deleteCachePlayerDiscord(Player player) {
-//        deleteCachePlayerDiscord(player.getUniqueId());
-//    }
-//
-//    public void deleteCachePlayerDiscord(UUID uniqueID) {
-//        discordCache.remove(uniqueID);
-//    }
-//
-//    public String getDiscordID(Player player) {
-//        return getDiscordID(player.getUniqueId());
-//    }
-//
-//    public String getDiscordID(UUID uniqueID) {
-//        return discordCache.get(uniqueID);
-//    }
 }

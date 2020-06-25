@@ -1,9 +1,8 @@
 package live.innocraft.essentialsbungee.ustudy;
 
-import live.innocraft.essentialsbungee.EssentialsBungee;
-import live.innocraft.essentialsbungee.EssentialsModule;
+import live.innocraft.essentialsbungee.core.EssentialsBungee;
+import live.innocraft.essentialsbungee.core.EssentialsModule;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +20,7 @@ public class UStudy extends EssentialsModule {
     }
 
     @Override
-    public void LateInitialization() {
+    public void onLateInitialization() {
         getPlugin().getProxy().getScheduler().schedule(getPlugin(), new UStudyUpdate(this), 10L, 10L, TimeUnit.SECONDS);
     }
 

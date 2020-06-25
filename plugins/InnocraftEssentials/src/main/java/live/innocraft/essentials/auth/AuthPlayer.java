@@ -15,6 +15,7 @@ public class AuthPlayer {
     private boolean isLoggedIn;
     private String registrationCode;
     private String verificationMessageID;
+    private String language;
 
     public AuthPlayer(UUID uuid) {
         this.uniqueID = uuid;
@@ -28,6 +29,7 @@ public class AuthPlayer {
         isRegistered = false;
         isLoggedIn = false;
         registrationCode = null;
+        language = "en_EN";
     }
 
     public UUID getUniqueID() {
@@ -112,5 +114,13 @@ public class AuthPlayer {
 
     public void setVerificationMessageID(String verificationMessageID) {
         this.verificationMessageID = verificationMessageID;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

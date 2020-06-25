@@ -1,5 +1,8 @@
 package live.innocraft.essentials.core;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import live.innocraft.essentials.auth.AuthConfiguration;
 import live.innocraft.essentials.common.*;
 import me.spomg.minecord.api.MAPI;
 import me.stefan911.securitymaster.lite.api.SecurityMasterAPI;
@@ -10,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
@@ -27,9 +31,15 @@ public final class Essentials extends JavaPlugin {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set " + group);
     }
 
+    public void kickPlayerSync(Player p, String msg) {
+        Bukkit.getScheduler().runTask(this, () -> p.kickPlayer(msg));
+    }
+
     public ServerType getServerType() {
         return getConfiguration(CommonConfiguration.class).getServerType();
     }
+
+    public String getDefaultJoinServer() { return getConfiguration(AuthConfiguration.class).getDefaultJoinServer(); }
 
     public void sendChatMessage(String msgLabel, CommandSender s) {
         if (s instanceof Player)
@@ -99,9 +109,23 @@ public final class Essentials extends JavaPlugin {
 
     private void addConfiguration(EssentialsConfiguration cfg) { configurations.put(cfg.getClass(), cfg); }
 
+    public void invokeProxyMethod(String moduleName, String methodName, String... args) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            ByteArrayDataOutput out = ByteStreams.newDataOutput();
+            out.writeUTF(moduleName);
+            out.writeUTF(methodName);
+            out.writeShort(args.length);
+            for (String arg : args) out.writeUTF(arg);
+            p.sendPluginMessage(this, "innocraft:methods", out.toByteArray());
+            return;
+        }
+    }
+
     @Override
     public void onEnable() {
-        //Enable Core module
+
+        getServer().getMessenger().registerOutgoingPluginChannel( this, "innocraft:methods" );
+
         new EssentialsPlaceholderExpansion(this);
 
         loadConfigurations();

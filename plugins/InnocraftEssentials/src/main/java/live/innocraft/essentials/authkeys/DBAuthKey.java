@@ -27,32 +27,24 @@ public class DBAuthKey {
         this.meta = null;
     }
 
-    public DBAuthKey(String hash, UUID uuid, String perm_group, String study_group, String party_group, String until, String meta) {
-        this.hash = hash;
-        this.uuid = uuid;
-        this.perm_group = perm_group;
-        this.study_group = study_group;
-        this.party_group = party_group;
-        try {
-            this.until = new SimpleDateFormat("ddMMyyyy").parse(until);
-        } catch (ParseException e) {
-            this.until = null;
-        }
-        this.meta = meta;
+    public DBAuthKey(String hash, String uuid, String perm_group, String study_group, String party_group, String until, String meta) {
+        this.hash = EssentialsHelper.parseDBString(hash);
+        this.uuid = EssentialsHelper.parseDBUniqueID(uuid);
+        this.perm_group = EssentialsHelper.parseDBString(perm_group);
+        this.study_group = EssentialsHelper.parseDBString(study_group);
+        this.party_group = EssentialsHelper.parseDBString(party_group);
+        this.until = EssentialsHelper.parseDBDate(until);
+        this.meta = EssentialsHelper.parseDBString(meta);
     }
 
     public DBAuthKey(String hash, String perm_group, String study_group, String party_group, String until, String meta) {
-        this.hash = hash;
+        this.hash = EssentialsHelper.parseDBString(hash);
         this.uuid = null;
-        this.perm_group = perm_group;
-        this.study_group = study_group;
-        this.party_group = party_group;
-        try {
-            this.until = new SimpleDateFormat("ddMMyyyy").parse(until);
-        } catch (ParseException e) {
-            this.until = null;
-        }
-        this.meta = meta;
+        this.perm_group = EssentialsHelper.parseDBString(perm_group);
+        this.study_group = EssentialsHelper.parseDBString(study_group);
+        this.party_group = EssentialsHelper.parseDBString(party_group);
+        this.until = EssentialsHelper.parseDBDate(until);
+        this.meta = EssentialsHelper.parseDBString(meta);
     }
 
     public static DBAuthKey createEmpty(String key) {

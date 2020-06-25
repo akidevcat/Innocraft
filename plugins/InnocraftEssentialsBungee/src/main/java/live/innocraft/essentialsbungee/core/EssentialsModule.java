@@ -1,4 +1,6 @@
-package live.innocraft.essentialsbungee;
+package live.innocraft.essentialsbungee.core;
+
+import live.innocraft.essentialsbungee.core.EssentialsBungee;
 
 public abstract class EssentialsModule {
 
@@ -8,10 +10,10 @@ public abstract class EssentialsModule {
         this.plugin = plugin;
     }
 
-    public void Reload() {}
+    public void onReload() {}
     public void Sync() {}
-    public void LateInitialization() {}
-    public void OnDisable() {}
+    public void onLateInitialization() {}
+    public void onDisable() {}
 
     public EssentialsBungee getPlugin() {
         return plugin;

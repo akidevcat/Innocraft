@@ -1,11 +1,14 @@
 package live.innocraft.essentials.authkeys;
 
+import live.innocraft.essentials.auth.AuthPlayer;
+import live.innocraft.essentials.auth.DBAuthPlayer;
 import live.innocraft.essentials.core.Essentials;
 import live.innocraft.essentials.discord.Discord;
 import live.innocraft.essentials.helper.EssentialsHelper;
 import live.innocraft.essentials.core.EssentialsModule;
 import live.innocraft.essentials.sql.EssentialsSQL;
 import me.stefan911.securitymaster.lite.utils.account.AccountManager;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,6 +34,39 @@ public class AuthKeys extends EssentialsModule implements CommandExecutor {
 
     @Override
     public void onReload() {
+
+    }
+
+    public short redeemUserAuthKey(String discordID, String key) {
+        EssentialsSQL sql = getPlugin().getModule(EssentialsSQL.class);
+
+        String keyHash = EssentialsHelper.HashSHA256(key);
+        DBAuthPlayer dbAuthPlayer = sql.getAuthPlayerByDiscord(discordID);
+
+        if (dbAuthPlayer == null) {
+            return 1; // User is not registered
+        }
+
+        DBAuthKey dbAuthKey = sql.getAuthKey(keyHash);
+        if (dbAuthKey == null) {
+            return 2; // Invalid key
+        }
+
+        if (dbAuthKey.getUUID() != null) {
+            return 3; // Key is already active
+        }
+
+        sql.resetAuthKey(discordID, keyHash);
+        sql.setAuthPlayerAuthKey(dbAuthPlayer.getUUID(), keyHash);
+
+        Player p = Bukkit.getPlayer(dbAuthPlayer.getUUID());
+        if (p != null)
+            getPlugin().kickPlayerSync(p, getPlugin().getMessageColor("authkey-kick", "auth", p.getLocale()));
+
+        return 0; //Success
+    }
+
+    public void redeemPlayerAuthKey() {
 
     }
 

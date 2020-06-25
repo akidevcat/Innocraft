@@ -1,7 +1,11 @@
 live\innocraft\essentialsbungee\ustudy\UStudyRestrictedServer.class
-live\innocraft\essentialsbungee\EssentialsModule.class
-live\innocraft\essentialsbungee\EssentialsBungee.class
+live\innocraft\essentialsbungee\auth\AuthEvents.class
+live\innocraft\essentialsbungee\core\EssentialsBungee.class
+live\innocraft\essentialsbungee\auth\Auth.class
+live\innocraft\essentialsbungee\helper\EssentialsHelper.class
+live\innocraft\essentialsbungee\core\EssentialsModule.class
+live\innocraft\essentialsbungee\common\EssentialsCommands.class
 live\innocraft\essentialsbungee\ustudy\UStudy.class
 live\innocraft\essentialsbungee\ustudy\UStudyUpdate.class
 live\innocraft\essentialsbungee\bridge\Bridge.class
-live\innocraft\essentialsbungee\EssentialsCommands.class
+live\innocraft\essentialsbungee\common\EssentialsCommon.class

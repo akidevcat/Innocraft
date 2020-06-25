@@ -1,5 +1,7 @@
 package live.innocraft.essentials.auth;
 
+import live.innocraft.essentials.helper.EssentialsHelper;
+
 import java.util.UUID;
 
 public class DBAuthPlayer {
@@ -7,11 +9,13 @@ public class DBAuthPlayer {
     private final UUID uuid;
     private final String discord_id;
     private final String key_hash;
+    private final String lang;
 
-    public DBAuthPlayer(UUID uuid, String discord_id, String key_hash) {
-        this.uuid = uuid;
-        this.discord_id = discord_id;
-        this.key_hash = key_hash;
+    public DBAuthPlayer(String uuid, String discord_id, String key_hash, String lang) {
+        this.uuid = EssentialsHelper.parseDBUniqueID(uuid);
+        this.discord_id = EssentialsHelper.parseDBString(discord_id);
+        this.key_hash = EssentialsHelper.parseDBString(key_hash);
+        this.lang = EssentialsHelper.parseDBString(lang);
     }
 
     public UUID getUUID() {
@@ -26,4 +30,7 @@ public class DBAuthPlayer {
         return key_hash;
     }
 
+    public String getLang() {
+        return lang;
+    }
 }

@@ -1,16 +1,16 @@
 package live.innocraft.essentials.sql;
 
-import live.innocraft.essentials.auth.AuthPlayer;
 import live.innocraft.essentials.auth.DBAuthPlayer;
 import live.innocraft.essentials.authkeys.DBAuthKey;
-import live.innocraft.essentials.common.DBParticipant;
 import live.innocraft.essentials.core.Essentials;
 import live.innocraft.essentials.core.EssentialsModule;
+import live.innocraft.essentials.helper.EssentialsHelper;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
 import java.sql.*;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class EssentialsSQL extends EssentialsModule {
 
@@ -40,7 +40,11 @@ public class EssentialsSQL extends EssentialsModule {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM " + CONST_TABLE_NAME_PLAYERS + " WHERE UUID = '" + uuid.toString() + "';");
             if (result.next())
-                return new DBAuthPlayer(uuid, result.getString("DISCORD_ID"), result.getString("KEY_HASH"));
+                return new DBAuthPlayer(
+                        uuid.toString(),
+                        result.getString("DISCORD_ID"),
+                        result.getString("KEY_HASH"),
+                        result.getString("LANG"));
 
             return null;
 
@@ -59,7 +63,11 @@ public class EssentialsSQL extends EssentialsModule {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM " + CONST_TABLE_NAME_PLAYERS + " WHERE DISCORD_ID = '" + discordID + "';");
             if (result.next())
-                return new DBAuthPlayer(UUID.fromString(result.getString("UUID")), discordID, result.getString("KEY_HASH"));
+                return new DBAuthPlayer(
+                        result.getString("UUID"),
+                        discordID,
+                        result.getString("KEY_HASH"),
+                        result.getString("LANG"));
 
             return null;
 
@@ -79,7 +87,7 @@ public class EssentialsSQL extends EssentialsModule {
             ResultSet result = statement.executeQuery("SELECT * FROM " + CONST_TABLE_NAME_AUTHKEYS + " WHERE HASH = '" + hash + "';");
             if (result.next())
                 return new DBAuthKey(hash,
-                        UUID.fromString(result.getString("UUID")),
+                        result.getString("UUID"),
                         result.getString("PERM_GROUP"),
                         result.getString("STUDY_GROUP"),
                         result.getString("PARTY_GROUP"),
@@ -185,7 +193,7 @@ public class EssentialsSQL extends EssentialsModule {
             return null;
         if (authPlayer.getKeyHash() != null) {
             // Delete key's user
-            resetAuthKeyUser(authPlayer.getUUID());
+            resetUserAuthKey(authPlayer.getUUID());
         }
         executeUpdateAsync("DELETE FROM " + CONST_TABLE_NAME_PLAYERS + " WHERE UUID='" + authPlayer.getUUID() + "';");
         return authPlayer.getUUID();
@@ -202,11 +210,31 @@ public class EssentialsSQL extends EssentialsModule {
 
     public void setAuthPlayerAuthKey(UUID uuid, String hash) {
         executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_PLAYERS + " SET KEY_HASH = '" + hash + "' WHERE UUID = '" + uuid + "';");
-        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_AUTHKEYS + " SET UUID = '" + hash + "' WHERE HASH = '" + uuid + "';");
+        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_AUTHKEYS + " SET UUID = '" + uuid.toString() + "' WHERE HASH = '" + hash + "';");
     }
 
-    public void resetAuthKeyUser(UUID uuid) {
-        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_PLAYERS + " SET KEY_HASH = '" + null + "' WHERE UUID = '" + uuid + "';");
+    public void setAuthPlayerLang(UUID uniqueID, String lang) {
+        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_PLAYERS + " SET LANG = '" + lang + "' WHERE UUID = '" + uniqueID + "';");
+    }
+
+    // Removes key_hash from user
+    public void resetUserAuthKey(UUID uuid) {
+        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_PLAYERS + " SET KEY_HASH = '" + "NULL" + "' WHERE UUID = '" + uuid + "';");
+    }
+
+    // Removes user from key_hash
+    public void resetAuthKeyUser(String keyHash) {
+        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_AUTHKEYS + " SET UUID = '" + "NULL" + "' WHERE HASH = '" + keyHash + "';");
+    }
+
+    public void resetAuthKey(String discordID, String hash) {
+        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_PLAYERS + " SET KEY_HASH = '" + "NULL" + "' WHERE DISCORD_ID = '" + discordID + "';");
+        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_AUTHKEYS + " SET UUID = '" + "NULL" + "' WHERE HASH = '" + hash + "';");
+    }
+
+    public void resetAuthKey(UUID uniqueID, String hash) {
+        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_PLAYERS + " SET KEY_HASH = '" + "NULL" + "' WHERE UUID = '" + uniqueID + "';");
+        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_AUTHKEYS + " SET UUID = '" + "NULL" + "' WHERE HASH = '" + hash + "';");
     }
 
     // Closes the connection
@@ -248,7 +276,6 @@ public class EssentialsSQL extends EssentialsModule {
             @Override
             public void run() {
                 try {
-
                     Statement statement = connection.createStatement();
                     statement.executeUpdate(update);
 
@@ -272,7 +299,8 @@ public class EssentialsSQL extends EssentialsModule {
                 sqlStatement = "CREATE TABLE IF NOT EXISTS " + CONST_TABLE_NAME_PLAYERS
                         + "  (UUID           CHAR(36),"
                         + "   DISCORD_ID            CHAR(18),"
-                        + "   KEY_HASH          CHAR(64));";
+                        + "   KEY_HASH          CHAR(64),"
+                        + "   LANG          CHAR(5));";
                 statement.execute(sqlStatement);
 
                 sqlStatement = "CREATE UNIQUE INDEX PLAYER_INDEX ON " + CONST_TABLE_NAME_PLAYERS + " (UUID, DISCORD_ID);";
