@@ -3,6 +3,7 @@ package live.innocraft.essentials.authkeys;
 import live.innocraft.essentials.auth.AuthPlayer;
 import live.innocraft.essentials.auth.DBAuthPlayer;
 import live.innocraft.essentials.core.Essentials;
+import live.innocraft.essentials.core.EssentialsConfiguration;
 import live.innocraft.essentials.discord.Discord;
 import live.innocraft.essentials.helper.EssentialsHelper;
 import live.innocraft.essentials.core.EssentialsModule;
@@ -16,9 +17,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
+import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class AuthKeys extends EssentialsModule implements CommandExecutor {
 
@@ -71,9 +75,11 @@ public class AuthKeys extends EssentialsModule implements CommandExecutor {
 
     }
 
-    public short syncOnlinePlayerAuthKey(Player player, String keyHash) {
+    public short syncOnlinePlayerAuthKey(AuthPlayer authPlayer, String keyHash) {
         AuthKeysConfiguration cfg = getPlugin().getConfiguration(AuthKeysConfiguration.class);
         EssentialsSQL sql = getPlugin().getModule(EssentialsSQL.class);
+        Discord discord = getPlugin().getModule(Discord.class);
+        Player player = Bukkit.getPlayer(authPlayer.getUniqueID());
 
         DBAuthKey aKey = sql.getAuthKey(keyHash);
         if (aKey == null)
@@ -84,12 +90,43 @@ public class AuthKeys extends EssentialsModule implements CommandExecutor {
             return 2; // Key expired
         }
 
+        AuthKeysConfiguration keysCfg = getConfiguration(AuthKeysConfiguration.class);
+
+        AuthKeyPermGroup permGroup = keysCfg.getGroup(aKey.getPermGroup());
+        if (permGroup != null) {
+            getPlugin().setPlayerPermissionGroup(player, permGroup.getPerm());
+
+            ArrayList<String> clearRoles = keysCfg.getDiscordRoles();
+            for (String role : permGroup.getRoles())
+                clearRoles.remove(role);
+            for (String role : clearRoles)
+                discord.removeUserRole(authPlayer.getDiscordID(), role);
+            for (String role : permGroup.getRoles())
+                discord.addUserRole(authPlayer.getDiscordID(), role);
+        }
+
         // Set Discord Roles
 
         // Set Permission Groups
-        getPlugin().setPlayerPermissionGroup(player, );
+        //getPlugin().setPlayerPermissionGroup(player, );
 
         return 0; // Success
+    }
+
+
+    public void importAuthKeysAsync(String link) {
+        Bukkit.getScheduler().runTaskAsynchronously(getPlugin(), () -> {
+            if (EssentialsHelper.downloadURLContent(link, getPlugin().getDataFolder() + "/authkeys-update-temp.csv")) {
+                if (!EssentialsHelper.validateCsv(getPlugin().getDataFolder() + "/authkeys-update-temp.csv", 7))
+                    return;
+                getModule(EssentialsSQL.class).importAuthKeysCsv(getPlugin().getDataFolder() + "/authkeys-update-temp.csv");
+                getPlugin().getLogger().log(Level.INFO, "Imported a csv file into the AuthKeys table");
+            }
+        });
+    }
+
+    public void clearAuthKeys() {
+        getModule(EssentialsSQL.class).clearAuthKeys();
     }
 
 //    public boolean RedeemKey (Player player, String key) {
@@ -236,5 +273,4 @@ public class AuthKeys extends EssentialsModule implements CommandExecutor {
 
         return true;
     }
-
 }

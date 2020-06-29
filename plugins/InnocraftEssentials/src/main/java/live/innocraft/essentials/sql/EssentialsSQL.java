@@ -35,6 +35,7 @@ public class EssentialsSQL extends EssentialsModule {
     // Gets an Authentication player from the database
     public @Nullable
     DBAuthPlayer getAuthPlayer(UUID uuid) {
+        updateConnection();
         try {
 
             Statement statement = connection.createStatement();
@@ -58,6 +59,7 @@ public class EssentialsSQL extends EssentialsModule {
 
     public @Nullable
     DBAuthPlayer getAuthPlayerByDiscord(String discordID) {
+        updateConnection();
         try {
 
             Statement statement = connection.createStatement();
@@ -81,6 +83,7 @@ public class EssentialsSQL extends EssentialsModule {
 
     public @Nullable
     DBAuthKey getAuthKey(String hash) {
+        updateConnection();
         try {
 
             Statement statement = connection.createStatement();
@@ -126,6 +129,7 @@ public class EssentialsSQL extends EssentialsModule {
 
     public @Nullable
     UUID getRegCodeUUID(String regCode) {
+        updateConnection();
         try {
 
             Statement statement = connection.createStatement();
@@ -167,7 +171,7 @@ public class EssentialsSQL extends EssentialsModule {
     }
 
     public void addAuthKey(DBAuthKey key) {
-        executeUpdateAsync("INSERT INTO " + CONST_TABLE_NAME_AUTHKEYS + " (HASH, UUID, PERM_GROUP, STUDY_GROUP, PARTY_GROUP, UNTIL, META) VALUES (" +
+        executeUpdateAsync("INSERT OVERWRITE INTO " + CONST_TABLE_NAME_AUTHKEYS + " (HASH, UUID, PERM_GROUP, STUDY_GROUP, PARTY_GROUP, UNTIL, META) VALUES (" +
                 "'" + key.getHash() + "', " +
                 "'" + key.getUUID() + "', " +
                 "'" + key.getPermGroup() + "', " +
@@ -237,6 +241,25 @@ public class EssentialsSQL extends EssentialsModule {
         executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_AUTHKEYS + " SET UUID = '" + "NULL" + "' WHERE HASH = '" + hash + "';");
     }
 
+    public void importAuthKeysCsv(String filePath) {
+        executeUpdateAsync("LOAD DATA LOCAL INFILE '" + filePath + "' INTO TABLE " + CONST_TABLE_NAME_AUTHKEYS + " FIELDS TERMINATED BY ','" + " LINES TERMINATED BY '\n' (HASH, UUID, PERM_GROUP, STUDY_GROUP, PARTY_GROUP, UNTIL, META);");
+    }
+
+    public void clearAuthKeys() {
+        executeUpdateAsync("TRUNCATE TABLE " + CONST_TABLE_NAME_AUTHKEYS + ";");
+    }
+
+    private void updateConnection() {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT 1");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            closeConnection();
+            openConnection();
+        }
+    }
+
     // Closes the connection
     public void closeConnection() {
         try {
@@ -262,7 +285,7 @@ public class EssentialsSQL extends EssentialsModule {
                     return;
                 }
                 Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://" + CONST_HOST + ":" + CONST_PORT + "/" + CONST_DATABASE, CONST_USERNAME, CONST_PASSWORD);
+                connection = DriverManager.getConnection("jdbc:mysql://" + CONST_HOST + ":" + CONST_PORT + "/" + CONST_DATABASE + "?autoReconnect=true", CONST_USERNAME, CONST_PASSWORD);
             }
 
         } catch (ClassNotFoundException | SQLException throwables) {
@@ -275,6 +298,7 @@ public class EssentialsSQL extends EssentialsModule {
         new BukkitRunnable() {
             @Override
             public void run() {
+                updateConnection();
                 try {
                     Statement statement = connection.createStatement();
                     statement.executeUpdate(update);
@@ -282,7 +306,7 @@ public class EssentialsSQL extends EssentialsModule {
                 } catch (
                         SQLException throwables) {
                     throwables.printStackTrace();
-                    getPlugin().criticalError("Error occurred while executing async update");
+                    //getPlugin().criticalError("Error occurred while executing async update");
                 }
             }
         }.runTaskAsynchronously(getPlugin());

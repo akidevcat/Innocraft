@@ -1,6 +1,7 @@
 package live.innocraft.essentials.auth;
 
 import live.innocraft.essentials.authkeys.AuthKeys;
+import live.innocraft.essentials.common.ServerType;
 import live.innocraft.essentials.sql.EssentialsSQL;
 import me.stefan911.securitymaster.lite.api.events.player.PlayerLoginEvent;
 import me.stefan911.securitymaster.lite.api.events.player.PlayerRegisterEvent;
@@ -35,7 +36,8 @@ public class AuthEvents implements Listener {
             event.getPlayer().kickPlayer(auth.getPlugin().getMessageColorFormat("registration-kick", "auth", authPlayer.getLanguage(), authPlayer.getRegistrationCode()));
             return;
         }
-        auth.getPlugin().sendChatMessageFormatLang("login-request", event.getPlayer(), authPlayer.getLanguage(), event.getPlayer().getDisplayName());
+        if (auth.getPlugin().getServerType() == ServerType.auth)
+            auth.getPlugin().sendChatMessageFormatLang("login-request", event.getPlayer(), authPlayer.getLanguage(), event.getPlayer().getDisplayName());
     }
 
     protected void onLogin(AuthPlayer authPlayer) {
@@ -47,7 +49,7 @@ public class AuthEvents implements Listener {
         auth.getPlugin().getModule(EssentialsSQL.class).setAuthPlayerLang(authPlayer.getUniqueID(), player.getLocale());
 
         // Sync auth key
-        switch (auth.getModule(AuthKeys.class).syncOnlinePlayerAuthKey(player, authPlayer.getKeyHash())) {
+        switch (auth.getModule(AuthKeys.class).syncOnlinePlayerAuthKey(authPlayer, authPlayer.getKeyHash())) {
             case 0:
                 auth.getPlugin().sendChatMessage("key-synced", player);
                 break;
@@ -55,7 +57,8 @@ public class AuthEvents implements Listener {
                 auth.getPlugin().sendChatMessage("key-synced-invalid", player);
                 break;
             case 2:
-                player.kickPlayer(auth.getPlugin().getMessageColor("key-expired-kick", "auth", authPlayer.getLanguage()));
+                auth.getPlugin().kickPlayerSync(player, auth.getPlugin().getMessageColor("key-expired-kick", "auth", authPlayer.getLanguage()));
+                //player.kickPlayer(auth.getPlugin().getMessageColor("key-expired-kick", "auth", authPlayer.getLanguage()));
                 break;
         }
 

@@ -68,20 +68,6 @@ public class Discord extends EssentialsModule {
     public void onReload() {
         cfg.loadFile();
         guild = jda.getGuildById(cfg.getMainGuildID());
-//        Configuration cfg = getPlugin().getConfiguration().GetCfgCommon();
-//        roleParticipantID = cfg.getString("discord.roles.participant");
-//        roleParticipant = jda.getRoleById(roleParticipantID);
-//        channelCoreCommandsID = cfg.getString("discord.channels.core");
-//        channelClassesID = cfg.getString("discord.channels.classes");
-//        if (cfg.contains("discord.webhooks.classes.url"))
-//            webhookClassesAvatarURL = cfg.getString("discord.webhooks.classes.url");
-//        messagesClassesAuthor = cfg.getString("discord.messages.classes.author");
-//        messagesClassesIconURL = cfg.getString("discord.messages.classes.icon");
-//        messagesClassesColor = Integer.parseInt(Objects.requireNonNull(cfg.getString("discord.messages.classes.color", "0xFFFFFF").replace("0x", "")), 16);
-//        messagesLinkDescription = cfg.getString("discord.messages.link-update.description");
-//        messagesLinkIconURL = cfg.getString("discord.messages.link-update.icon");
-//        messagesLinkColor = Integer.parseInt(Objects.requireNonNull(cfg.getString("discord.messages.link-update.color", "0xFFFFFF").replace("0x", "")), 16);
-//        guild = roleParticipant.getGuild();
     }
 
     @Override
@@ -148,10 +134,20 @@ public class Discord extends EssentialsModule {
 //        }).start();
 //    }
 
-    public void AddUserRole(String discordID, String roleID) {
+    public void addUserRole(String discordID, String roleID) {
         Role role = jda.getRoleById(roleID);
         assert role != null;
         role.getGuild().addRoleToMember(discordID, role).queue();
+    }
+
+    public void removeUserRole(String discordID, String roleID) {
+        Role role = jda.getRoleById(roleID);
+        assert role != null;
+        role.getGuild().removeRoleFromMember(discordID, role).queue();
+    }
+
+    public boolean isAdminChannel(String channelID) {
+        return channelID.equals(getConfiguration(DiscordConfiguration.class).getChannelID("admin"));
     }
 
 //    public void SendTimetable(Iterable<TimetableLesson> lessons) {

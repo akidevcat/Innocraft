@@ -9,8 +9,8 @@ public class DiscordConfiguration extends EssentialsConfiguration {
 
     private String botToken;
     private String mainGuild;
-    private HashMap<String, String> roles;
-    private HashMap<String, String> channels;
+    private final HashMap<String, String> roles;
+    private final HashMap<String, String> channels;
 
     public DiscordConfiguration(Essentials plugin) {
         super(plugin, "discord.yml", true);

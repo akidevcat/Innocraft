@@ -34,5 +34,6 @@ public abstract class EssentialsModule {
     public <T extends EssentialsModule> T getModule(Class<T> moduleType) {
         return getPlugin().getModule(moduleType);
     }
+    public <T extends EssentialsConfiguration> T getConfiguration(Class<T> cfgType) { return getPlugin().getConfiguration(cfgType); }
 
 }

@@ -11,10 +11,13 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -126,11 +129,37 @@ public class EssentialsHelper {
         return new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
     }
 
-    public static String ReadURLContent (String url) throws IOException {
+    public static String readURLContent(String url) throws IOException, MalformedURLException {
         Scanner scanner = new Scanner(new URL(url).openStream(), "UTF-8").useDelimiter("\\A");
         String result = scanner.next();
         scanner.close();
         return result;
+    }
+
+    public static boolean downloadURLContent(String url, String path) {
+        try {
+            InputStream in = new URL(url).openStream();
+            Files.copy(in, Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateCsv(String path, int rows) {
+        try {
+            Scanner scanner = new Scanner(new File(path));
+            while (scanner.hasNextLine()) {
+                if (scanner.nextLine().split(",").length != rows)
+                    return false;
+            }
+            scanner.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public static boolean isLinkValid(String url)

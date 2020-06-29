@@ -17,6 +17,7 @@ D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\ess
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\ustudy\UStudy.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\timetable\TimetableLesson.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\classrooms\ClassroomsCommands.java
+D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\authkeys\AuthKeyPermGroup.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\classrooms\ClassroomGUI.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\discord\DiscordEvents.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\core\EssentialsConfiguration.java
@@ -37,7 +38,6 @@ D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\ess
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\auth\AuthEvents.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\authkeys\AuthKeysConfiguration.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\timetable\TimetableCommands.java
-D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\authkeys\AuthKeyGroup.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\core\EssentialsModule.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\common\EssentialsCommands.java
 D:\GitHub\Innocraft\plugins\InnocraftEssentials\src\main\java\live\innocraft\essentials\classrooms\Classrooms.java

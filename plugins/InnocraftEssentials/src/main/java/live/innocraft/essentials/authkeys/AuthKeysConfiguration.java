@@ -4,30 +4,44 @@ import live.innocraft.essentials.core.Essentials;
 import live.innocraft.essentials.core.EssentialsConfiguration;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class AuthKeysConfiguration extends EssentialsConfiguration {
 
-    private final HashMap<String, AuthKeyGroup> groups;
+    private final HashMap<String, AuthKeyPermGroup> permGroups;
+    private final ArrayList<String> discordRoles;
 
     public AuthKeysConfiguration(Essentials plugin) {
         super(plugin, "authkeys.yml", true);
 
-        groups = new HashMap<>();
+        permGroups = new HashMap<>();
+        discordRoles = new ArrayList<>();
     }
 
-    public AuthKeyGroup getGroup(String name) {
-        return groups.get(name);
+    public AuthKeyPermGroup getGroup(String name) {
+        return permGroups.get(name);
     }
 
     @Override
     public void onReload() {
-        ConfigurationSection section = getCfgFile().getConfigurationSection("groups");
+        discordRoles.clear();
+        ConfigurationSection section = getCfgFile().getConfigurationSection("perm-groups");
         for (String key : section.getKeys(false)) {
-            String[] roles = section.getStringList("groups." + key + ".roles").toArray(new String[0]);
-            String[] groups = section.getStringList("groups." + key + ".groups").toArray(new String[0]);
-            this.groups.put(key, new AuthKeyGroup(roles, groups));
+            String[] roles = section.getStringList(key + ".roles").toArray(new String[0]);
+            String perm = section.getString(key + ".perm");
+            this.permGroups.put(key, new AuthKeyPermGroup(roles, perm));
+            discordRoles.addAll(Arrays.asList(roles));
         }
+    }
+
+    public AuthKeyPermGroup getPermGroup(String name) {
+        return permGroups.get(name);
+    }
+
+    public ArrayList<String> getDiscordRoles () {
+        return new ArrayList<>(discordRoles);
     }
 
 }

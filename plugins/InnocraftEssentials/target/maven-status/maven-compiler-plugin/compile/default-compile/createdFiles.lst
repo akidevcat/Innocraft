@@ -5,7 +5,6 @@ live\innocraft\essentials\core\EssentialsModule.class
 live\innocraft\essentials\common\EssentialsPlaceholderExpansion.class
 live\innocraft\essentials\auth\Auth.class
 live\innocraft\essentials\discord\DiscordMessage.class
-live\innocraft\essentials\authkeys\AuthKeyGroup.class
 live\innocraft\essentials\common\CommonConfiguration.class
 live\innocraft\essentials\sql\EssentialsSQLAsync.class
 live\innocraft\essentials\discord\Discord.class
@@ -18,6 +17,7 @@ live\innocraft\essentials\auth\AuthConfiguration.class
 live\innocraft\essentials\ustudy\UStudyEvents.class
 live\innocraft\essentials\timetable\TimetableCommands.class
 live\innocraft\essentials\auth\AuthPlayer.class
+live\innocraft\essentials\authkeys\AuthKeyPermGroup.class
 live\innocraft\essentials\slides\SlidesCommands.class
 live\innocraft\essentials\helper\EssentialsHelper.class
 live\innocraft\essentials\classrooms\ClassroomGUI.class

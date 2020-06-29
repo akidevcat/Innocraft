@@ -1,6 +1,7 @@
 package live.innocraft.essentials.auth;
 
 import live.innocraft.essentials.authkeys.DBAuthKey;
+import live.innocraft.essentials.common.ServerType;
 import live.innocraft.essentials.core.Essentials;
 import live.innocraft.essentials.core.EssentialsModule;
 import live.innocraft.essentials.discord.Discord;
@@ -99,7 +100,10 @@ public class Auth extends EssentialsModule {
                 }
             }
 
-            generateVerificationMessage(authPlayer);
+            if (getPlugin().getServerType() == ServerType.auth)
+                generateVerificationMessage(authPlayer);
+            else
+                authPlayer.setLoggedIn(true);
 
         }
 
@@ -160,7 +164,8 @@ public class Auth extends EssentialsModule {
     public void finalizeAuthenticationMessage(VerificationMessage verificationMessage, String messageID) {
         verificationMessage.setMessageID(messageID);
         verificationMessages.put(messageID, verificationMessage);
-        authPlayers.get(verificationMessage.getUniqueID()).setVerificationMessageID(messageID);
+        if (authPlayers.containsKey(verificationMessage.getUniqueID()))
+            authPlayers.get(verificationMessage.getUniqueID()).setVerificationMessageID(messageID);
         // Remove message after verification timeout
         Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
             VerificationMessage updatedVerificationMessage = verificationMessages.get(messageID);

@@ -25,10 +25,11 @@ public final class Essentials extends JavaPlugin {
     private HashMap<Class<?>, EssentialsConfiguration> configurations;
 
     public void setPlayerPermissionGroup(Player player, String group) {
-        if (!player.isOnline())
-            return;
-
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set " + group);
+        Bukkit.getScheduler().runTask(this, () -> {
+            if (!player.isOnline())
+                return;
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set " + group);
+        });
     }
 
     public void kickPlayerSync(Player p, String msg) {

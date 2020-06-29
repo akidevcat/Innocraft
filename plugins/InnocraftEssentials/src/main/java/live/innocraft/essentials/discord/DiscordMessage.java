@@ -2,9 +2,6 @@ package live.innocraft.essentials.discord;
 
 import live.innocraft.essentials.auth.Auth;
 import live.innocraft.essentials.authkeys.AuthKeys;
-import live.innocraft.essentials.classrooms.Classrooms;
-import live.innocraft.essentials.sql.EssentialsSQL;
-import live.innocraft.essentials.timetable.Timetable;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -26,6 +23,24 @@ public class DiscordMessage extends ListenerAdapter {
         String[] msgArgs = msgRaw.split(" ");
         byte responseCode = 0;
         switch (msgArgs[0]) {
+            case "/authkeys-clear":
+                if (!discord.isAdminChannel(event.getChannel().getId()))
+                    return;
+                event.getAuthor().openPrivateChannel().queue((channel) -> {
+                    discord.getPlugin().getModule(AuthKeys.class).clearAuthKeys();
+                    channel.sendMessage(discord.getPlugin().getMessageColor("keys-clear-start", "auth", "en_EN")).queue();
+                });
+                return;
+            case "/authkeys-import":
+                if (!discord.isAdminChannel(event.getChannel().getId()))
+                    return;
+                if (msgArgs.length != 2)
+                    return;
+                event.getAuthor().openPrivateChannel().queue((channel) -> {
+                    discord.getPlugin().getModule(AuthKeys.class).importAuthKeysAsync(msgArgs[1]);
+                    channel.sendMessage(discord.getPlugin().getMessageColor("keys-import-started", "auth", "en_EN")).queue();
+                });
+                return;
             case "/redeem":
                 if (!event.isFromType(ChannelType.PRIVATE))
                     return;

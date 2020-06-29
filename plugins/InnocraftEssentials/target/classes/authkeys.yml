@@ -1,7 +1,24 @@
-groups:
+perm-groups:
   participant:
     # This discord role will be given
     roles: ["705449535324946502"]
-    groups: ["participant"]
-    # These commands are executed right after the player redeems his auth-key
-    # {player} will be changed to player's name
+    perm: participant
+  curator:
+    roles: ["701434529683996742"]
+    perm: curator
+study-groups:
+  A:
+    role: "726734005491335208"
+  B:
+    role: "726734012487303280"
+  BP:
+    role: "726734015981158410"
+  C:
+    role: "726734019814883368"
+  CP:
+    role: "726734023665254441"
+party-groups:
+  A:
+    role: "726735088561291365"
+  B:
+    role: "726735128541397062"
