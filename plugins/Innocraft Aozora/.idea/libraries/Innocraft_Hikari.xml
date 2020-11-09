@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Innocraft Hikari">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../Innocraft Hikari" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../Innocraft Hikari/src/main/java" />
+    </SOURCES>
+  </library>
+</component>

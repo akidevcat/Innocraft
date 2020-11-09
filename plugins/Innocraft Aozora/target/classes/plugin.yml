@@ -1,0 +1,8 @@
+name: IC-Aozora
+version: 1.0-SNAPSHOT
+main: live.innocraft.aozora.AozoraMain
+api-version: 1.13
+authors: [satsuru]
+description: Discord-based password free authentication plugin
+website: innocraft.live
+depend: [IC-Hikari]

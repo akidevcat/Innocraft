@@ -12,6 +12,8 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
+import java.util.List;
+import java.util.logging.Level;
 
 public class Discord extends EssentialsModule {
 
@@ -62,6 +64,7 @@ public class Discord extends EssentialsModule {
         }
 
         this.jda = jda; // Haka compiler
+        this.guild = jda.getGuildById(cfg.getMainGuildID());
     }
 
     @Override
@@ -140,10 +143,27 @@ public class Discord extends EssentialsModule {
         role.getGuild().addRoleToMember(discordID, role).queue();
     }
 
+    public List<Member> getRoleMembers(String roleID) {
+        Role role = jda.getRoleById(roleID);
+        assert role != null;
+        return role.getGuild().getMembersWithRoles(role); // Is that effective enough?
+    }
+
     public void removeUserRole(String discordID, String roleID) {
         Role role = jda.getRoleById(roleID);
         assert role != null;
         role.getGuild().removeRoleFromMember(discordID, role).queue();
+    }
+
+    public void clearUserRoles(String discordID) {
+        Member member = getGuild().getMemberById(discordID);
+        if (member == null)
+            return;
+
+        List<Role> roles = member.getRoles();
+
+        for (Role role : roles)
+            getGuild().removeRoleFromMember(discordID, role).queue();
     }
 
     public boolean isAdminChannel(String channelID) {
@@ -256,7 +276,11 @@ public class Discord extends EssentialsModule {
 //        return eb.build();
 //    }
 
+    public String getRoleID(String name) { return cfg.getRoleID(name); }
+
     public Member getMemberByID(String discordID) {
         return guild.getMemberById(discordID);
     }
+
+    public Guild getGuild() { return guild; }
 }

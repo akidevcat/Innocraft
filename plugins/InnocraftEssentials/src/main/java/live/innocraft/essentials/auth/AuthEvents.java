@@ -2,9 +2,15 @@ package live.innocraft.essentials.auth;
 
 import live.innocraft.essentials.authkeys.AuthKeys;
 import live.innocraft.essentials.common.ServerType;
+import live.innocraft.essentials.discord.Discord;
+import live.innocraft.essentials.helper.EssentialsHelper;
 import live.innocraft.essentials.sql.EssentialsSQL;
+import me.spomg.minecord.Minecord;
+import me.spomg.minecord.api.MAPI;
 import me.stefan911.securitymaster.lite.api.events.player.PlayerLoginEvent;
 import me.stefan911.securitymaster.lite.api.events.player.PlayerRegisterEvent;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,9 +35,13 @@ public class AuthEvents implements Listener {
         this.auth = auth;
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onConnect(PlayerJoinEvent event) {
         AuthPlayer authPlayer = auth.addAuthPlayer(event.getPlayer().getUniqueId());
+        if (!EssentialsHelper.isNicknameValid(event.getPlayer().getName())) {
+            event.getPlayer().kickPlayer(auth.getPlugin().getMessageColor("invalid-nickname-kick", "auth", authPlayer.getLanguage()));
+            return;
+        }
         if (!authPlayer.isRegistered()) {
             event.getPlayer().kickPlayer(auth.getPlugin().getMessageColorFormat("registration-kick", "auth", authPlayer.getLanguage(), authPlayer.getRegistrationCode()));
             return;
@@ -54,12 +64,24 @@ public class AuthEvents implements Listener {
                 auth.getPlugin().sendChatMessage("key-synced", player);
                 break;
             case 1:
-                auth.getPlugin().sendChatMessage("key-synced-invalid", player);
+                //auth.getPlugin().sendChatMessage("key-synced-invalid", player);
                 break;
             case 2:
                 auth.getPlugin().kickPlayerSync(player, auth.getPlugin().getMessageColor("key-expired-kick", "auth", authPlayer.getLanguage()));
                 //player.kickPlayer(auth.getPlugin().getMessageColor("key-expired-kick", "auth", authPlayer.getLanguage()));
                 break;
+        }
+
+        //Register to Minecord
+        if (auth.getPlugin().hasDependency("Minecord")) {
+            try {
+                MAPI minecord = auth.getPlugin().getDependency(MAPI.class);
+                Discord discord = auth.getModule(Discord.class);
+                Member member = discord.getGuild().getMemberById(authPlayer.getDiscordID());
+                minecord.link(player, member);
+            } catch (Exception ex) {
+                //ex.printStackTrace();
+            }
         }
 
         // Send welcome message

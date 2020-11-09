@@ -4,11 +4,13 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import live.innocraft.essentials.auth.AuthConfiguration;
 import live.innocraft.essentials.common.*;
+import live.innocraft.essentials.generator.WorldGenerator;
 import me.spomg.minecord.api.MAPI;
 import me.stefan911.securitymaster.lite.api.SecurityMasterAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
@@ -29,6 +31,7 @@ public final class Essentials extends JavaPlugin {
             if (!player.isOnline())
                 return;
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " parent set " + group);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp sync");
         });
     }
 
@@ -100,6 +103,10 @@ public final class Essentials extends JavaPlugin {
         if (dependencies.containsKey(dependencyType))
             return dependencyType.cast(dependencies.get(dependencyType));
         return null;
+    }
+
+    public boolean hasDependency(String name) {
+        return Bukkit.getPluginManager().isPluginEnabled(name);
     }
 
     public <T extends EssentialsConfiguration> T getConfiguration(Class<T> cfgType) {
@@ -235,5 +242,12 @@ public final class Essentials extends JavaPlugin {
     public void syncAll() {
         for (EssentialsModule m : modules.values())
             m.onSync();
+    }
+
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+        if (getModule(WorldGenerator.class) != null)
+            return getModule(WorldGenerator.class).getDefaultWorldGenerator(worldName, id);
+        return null;
     }
 }

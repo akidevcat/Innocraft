@@ -1,10 +1,13 @@
 package live.innocraft.essentials.sql;
 
+import live.innocraft.essentials.auth.AuthPlayer;
 import live.innocraft.essentials.auth.DBAuthPlayer;
 import live.innocraft.essentials.authkeys.DBAuthKey;
+import live.innocraft.essentials.common.ServerType;
 import live.innocraft.essentials.core.Essentials;
 import live.innocraft.essentials.core.EssentialsModule;
 import live.innocraft.essentials.helper.EssentialsHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
@@ -24,18 +27,27 @@ public class EssentialsSQL extends EssentialsModule {
     private final String CONST_TABLE_NAME_AUTHKEYS = "ic_authkeys";
 
     private Connection connection;
+    private EssentialsSQLValidator validator;
 
     public EssentialsSQL(Essentials plugin) {
         super(plugin);
 
         openConnection();
-        setupTables();
+        if (getPlugin().getServerType() == ServerType.auth) {
+            //checkAuthKeysForErrors();
+            setupTables();
+            //validator = new EssentialsSQLValidator(this);
+        }
     }
 
     // Gets an Authentication player from the database
     public @Nullable
     DBAuthPlayer getAuthPlayer(UUID uuid) {
         updateConnection();
+
+        if (uuid == null)
+            return null;
+
         try {
 
             Statement statement = connection.createStatement();
@@ -84,12 +96,43 @@ public class EssentialsSQL extends EssentialsModule {
     public @Nullable
     DBAuthKey getAuthKey(String hash) {
         updateConnection();
+
+        if (hash == null)
+            return null;
+
         try {
 
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM " + CONST_TABLE_NAME_AUTHKEYS + " WHERE HASH = '" + hash + "';");
             if (result.next())
                 return new DBAuthKey(hash,
+                        result.getString("UUID"),
+                        result.getString("PERM_GROUP"),
+                        result.getString("STUDY_GROUP"),
+                        result.getString("PARTY_GROUP"),
+                        result.getString("UNTIL"),
+                        result.getString("META")
+                );
+
+            return null;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            getPlugin().criticalError("Error occurred while getting SQL auth key");
+
+            return null;
+        }
+    }
+
+    public @Nullable
+    DBAuthKey getAuthKeyByID(int id) {
+        updateConnection();
+        try {
+
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM " + CONST_TABLE_NAME_AUTHKEYS + " LIMIT " + id + ", 1;");
+            if (result.next())
+                return new DBAuthKey(result.getString("HASH"),
                         result.getString("UUID"),
                         result.getString("PERM_GROUP"),
                         result.getString("STUDY_GROUP"),
@@ -187,6 +230,10 @@ public class EssentialsSQL extends EssentialsModule {
         executeUpdateAsync("DELETE FROM " + CONST_TABLE_NAME_AUTHKEYS + " WHERE HASH='" + hash + "';");
     }
 
+    public void deleteAuthKey(String hash) {
+        executeUpdateAsync("DELETE FROM " + CONST_TABLE_NAME_AUTHKEYS + " WHERE HASH='" + hash + "';");
+    }
+
     public void deleteRegCode(String code) {
         executeUpdateAsync("DELETE FROM " + CONST_TABLE_NAME_REGCODES + " WHERE CODE='" + code + "';");
     }
@@ -197,6 +244,7 @@ public class EssentialsSQL extends EssentialsModule {
             return null;
         if (authPlayer.getKeyHash() != null) {
             // Delete key's user
+            resetAuthKeyUser(authPlayer.getKeyHash());
             resetUserAuthKey(authPlayer.getUUID());
         }
         executeUpdateAsync("DELETE FROM " + CONST_TABLE_NAME_PLAYERS + " WHERE UUID='" + authPlayer.getUUID() + "';");
@@ -312,6 +360,29 @@ public class EssentialsSQL extends EssentialsModule {
         }.runTaskAsynchronously(getPlugin());
     }
 
+    private void checkAuthKeysForErrors() {
+        try {
+
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM " + CONST_TABLE_NAME_AUTHKEYS + " WHERE " + "UUID" + " !='NULL';");
+            while (result.next()) {
+                String uuid = result.getString("UUID");
+                String hash = result.getString("HASH");
+                if (uuid == null)
+                    continue;
+                DBAuthPlayer authPlayer = getAuthPlayer(UUID.fromString(uuid));
+                if (authPlayer != null) {
+                    if (authPlayer.getKeyHash() == null || !authPlayer.getKeyHash().equals(hash))
+                        executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_AUTHKEYS + " SET UUID = NULL WHERE HASH = '" + hash + "';");
+                } else
+                    executeUpdateAsync("UPDATE " + CONST_TABLE_NAME_AUTHKEYS + " SET UUID = NULL WHERE HASH = '" + hash + "';");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     // Prepares SQL tables
     private void setupTables() {
         try {
@@ -382,6 +453,7 @@ public class EssentialsSQL extends EssentialsModule {
 
     @Override
     public void onDisable() {
+        validator.stop();
         closeConnection();
     }
 }

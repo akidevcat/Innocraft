@@ -126,7 +126,8 @@ public class Auth extends EssentialsModule {
         UUID uuid = getPlugin().getModule(EssentialsSQL.class).deleteUser(discordID);
         if (uuid != null) {
             Bukkit.getScheduler().runTask(getPlugin(), () -> { // Exit from async thread
-                Objects.requireNonNull(getPlayer(uuid)).kickPlayer(getPlugin().getMessageColor("unregister-kick", "auth", "en_EN"));
+                if (getPlayer(uuid) != null)
+                    Objects.requireNonNull(getPlayer(uuid)).kickPlayer(getPlugin().getMessageColor("unregister-kick", "auth", "en_EN"));
             });
             return true;
         }
@@ -198,7 +199,7 @@ public class Auth extends EssentialsModule {
         // Move player to default server
         getPlugin().sendChatMessage("logged-in", getPlayer(authPlayer.getUniqueID()));
 
-        if (authPlayer.getPermGroup() != null)
+        if (authPlayer.getPermGroup() != null || getConfiguration(AuthConfiguration.class).isNoKeysNeeded())
             getPlugin().invokeProxyMethod("EssentialsCommon", "bridgeChangePlayerServerForce",
                     authPlayer.getUniqueID().toString(),
                     getPlugin().getDefaultJoinServer());
@@ -208,11 +209,6 @@ public class Auth extends EssentialsModule {
         authEvents.onLogin(authPlayer);
 
         return true;
-    }
-
-    public void registerAuthPlayer(UUID uniqueID, String discordID) {
-        EssentialsSQL sql = getPlugin().getModule(EssentialsSQL.class);
-        sql.addAuthPlayer(uniqueID, discordID);
     }
 
     public byte registerUser(String discordID, String code) {
@@ -225,7 +221,7 @@ public class Auth extends EssentialsModule {
             return 2;
         }
         sql.deleteRegCode(code);
-        registerAuthPlayer(uuid, discordID);
+        sql.addAuthPlayer(uuid, discordID);
         return 0; // Success
     }
 }

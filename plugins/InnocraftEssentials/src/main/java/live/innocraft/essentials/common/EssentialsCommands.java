@@ -1,8 +1,10 @@
 package live.innocraft.essentials.common;
 
+import live.innocraft.essentials.auth.Auth;
 import live.innocraft.essentials.bridge.Bridge;
 import live.innocraft.essentials.core.Essentials;
 import live.innocraft.essentials.core.EssentialsModule;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,6 +15,7 @@ public class EssentialsCommands extends EssentialsModule implements CommandExecu
     public EssentialsCommands (Essentials plugin) {
         super(plugin);
         plugin.getCommand("innocraft").setExecutor(this);
+        plugin.getCommand("menu").setExecutor(this);
     }
 
     @Override
@@ -27,6 +30,16 @@ public class EssentialsCommands extends EssentialsModule implements CommandExecu
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        if (label.equalsIgnoreCase("menu")) {
+            if (!(sender instanceof Player))
+                return false;
+            if (((Player) sender).getLocale().equalsIgnoreCase("ru_ru")) {
+                Bukkit.dispatchCommand(sender, "menu-ru");
+            } else
+                Bukkit.dispatchCommand(sender, "menu-en");
+            return true;
+        }
 
         // Alias check
         if (!label.equalsIgnoreCase("innocraft") && !label.equalsIgnoreCase("ic"))

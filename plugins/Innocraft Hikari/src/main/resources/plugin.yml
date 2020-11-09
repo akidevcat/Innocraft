@@ -1,0 +1,7 @@
+name: IC-Hikari
+version: ${project.version}
+main: live.innocraft.hikari.HikariCore
+api-version: 1.13
+authors: [satsuru]
+description: Innocraft Core Plugin which provides the necessary API connection between other plugins
+website: innocraft.live

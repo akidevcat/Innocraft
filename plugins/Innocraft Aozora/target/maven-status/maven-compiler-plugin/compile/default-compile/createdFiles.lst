@@ -1,0 +1,11 @@
+live\innocraft\aozora\AozoraEvents.class
+live\innocraft\aozora\Structures\DBAuthPlayer.class
+live\innocraft\aozora\AozoraManager.class
+live\innocraft\aozora\AozoraConstants.class
+live\innocraft\aozora\AozoraMain.class
+live\innocraft\aozora\AozoraDiscordEvents.class
+live\innocraft\aozora\AozoraDiscord.class
+live\innocraft\aozora\AozoraDiscordMessages.class
+live\innocraft\aozora\Structures\VerificationMessage.class
+live\innocraft\aozora\AozoraSQL.class
+live\innocraft\aozora\Structures\AuthPlayer.class

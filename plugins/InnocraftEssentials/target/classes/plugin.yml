@@ -33,4 +33,7 @@ commands:
   timetable:
     description: ToDo
     usage: /timetable
+  menu:
+    description: ToDo
+    usage: /menu
 softdepend: [WorldGuard, Minecord]

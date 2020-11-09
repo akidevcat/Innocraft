@@ -61,7 +61,11 @@ public class AuthKeys extends EssentialsModule implements CommandExecutor {
             return 3; // Key is already active
         }
 
-        sql.resetAuthKey(discordID, keyHash);
+        if (dbAuthPlayer.getKeyHash() != null) {
+            sql.resetAuthKeyUser(dbAuthPlayer.getKeyHash());
+        }
+
+        //sql.resetAuthKey(discordID, keyHash);
         sql.setAuthPlayerAuthKey(dbAuthPlayer.getUUID(), keyHash);
 
         Player p = Bukkit.getPlayer(dbAuthPlayer.getUUID());
@@ -101,8 +105,10 @@ public class AuthKeys extends EssentialsModule implements CommandExecutor {
                 clearRoles.remove(role);
             for (String role : clearRoles)
                 discord.removeUserRole(authPlayer.getDiscordID(), role);
-            for (String role : permGroup.getRoles())
+            for (String role : permGroup.getRoles()) {
                 discord.addUserRole(authPlayer.getDiscordID(), role);
+                getPlugin().getLogger().log(Level.SEVERE, role);
+            }
         }
 
         // Set Discord Roles

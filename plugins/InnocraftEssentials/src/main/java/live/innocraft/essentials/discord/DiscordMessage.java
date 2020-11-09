@@ -2,6 +2,7 @@ package live.innocraft.essentials.discord;
 
 import live.innocraft.essentials.auth.Auth;
 import live.innocraft.essentials.authkeys.AuthKeys;
+import live.innocraft.essentials.common.ServerType;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -24,6 +25,8 @@ public class DiscordMessage extends ListenerAdapter {
         byte responseCode = 0;
         switch (msgArgs[0]) {
             case "/authkeys-clear":
+                if (discord.getPlugin().getServerType() != ServerType.auth)
+                    return;
                 if (!discord.isAdminChannel(event.getChannel().getId()))
                     return;
                 event.getAuthor().openPrivateChannel().queue((channel) -> {
@@ -32,6 +35,8 @@ public class DiscordMessage extends ListenerAdapter {
                 });
                 return;
             case "/authkeys-import":
+                if (discord.getPlugin().getServerType() != ServerType.auth)
+                    return;
                 if (!discord.isAdminChannel(event.getChannel().getId()))
                     return;
                 if (msgArgs.length != 2)
@@ -42,6 +47,8 @@ public class DiscordMessage extends ListenerAdapter {
                 });
                 return;
             case "/redeem":
+                if (discord.getPlugin().getServerType() != ServerType.auth)
+                    return;
                 if (!event.isFromType(ChannelType.PRIVATE))
                     return;
                 if (msgArgs.length != 2)
@@ -64,6 +71,8 @@ public class DiscordMessage extends ListenerAdapter {
                 });
                 return;
             case "/register":
+                if (discord.getPlugin().getServerType() != ServerType.auth)
+                    return;
                 if (!event.isFromType(ChannelType.PRIVATE))
                     return;
                 if (msgArgs.length != 2)
@@ -89,6 +98,8 @@ public class DiscordMessage extends ListenerAdapter {
                 });
                 return;
             case "/unregister":
+                if (discord.getPlugin().getServerType() != ServerType.auth)
+                    return;
                 if (!event.isFromType(ChannelType.PRIVATE))
                     return;
                 if (discord.getPlugin().getModule(Auth.class).unregisterUser(event.getAuthor().getId()))
