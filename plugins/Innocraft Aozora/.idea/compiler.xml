@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="aozora" />
         <module name="Innocraft Aozora" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Innocraft Aozora" target="1.8" />
+      <module name="aozora" target="8" />
+      <module name="Innocraft Aozora" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

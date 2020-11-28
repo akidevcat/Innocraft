@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
-import java.util.EnumSet;
 
 public class HikariDiscord extends HikariPluginModule {
 
@@ -29,10 +28,16 @@ public class HikariDiscord extends HikariPluginModule {
 
         String token = cfg.getBotToken();
 
-        JDABuilder builder = new JDABuilder(token);
+        try {
+            Class.forName("net.dv8tion.jda.api.JDABuilder");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        JDABuilder builder = JDABuilder.createDefault(token);
         JDA jda = null;
 
-        builder.setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE));
+        //builder.setDisabledCacheFlags(EnumSet.of(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE));
+        builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
         builder.setBulkDeleteSplittingEnabled(false);
         builder.setCompression(Compression.NONE);
         builder.setActivity(Activity.playing("Minecraft"));

@@ -6,13 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Innocraft Hikari" />
-        <module name="aozora" />
+        <module name="hikari" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="aozora" target="1.8" />
-      <module name="Innocraft Hikari" target="1.8" />
+      <module name="aozora" target="1.5" />
+      <module name="hikari" target="8" />
+      <module name="Innocraft Hikari" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

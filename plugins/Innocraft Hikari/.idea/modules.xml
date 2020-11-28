@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Innocraft Hikari.iml" filepath="$PROJECT_DIR$/Innocraft Hikari.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../Innocraft Aozora/aozora.iml" filepath="$PROJECT_DIR$/../Innocraft Aozora/aozora.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hikari.iml" filepath="$PROJECT_DIR$/hikari.iml" />
     </modules>
   </component>
 </project>

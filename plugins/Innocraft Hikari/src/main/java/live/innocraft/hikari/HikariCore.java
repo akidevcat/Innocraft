@@ -1,15 +1,17 @@
 package live.innocraft.hikari;
 
-import live.innocraft.hikari.Common.HikariPlayerManager;
-import live.innocraft.hikari.Discord.HikariDiscord;
-import live.innocraft.hikari.PluginCore.HikariPlugin;
-import live.innocraft.hikari.SQL.HikariSQL;
+import live.innocraft.hikari.Common.*;
+import live.innocraft.hikari.Discord.*;
+import live.innocraft.hikari.PluginCore.*;
+import live.innocraft.hikari.SQL.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.reflections.Reflections;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public final class HikariCore extends HikariPlugin {
 
@@ -46,8 +48,21 @@ public final class HikariCore extends HikariPlugin {
     }
 
     @Override
-    public Reflections getClassReflections() {
-        return new Reflections(getClass().getPackage().getName());
+    public ArrayList<Class<? extends HikariPluginModule>> getPluginModulesList() {
+        ArrayList<Class<? extends HikariPluginModule>> modules = new ArrayList<>();
+        modules.add(HikariPlayerManager.class);
+        modules.add(HikariDiscord.class);
+        modules.add(HikariSQL.class);
+        return modules;
+    }
+
+    @Override
+    public ArrayList<Class<? extends HikariPluginConfiguration>> getPluginConfigurationsList() {
+        ArrayList<Class<? extends HikariPluginConfiguration>> cfgs = new ArrayList<>();
+        cfgs.add(HikariDiscordConfiguration.class);
+        cfgs.add(HikariCoreConfiguration.class);
+        cfgs.add(HikariMessageConfiguration.class);
+        return cfgs;
     }
 
     public String getServerType() {

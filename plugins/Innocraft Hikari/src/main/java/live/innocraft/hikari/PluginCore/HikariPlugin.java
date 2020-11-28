@@ -5,11 +5,13 @@ import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.reflections.Reflections;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
+//import org.reflections.Reflections;
+//import org.reflections.util.ClasspathHelper;
+//import org.reflections.util.ConfigurationBuilder;
 
+//import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
@@ -82,12 +84,13 @@ public abstract class HikariPlugin extends JavaPlugin {
      */
     public void loadInternalModules() {
         modules = new HashMap<>();
-        Reflections reflections = getClassReflections();
-        Set<Class<? extends HikariPluginModule>> classes = reflections.getSubTypesOf(HikariPluginModule.class);
+        System.out.println("[Hikari] Loading " + this.getName() + "'s plugin modules");
+        ArrayList<Class<? extends HikariPluginModule>> classes = getPluginModulesList();
         for (Class<? extends HikariPluginModule> aClass : classes) {
             try {
                 HikariPluginModule module = aClass.getDeclaredConstructor(HikariPlugin.class).newInstance(this);
                 addModule(module);
+                System.out.println("[Hikari] " + aClass.getName() + " loaded!");
             } catch (InstantiationException e) {
                 e.printStackTrace();
                 logError("InstantiationException - A problem has occurred while loading internal modules. " +
@@ -120,20 +123,14 @@ public abstract class HikariPlugin extends JavaPlugin {
         dependencies.put(dependency.getClass(), dependency);
     }
 
-    public abstract Reflections getClassReflections();
+//    public abstract Reflections getClassReflections();
 
-    public Set<Class<? extends HikariPluginConfiguration>> doSomeTests(Object rObject) {
-        Reflections reflections = new Reflections(rObject.getClass().getPackage());
-        //Reflections reflections = new Reflections(getClass().getPackage().getName());
-        //System.out.println(getClass().getPackage().getName().equals("live.innocraft.hikari"));
-        Set<Class<? extends HikariPluginConfiguration>> classes = reflections.getSubTypesOf(HikariPluginConfiguration.class);
-        return classes;
-    }
+    public abstract ArrayList<Class<? extends HikariPluginModule>> getPluginModulesList();
+    public abstract ArrayList<Class<? extends HikariPluginConfiguration>> getPluginConfigurationsList();
 
     public void loadConfigurations() {
         configurations = new HashMap<>();
-        Reflections reflections = getClassReflections();
-        Set<Class<? extends HikariPluginConfiguration>> classes = reflections.getSubTypesOf(HikariPluginConfiguration.class);
+        ArrayList<Class<? extends HikariPluginConfiguration>> classes = getPluginConfigurationsList();
         for (Class<? extends HikariPluginConfiguration> aClass : classes) {
             try {
                 HikariPluginConfiguration cfg = aClass.getDeclaredConstructor(HikariPlugin.class).newInstance(this);

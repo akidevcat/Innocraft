@@ -1,12 +1,16 @@
 package live.innocraft.aozora;
 
+import live.innocraft.hikari.Common.HikariPlayerManager;
+import live.innocraft.hikari.Discord.HikariDiscord;
+import live.innocraft.hikari.Discord.HikariDiscordConfiguration;
 import live.innocraft.hikari.HikariCore;
+import live.innocraft.hikari.HikariCoreConfiguration;
 import live.innocraft.hikari.PluginCore.HikariPlugin;
 import live.innocraft.hikari.PluginCore.HikariPluginConfiguration;
-import org.reflections.Reflections;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
+import live.innocraft.hikari.PluginCore.HikariPluginModule;
+import live.innocraft.hikari.SQL.HikariSQL;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 
@@ -14,14 +18,22 @@ public final class AozoraMain extends HikariPlugin {
 
     private HikariCore hikariCore;
 
-//    @Override
-//    public void onEnable() {
-//        //Reflections reflections = new Reflections("live.innocraft.aozora");
-//        Reflections reflections = new Reflections(new ConfigurationBuilder()
-//                .setUrls(ClasspathHelper.forPackage("live.innocraft.aozora")));
-//
-//        System.out.println(reflections);
-//    }
+    @Override
+    public ArrayList<Class<? extends HikariPluginModule>> getPluginModulesList() {
+        ArrayList<Class<? extends HikariPluginModule>> modules = new ArrayList<>();
+        modules.add(AozoraDiscord.class);
+        modules.add(AozoraManager.class);
+        modules.add(AozoraSQL.class);
+        return modules;
+    }
+
+    @Override
+    public ArrayList<Class<? extends HikariPluginConfiguration>> getPluginConfigurationsList() {
+        ArrayList<Class<? extends HikariPluginConfiguration>> cfgs = new ArrayList<>();
+        //cfgs.add(AozoraCon.class);
+        //cfgs.add(HikariCoreConfiguration.class);
+        return cfgs;
+    }
 
     @Override
     public void onPluginEnabled() {
@@ -30,25 +42,25 @@ public final class AozoraMain extends HikariPlugin {
 
     }
 
-    @Override
-    public Reflections getClassReflections() {
-        System.out.println(getClass().getPackage().getName());
-        return new Reflections(new ConfigurationBuilder().setUrls(ClasspathHelper.forPackage("live.innocraft.aozora")));
-    }
+//    @Override
+//    public Reflections getClassReflections() {
+//        System.out.println(getClass().getPackage().getName());
+//        return new Reflections("live.innocraft.aozora");
+//    }
 
-    /*
-    @Override
-    public void onEnable() {
-        getServer().getMessenger().registerOutgoingPluginChannel( this, "innocraft:methods" );
 
-        Reflections reflections = new Reflections(this.getClass().getPackage().getName());
-        Set<Class<? extends HikariPluginConfiguration>> classes = reflections.getSubTypesOf(HikariPluginConfiguration.class);
-        System.out.println(this.getClass().getPackage().getName());
+//    @Override
+//    public void onEnable() {
+//        getServer().getMessenger().registerOutgoingPluginChannel( this, "innocraft:methods" );
+//
+//        Reflections reflections = new Reflections(this.getClass().getPackage().getName());
+//        Set<Class<? extends HikariPluginConfiguration>> classes = reflections.getSubTypesOf(HikariPluginConfiguration.class);
+//        //System.out.println(this.getClass().getPackage().getName());
+//
+//        //doSomeTests();
+//
+//        //onPluginEnabled();
+//    }
 
-        doSomeTests();
 
-        onPluginEnabled();
-    }
-
-     */
 }

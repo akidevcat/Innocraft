@@ -8,27 +8,28 @@ import live.innocraft.hikari.PluginCore.HikariPluginModule;
 
 public class AozoraDiscord extends HikariPluginModule {
 
-    private HikariCore hikariCore;
-    private HikariDiscord hikariDiscord;
+    private final HikariCore hikariCore;
+    private final HikariDiscord hikariDiscord;
 
     public AozoraDiscord(HikariPlugin plugin) {
         super(plugin);
 
         hikariCore = HikariCore.getInstance();
         hikariDiscord = hikariCore.getDiscordModule();
+
+        hikariDiscord.addEventListeners(new AozoraDiscordMessages(this));
+        hikariDiscord.addEventListeners(new AozoraDiscordEvents(this));
     }
 
     public void sendAuthenticationMessage(VerificationMessage verificationMessage) {
-        hikariDiscord.getJDA().getUserById(verificationMessage.getDiscordID()).openPrivateChannel().queue((channel) ->
-        {
-            String textMsg = hikariCore.getMessageColor("discord-login-message", "auth", "en_EN");
+        hikariDiscord.getJDA().retrieveUserById(verificationMessage.getDiscordID()).queue((user) -> {
+            user.openPrivateChannel().queue((channel) -> {
+                String textMsg = hikariCore.getMessageColor("discord-login-message", "auth", "en_EN");
 
-            // Delete all previous messages
-            //clearTextChannel(channel, textMsg);
-            // Send a new one
-            channel.sendMessage(textMsg).queue((msg) -> {
-                msg.addReaction(hikariCore.getMessageColor("discord-proceed-emoji", "auth", "en_EN")).queue();
-                getModule(AozoraManager.class).finalizeAuthenticationMessage(verificationMessage, msg.getId());
+                channel.sendMessage(textMsg).queue((msg) -> {
+                    msg.addReaction(hikariCore.getMessageColor("discord-proceed-emoji", "auth", "en_EN")).queue();
+                    getModule(AozoraManager.class).finalizeAuthenticationMessage(verificationMessage, msg.getId());
+                });
             });
         });
     }

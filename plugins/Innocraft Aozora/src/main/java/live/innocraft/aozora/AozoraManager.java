@@ -39,7 +39,7 @@ public class AozoraManager extends HikariPluginModule {
         registrationCodesCache = new HashMap<>();
         verificationMessages = new HashMap<>();
         random = new Random();
-
+        System.out.println("POINT 1");
         aozoraEvents = new AozoraEvents(this);
         plugin.getServer().getPluginManager().registerEvents(aozoraEvents, plugin);
     }

@@ -1,8 +1,6 @@
 package live.innocraft.hikari;
 
-import live.innocraft.hikari.PluginCore.HikariPlugin;
-import live.innocraft.hikari.PluginCore.HikariPluginConfiguration;
-import live.innocraft.hikari.PluginCore.HikariPluginModule;
+import live.innocraft.hikari.PluginCore.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 

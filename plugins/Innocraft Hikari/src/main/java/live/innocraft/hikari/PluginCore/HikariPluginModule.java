@@ -31,6 +31,9 @@ public class HikariPluginModule {
     public <T extends HikariPluginModule> T getModule(Class<T> moduleType) {
         return getPlugin().getModule(moduleType);
     }
-    public <T extends HikariPluginConfiguration> T getConfiguration(Class<T> cfgType) { return getPlugin().getConfiguration(cfgType); }
+
+    public <T extends HikariPluginConfiguration> T getConfiguration(Class<T> cfgType) {
+        return getPlugin().getConfiguration(cfgType);
+    }
 
 }

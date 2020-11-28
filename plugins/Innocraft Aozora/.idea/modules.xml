@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Innocraft Aozora.iml" filepath="$PROJECT_DIR$/Innocraft Aozora.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aozora.iml" filepath="$PROJECT_DIR$/aozora.iml" />
     </modules>
   </component>
 </project>
